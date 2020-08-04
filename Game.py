@@ -56,7 +56,7 @@ class Character:
         for num in range(len(choices)):
             nums.append(num)
             print(f"{num+1}. {choices[num]}")#dialogue choices are printed out
-        p_num = input("\n>>>")
+        p_num = input("\n>>> ")
         while not p_num.isdigit() or int(p_num)-1 not in nums: #makes sure input is valid
             p_num = input("Please enter a valid number: ")
         choice = choices[int(p_num)-1] #player chooses
@@ -1283,19 +1283,19 @@ if __name__ == "__main__":
     beasttime = False
     realcommand = False
     game_end = False
-    command = input("\n>>>").lower()
+    command = input("\n>>> ").lower()
     while not game_end:
+        if len(command) > 1:
+            commandlist = [command.split()[0], " ".join(command.split()[1:])]
+            for word in commandlist:
+                if word[-1] == 's':
+                    commandlist[commandlist.index(word)] = commandlist[commandlist.index(word)][:-1]
+                    word = word[:-1]
+                for w, similar in similar_words.items():
+                    if word == w or word in similar:
+                        commandlist[commandlist.index(word)] = w
 
-        commandlist = [command.split()[0], " ".join(command.split()[1:])]
-        for word in commandlist:
-            if word[-1] == 's':
-                commandlist[commandlist.index(word)] = commandlist[commandlist.index(word)][:-1]
-                word = word[:-1]
-            for w, similar in similar_words.items():
-                if word == w or word in similar:
-                    commandlist[commandlist.index(word)] = w
-
-        command = " ".join(commandlist)
+            command = " ".join(commandlist)
         if command == 'q':
             realcommand = True
             q.show_quest()
@@ -1355,10 +1355,10 @@ if __name__ == "__main__":
                             print ("\nDo you want to help the elves or help the humans?")
                             print ("\n1.Humans")
                             print ("2.Elves")
-                            choice = input("\n>>>")
+                            choice = input("\n>>> ")
                             while choice != "1" and "2":
                                 print ("\nEnter a valid number")
-                                choice = input("\n>>>")
+                                choice = input("\n>>> ")
                             game_end = True
                             if choice == "1":
                                 print ("\nYou have finished the game, and the humans have won the war. The elves quickly got word of the humans getting a piece of the healing tree and they surrendered without a second thought. They are quickly retreating to their homelands while the humans are celebrating at the tavern. Congratulations")
@@ -1382,7 +1382,7 @@ if __name__ == "__main__":
                 locations[(40, 41)].items.remove(o3)    
 
         if not game_end:
-            command = input("\n>>>").lower()
+            command = input("\n>>> ").lower()
             realcommand = False
 
 
