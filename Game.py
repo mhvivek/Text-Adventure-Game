@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[ ]:
 
 
 """New main function with the axe thing"""
@@ -1285,7 +1285,7 @@ if __name__ == "__main__":
     game_end = False
     command = input("\n>>> ").lower()
     while not game_end:
-        if len(command) > 1:
+        if len(command) > 1 and " " in command:
             commandlist = [command.split()[0], " ".join(command.split()[1:])]
             for word in commandlist:
                 if word[-1] == 's':
@@ -1302,7 +1302,7 @@ if __name__ == "__main__":
         elif command == 'clear quest':
             realcommand = True
             q.clear_quest()
-        elif command == 'i':
+        elif command == 'i' or command == 'help' or command == '?':
             realcommand = True
             print("\n\nAvailable Commands: \n\n-Go: right (only in starting room), left (only in tavern common room), north, east, south, west. \n-Enter/Exit: tavern, elf territory, human territory, forest. \n-Inspect: most listed objects in any given area (bug trap, flags, food, etc.). \n-Take: many listed objects (bug trap, axe, elf plants, etc.). \n-Use axe (only available in certain situations). \n-Talk to: any NPC listed in a given area. \n-Open Inventory(list all items currently in the inventory) \n-Dig (must have shovel in inventory). \n-Catch Bugs (must have bug trap in inventory). \n-Move. \n-Q (see current quest). \n-I (see available commands). \n-Clear Quest. \n-End Game (progress will not be saved).\n\n")
         elif 'move' in commandlist:
@@ -1384,12 +1384,6 @@ if __name__ == "__main__":
         if not game_end:
             command = input("\n>>> ").lower()
             realcommand = False
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:
