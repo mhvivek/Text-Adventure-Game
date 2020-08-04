@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[2]:
 
 
 """New main function with the axe thing"""
@@ -20,7 +20,7 @@ class Character:
     def interact_outside_quest(self, quest):
         '''checks if you are on a quest with the character's species, and then prints the characters corresponding generic line'''
         verb = 'says'
-        if self.name[-1] == "Marco and Ray":
+        if self.name[:-1] == "Marco and Ray":
             verb = 'say'
         if self.quest[:2] == quest.current_quest[:2] or quest.human_failed and quest.elf_failed and self.quest == "Troll":
             line = self.one_line_in_quest
@@ -40,7 +40,7 @@ class Character:
                 print(f"\n{char_line}\n")
                 self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory,coords) #returns player's initial choices
             else: # sometimes you need an item to interact with a character
-                if self.conversation[char_line]["from"] in [["Rose"], ["Elven Roots"]]:
+                if self.conversation[char_line]["from"] in [["Rose"], ["Elven Root"]]:
                     available = False
                     for item in inventory.items: # checks if that item is in the player's inventory
                         if item.name.lower() == self.conversation[char_line]["from"][0].lower(): #if the player has the required item
@@ -317,13 +317,13 @@ elf2 = Character("The elf rushes toward you.", "Elf2", "Did you find the Herbali
 
 #first conversation with the herbalist
 herbalist1_conversation = {"Herbalist: What do you need?":{"from":[""], "to":["It's the elven plants. They're all dying. There's some orange web-like things that are poisoning them."]},
-                          "Herbalist: I knew it would happen, the Cleansing. The vital ingredient for the antidote, Elven Roots, grow underground. They grow only in the alpine regions and only Greary Bugs can detect them. There should be some bugs on the river bank -- you just need to catch them. Run, before you are the next victim!":{"from":["It's the elven plants. They're all dying. There's some orange web-like things that are poisoning them."], "to":["Quest Updated"]}}
+                          "Herbalist: I knew it would happen, the Cleansing. The vital ingredient for the antidote, Elven Roots, grow underground. They grow only in the alpine regions and only Greary Bugs can detect them. There should be some bugs on the river bank -- you just need to catch them. Bring the root back to me so that I can make the antidote. Run, before you are the next victim!":{"from":["It's the elven plants. They're all dying. There's some orange web-like things that are poisoning them."], "to":["Quest Updated"]}}
 
 herbalist1 = Character("The herbalist is hunched over and walks with a wooden cane. She has friendly eyes and a welcoming smile.", "Herbalist1", "You must have lost your way. There's nothing interesting here.", "You must have lost your way. There's nothing interesting here.", herbalist1_conversation, "Elf1+++")
 
 
 #second conversation with the herbalist
-herbalist2_conversation = {"Herbalist: Did you find it? Bring it here.":{"from":["Elven Roots"], "to":["Yes. Here it is. (Give Elven Roots)"]},
+herbalist2_conversation = {"Herbalist: Did you find it? Bring it here.":{"from":["Elven Root"], "to":["Yes. Here it is. (Give Elven Roots)"]},
                           "Herbalist: Fly back to the elves, and warn them that the end is coming.":{"from":["Yes. Here it is. (Give Elven Roots)"], "to":["Quest Updated"]}}
 
 herbalist2 = Character("The Herbalist is busy preparing something, but when she sees you, she stops her work.", "Herbalist2", "Hide! The Cleansing has arrived!", "Hide! The Cleansing has arrived!", herbalist2_conversation, "Elf1++++++")
@@ -333,7 +333,7 @@ herbalist2 = Character("The Herbalist is busy preparing something, but when she 
 elf3_conversation = {"Elf: Ah...you're back.":{"from":[""], "to":["Yes, here is the antidote. Now what do you know about the tree?"]},
                     "Elf: I really did think you were smarter, you know. I know nothing of it, of course. You need to embrace the game! Play me!":{"from":["Yes, here is the antidote. Now what do you know about the tree?"], "to":["I'm leaving now.", "No need to. I know you're lying."]},
                     "As you leave, the elf begins to laugh.":{"from":["I'm leaving now."], "to":["Quest Failed"]},
-                    "Elf: Not a believer, I see. Well, I do know who knows about this tree.":{"from":["I'd rather help the humans than deal with you people."], "to":["Who?"]},
+                    "Elf: Not a believer, I see. Well, I do know who knows about this tree.":{"from":["No need to. I know you're lying."], "to":["Who?"]},
                     "Elf: The Princess Lyra.":{"from":["Who?"], "to":["How do I get to her?"]},
                     "Elf: She resides in the Tower.":{"from":["How do I get to her?"], "to":["Quest Succeeded"]}}
 
@@ -432,15 +432,15 @@ troll = Character("The troll walks with his head down, and you can't help but no
 fail_end = "\nThe elves and the humans are different, now. They have no meaning. It's as if they are talking to a wall. Or a see-through person. Sadness? Loneliness?  No. You feel the same as before. As if none of your adventures in this world changed you, as if none of its people changed you. As if you were a bystander, watching this world happen. You weren't supposed to know. You were supposed to fail.\n\nSuddenly, everything around you is gone. All you can feel is cool air on your face."
             
 #Item objects
-o1 = Item('Branch', 'a branch of the healing tree that looks like it might be easy to break off. Try talking to the beast before you take the branch, though. Be reasonable.', 'A branch from the healing tree with a faint glow of magic.', 'A branch from the healing tree with a faint glow of magic.', 'Final++', 'light', False, False)
+o1 = Item('Branch', 'a branch of the healing tree', 'A branch from the healing tree with a faint glow of magic.', 'A branch from the healing tree with a faint glow of magic.', 'Final++', 'light', False, False)
 o2 = Item('Human food', 'some human food that must have been abandoned', "Some dried goods from the human territory.", 'Some dried goods from the human territory.', 'Final+', 'light', False, False)
-o3 = Item('Elven plants', 'some elven plants with purple stems', "Orange webs tangle within the many crops. Some of the plants have already started wilting. They must have some sort of disease. It won't be long until the poison takes over and kills all of them plants.", 'Unidentifiable elven plants.', 'Elf1+', 'light', False, False)
-o15 = Item('Healthy elven plants', 'some healthy elven plants', 'All the plants are already back in full health. Most of the crops are for food but some of them appear to be for medicine and magic purposes. How fast they grow! Before your very eyes their height increases inches and then feet.', 'Healthy elven plants. I wonder what they do?', 'Final+', 'light', False, False)
+o3 = Item('Elven plant', 'some elven plants with purple stems', "Orange webs tangle within the many crops. Some of the plants have already started wilting. They must have some sort of disease. It won't be long until the poison takes over and kills all of them plants.", 'Unidentifiable elven plants.', 'Elf1+', 'light', False, False)
+o15 = Item('Healthy elven plant', 'some healthy elven plants', 'All the plants are already back in full health. Most of the crops are for food but some of them appear to be for medicine and magic purposes. How fast they grow! Before your very eyes their height increases inches and then feet.', 'Healthy elven plants. I wonder what they do?', 'Final+', 'light', False, False)
 o4 = Item('Rose', 'a rose', 'A small potted plant, likely a cutting of a much larger one. A single purple rose with blue accents blooms, pulsating magical energy.', 'You see a strange looking rose. You have no need for it.', 'Elf2++++++++', 'light', False, False)
 o5 = Item('Crate', 'a crate used to store goods', 'A wooden box just like the many others in the warehouse. Too heavy to pick up but moveable if you tried to push it.', 'Crate', 'Elf2+++++', 'heavy', False, False)
-o6 = Item('Bugs', 'a swarm of bugs', 'The bright blue bugs move too fast to grab with your bare hands but if you had a contraption you could collect them easily. These must be the bugs the herbalist was talking about.', 'Just bugs flying around. You have no use for them.', 'Elf1++++', 'heavy', False, False)
+o6 = Item('Bug', 'a swarm of bugs', 'The bright blue bugs move too fast to grab with your bare hands but if you had a contraption you could collect them easily. These must be the bugs the herbalist was talking about.', 'Just bugs flying around. You have no use for them.', 'Elf1++++', 'heavy', False, False)
 o7 = Item('Shovel', 'a shovel', "A simple shovel made of metal with a wooden handle. You can use the command 'dig'.", "A simple shovel made of metal with a wooden handle. You can use the command 'dig'.", 'All', 'light', False, False)
-o8 = Item('Elven roots', 'some elven roots', "A root that the bugs you've trapped seem strangely drawn to.", 'A simple root.', 'Elf1+++++', 'heavy', False, False)
+o8 = Item('Elven root', 'some elven roots', "A root that the bugs you've trapped seem strangely drawn to.", 'A simple root.', 'Elf1+++++', 'heavy', False, False)
 o9 = Item('Bug trap', 'a bug trap', "A small metallic trap with bug bait in a small compartment. This could be helpful in collecting bugs, if the need arises. You can use the command 'catch ' and an object name.", "A small metallic trap with bug bait in a small compartment. This could be helpful in collecting bugs, if the need arises. You can use the command 'catch ' with an object name", 'All', 'light', False, True)
 o10 = Item('Axe', 'an axe', "A simple axe made of metal with a wooden handle. Usefull for chopping wood. You can use the command 'use axe'", "A simple axe made of metal with a wooden handle. Usefull for chopping wood. You can use the command 'use axe'", 'All', 'light', False, False)
 o11 = Item('Mirror', 'a tall mirror', "A glass mirror in a simplistic wooden frame. An unfamiliar face stares back at you. You have small ears with slightest point at the end, and you can't help noticing you're just barely too tall for the average human. Your shoulders are slender for a human but not so much that it's unheard of and your eyes are definitely not those of a human.", "An unfamiliar face stares back at you. You have small ears with slightest point at the end, and you can't help noticing you're just barely too tall for the average human. Your shoulders are slender for a human but not so much that it's unheard of and your eyes are definitely not those of a human.", 'All', 'heavy', False, False)
@@ -450,35 +450,36 @@ o14 = Item('Lantern', 'a lantern', 'A regular gas lantern with an easy to unders
 
 o16 = Item('Door', 'a heavy wooden door', 'Ornately carved out of old oak, if it was a person, you imagine it would be a wise sage.', 'Ornately carved out of old oak, if it was a person, you imagine it would be a wise sage.', 'All', 'heavy', True, False)
 o17 = Item('Dresser', 'a simple dresser', "The dresser is made out of mahogany. It's red hues remind you of fire...", "The dresser is made out of mahogany. It's red hues remind you of fire...", 'All', 'heavy', True, False)                        
-o18 = Item('Lanterns', 'elven lanterns', 'Hanging lights made of dark metal that glow purple with magical fire', 'Hanging lights made of dark metal that glow blue with magical fire', 'All', 'heavy', True, False)                              
-o19 = Item('Flags', 'elven flags', 'Triangular shaped purple flags with blue borders and elven insignia in the center. Each one has signs of being hand sewn, yet each one is still almost identical to the next', 'Triangular shaped purple flags with blue borders and elven insignia in the center. Each one has signs of being hand sewn, yet each one is still almost identical to the next', 'All', 'heavy', True, False)
-o20 = Item('Tables', 'tables', 'Large wooden tables that each could sit up to eight patrons', 'Large wooden tables that each could sit up to eight patrons', 'All', 'heavy', True, False)
-o21 = Item('Chairs', 'chairs', 'Made out of the same type of wood as the tables. There are probably fifty scattered around the tavern and more stacked at the edge of the room', 'Made out of the same type of wood as the tables. There are probably fifty scattered around the tavern and more stacked at the edge of the room', 'All', 'heavy', True, False)                              
-o22 = Item('Bunk beds', 'bunk beds', 'The bunks are as rudimentary as possible, made out of logs with hay tossed on top. The humans must spend most of their time outside. Under one of the bunks is a red alarm clock.', 'The bunks are as rudimentary as possible, made out of logs with hay tossed on top. The humans must spend most of their time outside. Under one of the bunks is a red alarm clock.', 'All', 'heavy', True, False)                              
-o23 = Item('Alarm Clock', 'a clock', "Your eyes have trouble focusing on its face -- something looks wrong. There aren't any numbers and the hands move in semi-random patterns.", "Your eyes have trouble focusing on its face -- something looks wrong. There aren't any numbers and the hands move in semi-random patterns.", 'All', 'heavy', True, False)                              
-o24 = Item('Personal items', 'personal items', 'A couple dirty shirts, photographs of their families, etc.. Nothing interesting.', 'A couple dirty shirts, photographs of their families, etc.. Nothing interesting.', 'All', 'heavy', True, False)                              
+o18 = Item('Lantern', 'elven lanterns', 'Hanging lights made of dark metal that glow purple with magical fire', 'Hanging lights made of dark metal that glow blue with magical fire', 'All', 'heavy', True, False)                              
+o19 = Item('Flag', 'elven flags', 'Triangular shaped purple flags with blue borders and elven insignia in the center. Each one has signs of being hand sewn, yet each one is still almost identical to the next', 'Triangular shaped purple flags with blue borders and elven insignia in the center. Each one has signs of being hand sewn, yet each one is still almost identical to the next', 'All', 'heavy', True, False)
+o20 = Item('Table', 'tables', 'Large wooden tables that each could sit up to eight patrons', 'Large wooden tables that each could sit up to eight patrons', 'All', 'heavy', True, False)
+o21 = Item('Chair', 'chairs', 'Made out of the same type of wood as the tables. There are probably fifty scattered around the tavern and more stacked at the edge of the room', 'Made out of the same type of wood as the tables. There are probably fifty scattered around the tavern and more stacked at the edge of the room', 'All', 'heavy', True, False)                              
+o22 = Item('Bunk bed', 'bunk beds', 'The bunks are as rudimentary as possible, made out of logs with hay tossed on top. The humans must spend most of their time outside. Under one of the bunks is a red alarm clock.', 'The bunks are as rudimentary as possible, made out of logs with hay tossed on top. The humans must spend most of their time outside. Under one of the bunks is a red alarm clock.', 'All', 'heavy', True, False)                              
+o23 = Item('Clock', 'a clock', "Your eyes have trouble focusing on its face -- something looks wrong. There aren't any numbers and the hands move in semi-random patterns.", "Your eyes have trouble focusing on its face -- something looks wrong. There aren't any numbers and the hands move in semi-random patterns.", 'All', 'heavy', True, False)                              
+o24 = Item('Personal item', 'personal items', 'A couple dirty shirts, photographs of their families, etc.. Nothing interesting.', 'A couple dirty shirts, photographs of their families, etc.. Nothing interesting.', 'All', 'heavy', True, False)                              
 o25 = Item('Food', 'some food', 'Dried goods that the humans eat.', 'Dried goods that the humans eat.', 'All', 'heavy', True, False)                              
-o26 = Item('Drinks', 'some human drinks', 'Jars of water, likely collected from the river and stored here in the hopes of surviving the dry months of the year', 'Jars of water, likely collected from the river and stored here in the hopes of surviving the dry months of the year', 'All', 'heavy', True, False)                             
+o26 = Item('Drink', 'some human drinks', 'Jars of water, likely collected from the river and stored here in the hopes of surviving the dry months of the year', 'Jars of water, likely collected from the river and stored here in the hopes of surviving the dry months of the year', 'All', 'heavy', True, False)                             
 o27 = Item('Medical supplies', 'some medical supplies', 'A large collection of rudimentary medical supplies bandages, numbing cream, splints, etc.', 'A large collection of rudimentary medical supplies bandages, numbing cream, splints, etc.', 'All', 'heavy', True, False)
 o28 = Item('Bed', 'a bed', 'A simple straw bed sitting underneath the window. Although the bed looks uncomfortable, you feel oddly well rested.', 'A simple straw bed sitting underneath the window. Although the bed looks uncomfortable, you feel oddly well rested.', 'All', 'heavy', True, False)
 o29 = Item('Window', 'a window', 'Dark red curtains cover most of the window. Shifting them slightly shows a view of a raging river.', 'Dark red curtains cover most of the window. Shifting them slightly shows a view of a raging river.', 'All', 'heavy', True, False)                            
 o30 = Item('Bar', 'a tavern bar', 'A long wooden bar. Behind it, you see shelves with nothing on them, no food, no drinks, nothing. Making you wonder, where is Torma getting the ingredients when she makes food and drinks for her patrons?', 'A long wooden bar. Behind it, you see shelves with nothing on them, no food, no drinks, nothing. Making you wonder, where is Torma getting the ingredients when she makes food and drinks for her patrons?', 'All', 'heavy', True, False)
-o31 = Item('Dressers', 'some wooden dressers', 'Crude wooden drawers, likely made in haste and never fixed. Years of ware show on the handles and corners.', 'Crude wooden drawers, likely made in haste and never fixed. Years of ware show on the handles and corners.', 'All', 'heavy', True, False)
+o31 = Item('Dresser', 'some wooden dressers', 'Crude wooden drawers, likely made in haste and never fixed. Years of ware show on the handles and corners.', 'Crude wooden drawers, likely made in haste and never fixed. Years of ware show on the handles and corners.', 'All', 'heavy', True, False)
 
 o32 = Item("Tower", "", "A stone tower with a large circular door. A few small windows line the walls, likely built to allow light in. The top of the tower is barely visible but you can tell it’s made out of wood.", "A stone tower with a large circular door. A few small windows line the walls, likely built to allow light in. The top of the tower is barely visible but you can tell it’s made out of wood.", "All", "heavy", True, False)
-o33 = Item("Circular Door", "", "An almost perfectly round door, with a length of about eight feet. It has a small window but you can’t seem to see through it.", "An almost perfectly round door, with a length of about eight feet. It has a small window but you can’t seem to see through it.", "All", "heavy", True, False)
+o33 = Item("Door", "", "An almost perfectly round door, with a length of about eight feet. It has a small window but you can’t seem to see through it.", "An almost perfectly round door, with a length of about eight feet. It has a small window but you can’t seem to see through it.", "All", "heavy", True, False)
 o34 = Item("Yellow Bird", "", "A small yellow song bird perched on a branch. It’s too high up for you to reach it.", "A small yellow song bird perched on a branch. It’s too high up for you to reach it.", "All", "heavy", True, False)
 o35 = Item("Campfire", "", "A circle of rocks with a few pieces of charcoal. This fire has been out for a long time.", "A circle of rocks with a few pieces of charcoal. This fire has been out for a long time.", "All", "heavy", True, False)
 o36 = Item("Moss", "", "Soft, green moss lines many of the rocks and sticks surrounding the river.", "Soft, green moss lines many of the rocks and sticks surrounding the river.", "All", "heavy", True, False)
 o37 = Item("Cabin", "", "A well built log cabin, that looks hardly big enough to hold a single room. The only door in is locked and all the windows are closed tight.", "A well built log cabin, that looks hardly big enough to hold a single room. The only door in is locked and all the windows are closed tight.", "All", "heavy", True, False)
-o38 = Item("Plants", "", "Various flowers, herbs, vegetables, and fruits grow plentifully here.", "Various flowers, herbs, vegetables, and fruits grow plentifully here.", "All", "heavy", True, False)
-o39 = Item("Plants", "", "Ferns, lichen, wildflowers, and other small plants can be found surrounding the area.", "Ferns, lichen, wildflowers, and other small plants can be found surrounding the area.", "All", "heavy", True, False)
+o38 = Item("Plant", "", "Various flowers, herbs, vegetables, and fruits grow plentifully here.", "Various flowers, herbs, vegetables, and fruits grow plentifully here.", "All", "heavy", True, False)
+o39 = Item("Plant", "", "Ferns, lichen, wildflowers, and other small plants can be found surrounding the area.", "Ferns, lichen, wildflowers, and other small plants can be found surrounding the area.", "All", "heavy", True, False)
 o40 = Item("Trees", "", " Mostly native trees with a few planter boxes growing off of them.", " Mostly native trees with a few planter boxes growing off of them.", "All", "heavy", True, False)
-o41 = Item("Plants", "", "Herbs, flowers, vegetables, and fruits sectioned off and being tended to by various elves.", "Herbs, flowers, vegetables, and fruits sectioned off and being tended to by various elves.", "All", "heavy", True, False)
-o42 = Item("Fruits", "", "Fruits you don’t quite recognize but are  similar to those you can almost remember. You get the feeling it wouldn’t be smart to try eating them.", "Fruits you don’t quite recognize but are  similar to those you can almost remember. You get the feeling it wouldn’t be smart to try eating them.", "All", "heavy", True, False)
-o43 = Item("Vegetables", "", "Vegetables of various shapes and colors. You probably wouldn’t want to eat one of them.", "Vegetables of various shapes and colors. You probably wouldn’t want to eat one of them.", "All", "heavy", True, False)
-o44 = Item("Magical Items", "", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "All", "heavy", True, False)
-o45 = Item("Animals", "", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "All", "heavy", True, False)
+#o41 = Item("Plant", "", "Herbs, flowers, vegetables, and fruits sectioned off and being tended to by various elves.", "Herbs, flowers, vegetables, and fruits sectioned off and being tended to by various elves.", "All", "heavy", True, False)
+o42 = Item("Fruit", "", "Fruits you don’t quite recognize but are  similar to those you can almost remember. You get the feeling it wouldn’t be smart to try eating them.", "Fruits you don’t quite recognize but are  similar to those you can almost remember. You get the feeling it wouldn’t be smart to try eating them.", "All", "heavy", True, False)
+o43 = Item("Vegetable", "", "Vegetables of various shapes and colors. You probably wouldn’t want to eat one of them.", "Vegetables of various shapes and colors. You probably wouldn’t want to eat one of them.", "All", "heavy", True, False)
+o44 = Item("Megical Item", "", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "All", "heavy", True, False)
+o45 = Item("Animal", "", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "All", "heavy", True, False)
+o46 = Item("Magazine", "", "You flip through the pages, which are all blank. Only the front cover has an image, which seems to change between portraits of people you've never met every time you look at it.", "You flip through the pages, which are all blank. Only the front cover has an image, which seems to change between portraits of people you've never met every time you look at it.", "All", "heavy", True, False)
                               
                               
 #Location class
@@ -500,13 +501,13 @@ l7 = Location('canyon/forest',"A canyon lays to the west and a great forest to t
 l8 = Location('forest/mountains', "You hear the sounds of a forest to the south. Snow peaked mountains reach into the sky, blocking you from traveling east. Trees litter the area with a few hard to define plants.", [o8, o39], [])
 l9 = Location('mountains', "Through the lit path you enter an encampment adorned with blue and purple flags. This must be elf territory. The temporary structures seem to be intertwined with the surrounding flora. Further east you notice tall mountains that tower above you.", [o19], [])
 l10 = Location('tavern main room', 'You find yourself in a large tavern common room filled with tables and chairs, a few various people are sitting at tables chatting or just simply enjoying a meal. At the edge of the room there is a long bar with a gruff but kind looking dwarf. You overhear someone call her Torma. The door to return to your room is to the left.', [o20, o21, o30], [torma1, torma2])
-l11 = Location('tavern left room', "You walk through the door and find yourself back in the room in which you woke up. To the right is a door which you now know leads to the tavern.", [o9, o11, o12, o13, o14, o16, o17, o28, o29], [])
-l12 = Location('human territory main', 'You find yourself in a large courtyard. The area is bustling- everywhere you look you can see a different human toiling away. Near the back, Commander Cedric surveys his people.', [], [commander, commander2])
-l13 = Location('human north', 'You enter a large building filled with bunk beds, dressers, various personal items, and a few tired soldiers. You make out the names of two of them -- Marco and Ray.', [o22, o23, o24, o31], [fighters])
+l11 = Location('tavern left room', "You find yourself in the room in which you woke up. You see a mirror, a table, a dresser, a simple bed, and a window. To the right is a door which leads to the tavern.", [o9, o11, o12, o13, o14, o16, o17, o28, o29], [])
+l12 = Location('human territory main', 'You find yourself in a large courtyard. The area is bustling- everywhere you look you can see a different human toiling away. On one side, some type of sword training is taking place. Near the back, Commander Cedric surveys his people.', [], [commander, commander2])
+l13 = Location('human north', 'You enter a large building filled with bunk beds, dressers, various personal items, and a few tired soldiers. You make out the names of two of them -- Marco and Ray. Candles light the barracks, making shadows dance on the walls.', [o22, o23, o24, o31], [fighters])
 l14 = Location('human south', 'You enter a simplistic building holding food, drinks, medical supplies, and more. Many humans are organizing the supplies, including one man with a bright green shirt.', [o2, o26, o27, o25], [tristan])
 l15 = Location('elf main', "In front of you stands a tower, the only elven building that is taller than the trees. It is made completely of stone, except for a large circular door. It's almost tall enough that you can't see the top. Elves populate the square infront of you, going about their daily business.", [o32, o33], [elf1, elf2, elf3, princess1, princess2, princess3, accusation1, prince1, guard1, scout])
-l16 = Location('elf north', 'You enter a vast garden that is intertwined with the trees and local plants. Many colorful fruits and vegetables are being harvested by a few young elves.', [o3, o15, o40, o41, o42, o43], [])
-l17 = Location('elf south', "You see a storage building guarded by elves. It's smaller structure filled with magical items and a few animals you've never seen before.", [o4, o5, o44, o45], [])
+l16 = Location('elf north', 'You enter a vast garden that is intertwined with the trees and local plants. Many colorful fruits and vegetables are being harvested by a few young elves.', [o3, o15, o40, o42, o43], [])
+l17 = Location('elf south', "You see a storage building guarded by elves. It's smaller structure filled with magical items and a few animals you've never seen before. Under one pile, you see what seems to be a magazine.", [o4, o5, o44, o45, o46], [])
 l18 = Location('1', 'Trees. All around you. Tall and stern.', [], [])
 l19 = Location('2', 'A few trees have been cut down here.', [], [])
 l20 = Location('3', 'Trees. All around you. Tall and stern.', [], [])
@@ -543,7 +544,7 @@ l50 = Location('33', 'Trees. All around you. Tall and stern.', [], [])
 l51 = Location('34', 'Trees. All around you. Tall and stern.', [], [])
 l52 = Location('35', 'Trees. All around you. Tall and stern.', [], [])
 l53 = Location('36', 'Trees. All around you. Tall and stern.', [], [])
-l54 = Location('37', "You enter a small clearing where a large beast looms over you.", [o1], [beast])
+l54 = Location('37', "You enter a small clearing where a large beast looms over you. You see a branch of the healing tree that looks like it might be easy to break off. Try talking to the beast before you take the branch, though. Be reasonable.", [o1], [beast])
 l55 = Location('38', 'Trees. All around you. Tall and stern.', [], [])
 l56 = Location('39', 'Trees. All around you. Tall and stern.', [], [])
 l57 = Location('40', 'Trees. All around you. Tall and stern.', [], [])
@@ -557,7 +558,7 @@ l64 = Location('47', 'Trees. All around you. Tall and stern.', [], [])
 l65 = Location('48', 'Trees. All around you. Tall and stern.', [], [])
 l66 = Location('49', 'Trees. All around you. Tall and stern.', [], [])
 
-def items(i, command, coords):
+def take(i, command, coords):
     if 'take' in command:
         thing = command.replace('take ', '')
         atLocation = False
@@ -580,20 +581,12 @@ def items(i, command, coords):
                     if taken == True:
                         locations[(coords.x,coords.y)].items.remove(item)
         if atLocation == False:
-            print(f"\nI don't see a '{thing}' here.")
-    elif 'drop' in command:
-        thing = command.replace('drop ', '')
-        inInventory = False
-        for item in i.items:
-            if item.name.lower() == thing:
-                inInventory = True
-                i.remove_item(item)
-                locations[(coords.x,coords.y)].items.append(item)
-        if inInventory == False:
-            print("\nI don't see this item in your inventory.")
-    elif command == 'open inventory':
-        i.show_items()
+            print(f"\nYou can't take that.")
     return False
+            
+def open_inventory(i, command):
+    if command == 'open inventory':
+        i.show_items()
 
 def talk_to(person_name, player_quest,coords, inventory):
     already = False
@@ -688,45 +681,48 @@ def inspect(command, q,coords, i):
     thing = command.replace('inspect ', '')
     atLocation = False
     inInventory = False
-    for item in locations[(coords.x,coords.y)].items:
-        if item.name.lower() == thing:
-            atLocation = True
-            if thing == 'table':
-                objs = []
-                for obj in locations[(coords.x,coords.y)].items:
-                    if obj.table == True:
-                        objs.append(obj.title)
-                if len(objs) == 0:
-                    print("A table with nothing on it.")
-                elif len(objs) == 1:
-                    print(f"On the table you see {objs[0]}")
-                elif len(objs) == 2:
-                    print(f"On the table you see {objs[0]} and {objs[1]}")
-                else:
-                    print("On the table you see ", end = '')
-                    for obje in objs:
-                        if obje != objs[-1]:
-                            print(f"{obje}, ", end = '')
-                        else:
-                            print(f"and {obje}.")
-                              
-            else:    
-                if q.current_quest == item.quest or item.quest == "All":
-                    print(f"\n{item.q_description}")
-                    if item.name == "Elven plants":
-                        q.current_quest += "+"
-                else:
-                    print(f"\n{item.s_description}")
-    if atLocation == False:
-        for item in i.items:
+    if thing == 'area' or thing == 'room':
+        print(locations[(coords.x,coords.y)].message)
+    else:
+        for item in locations[(coords.x,coords.y)].items:
             if item.name.lower() == thing:
-                inInventory = True
-                if q.current_quest == item.quest or item.quest == "All":
-                    print(f"\n{item.q_description}")
-                else:
-                    print(f"\n{item.s_description}")
-    if atLocation == False and inInventory == False:
-        print(f"\nYou can't inspect that.")
+                atLocation = True
+                if thing == 'table':
+                    objs = []
+                    for obj in locations[(coords.x,coords.y)].items:
+                        if obj.table == True:
+                            objs.append(obj.title)
+                    if len(objs) == 0:
+                        print("A table with nothing on it.")
+                    elif len(objs) == 1:
+                        print(f"On the table you see {objs[0]}")
+                    elif len(objs) == 2:
+                        print(f"On the table you see {objs[0]} and {objs[1]}")
+                    else:
+                        print("On the table you see ", end = '')
+                        for obje in objs:
+                            if obje != objs[-1]:
+                                print(f"{obje}, ", end = '')
+                            else:
+                                print(f"and {obje}.")
+
+                else:    
+                    if q.current_quest == item.quest or item.quest == "All":
+                        print(f"\n{item.q_description}")
+                        if item.name == "Elven plant":
+                            q.current_quest += "+"
+                    else:
+                        print(f"\n{item.s_description}")
+        if atLocation == False:
+            for item in i.items:
+                if item.name.lower() == thing:
+                    inInventory = True
+                    if q.current_quest == item.quest or item.quest == "All":
+                        print(f"\n{item.q_description}")
+                    else:
+                        print(f"\n{item.s_description}")
+        if atLocation == False and inInventory == False:
+            print(f"\nYou can't inspect that.")
 
 def beast(i):
     
@@ -1192,11 +1188,23 @@ def motions(command,coords, q, game_end):
 
 if __name__ == "__main__":
     
-    print("You wake up in a small room, with no memories of who or where you are, except for your name. You are laying on a simple straw bed with light filtering in from a barely curtained window. In the room you can see a mirror hanging on the wall above a simple dresser, a small table with a few non-descript items, and a dark wooden door to the right. A sign on the wall reads 'Dragon's Whisper Tavern and Inn' Use the command 'inspect ___' to search the room.")
+    print("\n\n\nYou wake up in a small room, with no memories of who or where you are, except for your name. You are laying on a simple straw bed with light filtering in from a barely curtained window. In the room you can see a mirror hanging on the wall above a simple dresser, a small table with a few non-descript items, and a dark wooden door to the right. A sign on the wall reads 'Dragon's Whisper Tavern and Inn' Use the command 'inspect ___' to search the room.")
     #starting coords
 #     coords.x = 9
 #     coords.y = 10
-    #dictionary of locations from above along with coordinates as keys
+    #dictionary of locations from above along with coordinates as key
+    similar_words = {"elf" : ["elven", "elfs"], "marco and ray" : ["marco", "ray"],
+                     "commander cedric" : ["cedric"], "princess lyra" : ["lyra", "princess"], 
+                     "clock" : ["red alarm clock", "alarm clock"],
+                     "elven plant" : ["plant", "purple stem", "elf plant"], "plant" : ["garden"],
+                     "door" : ["circular door"], "take" : ["get", "pick up"], "exit" : ["leave"],
+                     'elf territory' : ["elven territory", "elf encampment", "elven encampment"],
+                     "human territory" : ["human encampment"], "talk" : ["speak"],
+                     "i" : ["?", "help", "available commands"],
+                     "healthy elven plant" : ["elven plant", "plant", "healthy plant"],
+                     "yellow bird" : ["bird"], "inspect":["investigate", "check out", "examine"],
+                     "window" : ["curtain", "curtains", "windows"],
+                     "bug trap" : ["trap"], "paper" : ["piece of paper"]}
     locations = {
         (0.0,0.0) : l1, 
         (0.0,1.0) : l2, 
@@ -1267,7 +1275,7 @@ if __name__ == "__main__":
         }
     #key words for motions
     motionlist = ['go', 'enter', 'exit']
-    itemlist = ['take', 'drop', 'open']
+    itemlist = ['take']
     new_plants = False
     i = Inventory()
     q = Quests()
@@ -1277,7 +1285,17 @@ if __name__ == "__main__":
     game_end = False
     command = input("\n>>>").lower()
     while not game_end:
-        commandlist = command.split()
+
+        commandlist = [command.split()[0], " ".join(command.split()[1:])]
+        for word in commandlist:
+            if word[-1] == 's':
+                commandlist[commandlist.index(word)] = commandlist[commandlist.index(word)][:-1]
+                word = word[:-1]
+            for w, similar in similar_words.items():
+                if word == w or word in similar:
+                    commandlist[commandlist.index(word)] = w
+
+        command = " ".join(commandlist)
         if command == 'q':
             realcommand = True
             q.show_quest()
@@ -1286,7 +1304,7 @@ if __name__ == "__main__":
             q.clear_quest()
         elif command == 'i':
             realcommand = True
-            print("\n\nAvailable Commands: \n\n-Go: right (only in starting room), left (only in tavern common area), north, east, south, west. \n-Enter/Exit: tavern, elf territory, human territory, forest. \n-Inspect: most listed objects in any given area (bug trap, flags, food, etc.). \n-take: many listed objects (bug trap, axe, elf plants, etc.). \n-Use axe (only available in certain situations). \n-Talk to: any NPC listed in a given area. \n-Open Inventory(list all items currently in the inventory) \n-Dig (must have shovel in inventory). \n-Catch Bugs (must have bug trap in inventory). \n-Q (see current quest). \n-I (see available commands). \n-Clear Quest. \n-End Game (progress will not be saved).\n\n")
+            print("\n\nAvailable Commands: \n\n-Go: right (only in starting room), left (only in tavern common room), north, east, south, west. \n-Enter/Exit: tavern, elf territory, human territory, forest. \n-Inspect: most listed objects in any given area (bug trap, flags, food, etc.). \n-Take: many listed objects (bug trap, axe, elf plants, etc.). \n-Use axe (only available in certain situations). \n-Talk to: any NPC listed in a given area. \n-Open Inventory(list all items currently in the inventory) \n-Dig (must have shovel in inventory). \n-Catch Bugs (must have bug trap in inventory). \n-Move. \n-Q (see current quest). \n-I (see available commands). \n-Clear Quest. \n-End Game (progress will not be saved).\n\n")
         elif 'move' in commandlist:
             realcommand = True
             move(command,coords)
@@ -1306,6 +1324,9 @@ if __name__ == "__main__":
         elif command == "end game":
             realcommand = True
             game_end = True
+        elif command == "open inventory":
+            realcommand = True
+            open_inventory(i, command)
                  
         else:
             commandlist = command.split()
@@ -1323,7 +1344,7 @@ if __name__ == "__main__":
                 for item in itemlist:
                     if item in commandlist:
                         realcommand = True
-                        beasttime = items(i, command, coords)
+                        beasttime = take(i, command, coords)
                 if beasttime == True:
                     escape = beast(i)
                     if escape: ##MADE CHANGE
