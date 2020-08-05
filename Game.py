@@ -325,7 +325,7 @@ elf2_conversation = {"Elf: You're back so soon?":{"from":[""], "to":["The plants
                     "Elf: Poisoned? Poisoned… The herbalist. She has a hut by the river. She should be able to fix up an antidote, afterwards, return to me.":{"from":["The plants have been poisoned. Who could make an antidote?"], "to":["Quest Updated"]},
                     "Elf: Orange marks… no… it couldn't be… but what if it is? It's from the Legend. It is a disease that was given as punishment to us elves for deception. It sucks magic out of your body. Ooooh...it's terrible. Go to the herbalist. She lives in a hut by the river. She should be able to fix up an antidote, afterwards, return to me.":{"from":["There were these weird orange markings near the base. Do you know what they could be?"], "to":["Quest Updated"]}}
 
-elf2 = Character("The elf rushes toward you.", "Elf2", "Did you find the Herbalist?", "Why would I talk to you again?", elf2_conversation, "Elf1++")
+elf2 = Character("The elf rushes toward you.", "Elf2", "The garden is a place of magic. So beautiful.", "Why would I talk to you again?", elf2_conversation, "Elf1++")
 
 
 #first conversation with the herbalist
@@ -339,7 +339,7 @@ herbalist1 = Character("The herbalist is hunched over and walks with a wooden ca
 herbalist2_conversation = {"Herbalist: Did you find it? Bring it here.":{"from":["Elven Root"], "to":["Yes. Here it is. (Give Elven Roots)"]},
                           "Herbalist: Fly back to the elves, and warn them that the end is coming.":{"from":["Yes. Here it is. (Give Elven Roots)"], "to":["Quest Updated"]}}
 
-herbalist2 = Character("The Herbalist is busy preparing something, but when she sees you, she stops her work.", "Herbalist2", "Hide! The Cleansing has arrived!", "Hide! The Cleansing has arrived!", herbalist2_conversation, "Elf1++++++")
+herbalist2 = Character("The Herbalist is busy preparing something, but when she sees you, she stops her work.", "Herbalist2", "Go! Get the bugs and then the roots before the Cleansing arrives!", "The Cleansing has arrived!", herbalist2_conversation, "Elf1++++++")
 
 
 #when you return to the elf
@@ -348,9 +348,9 @@ elf3_conversation = {"Elf: Ah...you're back.":{"from":[""], "to":["Yes, here is 
                     "As you leave, the elf begins to laugh.":{"from":["I'm leaving now."], "to":["Quest Failed"]},
                     "Elf: Not a believer, I see. Well, I do know who knows about this tree.":{"from":["No need to. I know you're lying."], "to":["Who?"]},
                     "Elf: The Princess Lyra.":{"from":["Who?"], "to":["How do I get to her?"]},
-                    "Elf: She resides in the Tower.":{"from":["How do I get to her?"], "to":["Quest Succeeded"]}}
+                    "Elf: She resides in the Tower, but you should be able to talk to her from out here.":{"from":["How do I get to her?"], "to":["Quest Succeeded"]}}
 
-elf3 = Character("At the sound of your voice, the elf comes toward you.", "Elf3", "Please help. Our gardens are our livelihood.", "You are nowhere near worthy of my time. Leave.", elf3_conversation, "Elf1+++++++")
+elf3 = Character("At the sound of your voice, the elf comes toward you.", "Elf3", "Have you talked to the Herbalist?", "You are nowhere near worthy of my time. Leave.", elf3_conversation, "Elf1+++++++")
 
 #Elf quest 2
 #when you first meet the princess
@@ -385,7 +385,7 @@ guard_conversation = {"Royal Guard: Fire away.":{"from":[""], "to":["Where were 
                      "Royal Guard: I have no idea. The human probably would know.":{"from":["Do you know where the plant could be?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
                      "The Royal Guard turns away.":{"from":["Farewell"], "to":["Quest Updated"]}}
 
-guard1 = Character("The Royal Guald wears silver armour and wields a broad sword and has her hair in a loose braid.", "Royal Guard1", "At your service.", "Of course you weren't up to a task only fit for a true elf.", guard_conversation, "Elf2++")
+guard1 = Character("The Royal Guard wears silver armour and wields a broad sword and has her hair in a loose braid.", "Royal Guard1", "At your service.", "Of course you weren't up to a task only fit for a true elf.", guard_conversation, "Elf2++")
 
 #Question the human
 scout_conversation = {"Human Scout: I promise you I didn't do anything.":{"from":[""], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?"]},
@@ -415,7 +415,7 @@ princess2_conversation = {"Princess Lyra: Did you find my rose?": {"from":["Rose
 princess2 = Character("You can plainly see the Princesses excitement in her face.", "Princess Lyra3", "Please find my rose.", "I can't believe my guard would do this to me, but I still don't have my rose. I'll be sending out search parties to track it down.", princess2_conversation, "Elf2+++++")
 
 #recieving the final quest from the princess
-princess3_conversation = {"Princess Lyra: I can not thank you enough for returning my magic to me. With this, I can say without a doubt that you are a trustworthy individual. Would you be willing to retrieve the healing tree for the elven army? With it, we will have a much greater chance of winning this stalemate of a war.":{"from":[""], "to":["Absolutely.", "I can't. Not now."]},
+princess3_conversation = {"Princess Lyra: I can not thank you enough for returning my magic to me. With this, I can say without a doubt that you are a trustworthy individual. Would you be willing to retrieve the healing tree for the elven army? Us elves will be able to experiment with new types of magic!":{"from":[""], "to":["Absolutely.", "I can't. Not now."]},
                          "Princess Lyra: Thank the Earth. We elves will forever be in your debt. Would you like some guidance for the journey?":{"from":["Absolutely."], "to":["That would be greatly appreciated.", "I can do it on my own."]},
                          "Princess Lyra: Living in the forest is a beast of great power. It is said to be stronger than any living creature but dumber than most. Simply meaning, you will have to trick it into leaving the tree. After you have the item, you won't have long to escape before it catches you. The last adventurers we sent out were determined that the tree was east of the forest entry and they never found anything of note, try going west. Some of our magical plants might help you defeat the beast. I wish you the best of luck.":{"from":["That would be greatly appreciated."], "to":["Quest Obtained"]},
                          "Princess Lyra: Then I wish you the best of luck. Feel free to take some plants, they may just be the help you need on your journey.":{"from":["I can do it on my own."], "to":["Quest Obtained"]},
@@ -424,13 +424,13 @@ princess3_conversation = {"Princess Lyra: I can not thank you enough for returni
 princess3 = Character("Her voice beckons you closer.", "Princess Lyra4", "Thank you again for your help. When you're free, I have another task for you.", "We need the tree. All of us.", princess3_conversation, 'Elf2++++++s')
 
 #receiving the final quest from the commander
-commander2_conversation = {"Commander Cedric: Hello again doctor. Thank you for convincing Tristan to return the supplies. He finally asked me for help and we worked out a way to get him the food and medicine he so desperately needs. You have officially proven yourself worthy of retrieving the healing tree for us. Will you accept the task?":{"from":[""], "to":["Yes I will.", "No I won't. Not yet at least."]},
+commander2_conversation = {"Commander Cedric: Hello again doctor. Thank you for convincing Tristan to return the supplies. He finally asked me for help and we worked out a way to get him the food and medicine he so desperately needs. You have officially proven yourself worthy of retrieving the healing tree for us. Once the tree is in our possession, we will be unstoppable! Will you accept by offer?":{"from":[""], "to":["Yes I will.", "No I won't. Not yet at least."]},
                           "Commander Cedric: Wonderful. Do you want some advice on finding it?":{"from":["Yes I will."], "to":["That would be great, thank you.", "No thank you. I'll just start now."]},
                           "Commander Cedric: You must enter the forest and talk with the beast guarding the tree. If you upset him, he will forcefully remove you from the forest and there's no way anyone could fight against him. My advice is to trick him into leaving the tree and then getting a piece of it. Keep in mind, he will notice the tree being disturbed so you will have to get out of there before he catches up to you. The last adventurers we sent out were determined that the tree was west of the forest entry and they never found anything of note, try going east. Feel free to take some food from the warehouse, it might help you defeat the beast.":{"from":["That would be great, thank you."], "to":["Quest Obtained"]},
                           "Commander Cedric: Good luck then mighty traveler.":{"from":["No thank you. I'll just start now."], "to":["Quest Obtained"]},
                           "Commander Cedric: I understand. I hope you succeed.":{"from":["No I won't."], "to":["*Leave*"]}}
 
-commander2 = Character("He gestures to you to talk to him.", "Commander Cedric2", "You have proven yourself a helpful hand. If you get the time, I would like your help to finally retrieve the healing tree for my legion.", "If we don't get the tree, the elves will win.", commander2_conversation, "Human2++s")
+commander2 = Character("He gestures to you to talk to him.", "Commander Cedric2", "You are proving yourself a helpful hand. If you get the time, I would like your help to finally retrieve the healing tree for my legion.", "If we don't get the tree, the elves will win.", commander2_conversation, "Human2++s")
 #Human2++s
 #Talk to the beast
 beast_conversation = {"Beast: Who are you and why are you here?":{"from":[""], "to":["I am Rowan. I am here to take the tree of healing.", "I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you.", "Why do you need to know?"]},
@@ -439,7 +439,7 @@ beast_conversation = {"Beast: Who are you and why are you here?":{"from":[""], "
                      "Beast: I am the protector of the healing tree. I can not let anyone take it.":{'from':["Why do you need to know?"], "to":["Well I'm going to take it anyway.", "I understand, and I am here to offer you some vital information towards protecting the tree.", "You can't protect it forever, beast."]},
                      "Beast: What is it, mortal.":{"from":["I understand, and I am here to offer you some vital information towards protecting the tree."], "to":["I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you."]},
                      "Beast: How do you know?":{"from":["You can't protect it forever, beast."], "to":["I am going to take it from you.", "There is an elf attack incoming."]},
-                     "The beast leaves to the south, crushing various plants in its path. You are now alone in the forest. You see the healing tree, infront of you, giving off a whitish glow. All you need is one branch.":{"from":["They will be coming from the south. Hurry to stop them."], "to":["Quest Updated"]}}
+                     "The beast leaves to the south, crushing various plants in its path. You are now alone in the forest. You see the healing tree, in front of you, giving off a whitish glow. All you need is one branch.":{"from":["They will be coming from the south. Hurry to stop them."], "to":["Quest Updated"]}}
 
 beast = Character("The beast is a dragon, its skin a deep purple, its eyes bright yellow. It slowly turns its head to the left and to the right, as if to sniff out danger.", "Beast1", "This is mine. Mine.", "This is mine. Mine.", beast_conversation, "Final+")
 
@@ -460,7 +460,7 @@ o6 = Item('Bug', 'a swarm of bugs', 'The bright blue bugs move too fast to grab 
 o7 = Item('Shovel', 'a shovel', "A simple shovel made of metal with a wooden handle. You can use the command 'dig'.", "A simple shovel made of metal with a wooden handle. You can use the command 'dig'.", 'All', 'light', False, False, False)
 o8 = Item('Elven root', 'some elven roots', "A root that the bugs you've trapped seem strangely drawn to.", 'A simple root.', 'Elf1+++++', 'heavy', False, False, True)
 o9 = Item('Bug trap', 'a bug trap', "A small metallic trap with bug bait in a small compartment. This could be helpful in collecting bugs, if the need arises. You can use the command 'catch ' and an object name.", "A small metallic trap with bug bait in a small compartment. This could be helpful in collecting bugs, if the need arises. You can use the command 'catch ' with an object name", 'All', 'light', False, True, False)
-o10 = Item('Axe', 'an axe', "A simple axe made of metal with a wooden handle. Usefull for chopping wood. You can use the command 'use axe'", "A simple axe made of metal with a wooden handle. Usefull for chopping wood. You can use the command 'use axe'", 'All', 'light', False, False, False)
+o10 = Item('Axe', 'an axe', "A simple axe made of metal with a wooden handle. Useful for chopping wood. You can use the command 'use axe'", "A simple axe made of metal with a wooden handle. Usefull for chopping wood. You can use the command 'use axe'", 'All', 'light', False, False, False)
 o11 = Item('Mirror', 'a tall mirror', "A glass mirror in a simplistic wooden frame. An unfamiliar face stares back at you. You have small ears with slightest point at the end, and you can't help noticing you're just barely too tall for the average human. Your shoulders are slender for a human but not so much that it's unheard of and your eyes are definitely not those of a human.", "An unfamiliar face stares back at you. You have small ears with slightest point at the end, and you can't help noticing you're just barely too tall for the average human. Your shoulders are slender for a human but not so much that it's unheard of and your eyes are definitely not those of a human.", 'All', 'heavy', False, False, False)
 o12 = Item('Table', 'a table', 'A simple table.', 'A simple table.', 'All', 'heavy', False, False, False)
 o13 = Item('Paper', 'a folded piece of paper', "\n\nWelcome to text adventure! Here you can explore a unique world and complete various quests using simple text commands. \n\nUse commands 'go north', 'go south', 'go east', and 'go west' to navigate the world. There are certain areas of the map which you can 'enter' and 'exit'. These locations include 'human territory', 'elf territory', 'forest', and 'tavern'. To enter one of these places, type 'enter ' and then the location. You can only enter these places from certain points on the map, however. \n\nWhile inside the tavern you must use commands 'go left' and 'go right' to navigate. \n\nAs you explore the world, you may encounter characters you wish to interact with. To do so, type 'talk to ' and then the character name. In certain locations, you can type 'talk to elf'. Otherwise, characters names will be clear and in the title case. When in dialogue, enter the number beside the dialogue option that you wish to choose. \n\nOnce you have received a quest, you can enter ‘q’ to get a quick refresher on your current task. You may also enter ‘clear quest’ if you wish to get rid of your current quest, but you won’t be able to do anymore quests for the group that you were working for. Make sure to pay close attention to what NPCs say for tips on how to finish each quest \n\nThere are also objects that you can interact with around the world. Some objects you can learn more about by entering 'inspect ' and the name of the object. Be warned, some object descriptions change the more you interact with and learn about the world and the people in it. \n\nThere are also objects you can add to your inventory by using the command 'take ' and the name of the object. This comes in handy when you need to use an object or bring an object somewhere else. You can see what's in your inventory at any time by typing 'open inventory'. \n\nThere are some objects that are too heavy for you to take. On rare occasions you can 'move' these objects by entering 'move ' and the name of the object. \n\nThere are also different ways to use objects. Use your best judgement. If nothing happens, make sure you spelled everything correctly. It's also possible you tried to use an object in a way it can't be used. This game is all about exploration, so don't be afraid to mess around.\n\nAt any time, you may type 'end game' to end the game. Your progress will not be saved.\n\nPress 'i' at any time to get a list of all available commands.\n\n", "Welcome to text adventure!", 'All', 'light', False, True, False)
@@ -498,8 +498,10 @@ o43 = Item("Vegetable", "", "Vegetables of various shapes and colors. You probab
 o44 = Item("Megical Item", "", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "All", "heavy", True, False, True)
 o45 = Item("Animal", "", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "All", "heavy", True, False, True)
 o46 = Item("Magazine", "", "You flip through the pages, which are all blank. Only the front cover has an image, which seems to change between portraits of people you've never met every time you look at it.", "You flip through the pages, which are all blank. Only the front cover has an image, which seems to change between portraits of people you've never met every time you look at it.", "All", "heavy", True, False, False)
-o47 = Item("Sign", "", "A sign that says 'Dragon's Whisper Tavern and Inn'.", "A sign that says 'Dragon's Whisper Tavern and Inn'.", 'All', 'heavy', True, False, False)                              
-                              
+o47 = Item("Sign", "", "A sign that says 'Dragon's Whisper Tavern and Inn'.", "A sign that says 'Dragon's Whisper Tavern and Inn'.", 'All', 'heavy', True, False, False)
+o48 = Item("Beehive", "", "A  large hive, covered in worker bees. It probably wouldn’t be smart to mess with it.", "A  large hive, covered in worker bees. It probably wouldn’t be smart to mess with it.", "All", "heavy", True, False, False)
+o49 = Item("Treasure", "", "A shiny bit of gold", "A shiny bit of gold", 'All', 'light', True, False, False)  
+
 #Location class
 #message is what is printed when you enter, items and npcs are lists of objects
 class Location:
@@ -524,7 +526,7 @@ l11 = Location('tavern left room', "You find yourself in the room in which you w
 l12 = Location('human territory main', 'You find yourself in a large courtyard. The area is bustling- everywhere you look you can see a different human toiling away. On one side, some type of sword training is taking place. Near the back, Commander Cedric surveys his people.', [], [commander, commander2])
 l13 = Location('human north', 'You enter a large building filled with bunk beds, dressers, various personal items, and a few tired soldiers. You make out the names of two of them -- Marco and Ray. Candles light the barracks, making shadows dance on the walls.', [o22, o23, o24, o31], [fighters])
 l14 = Location('human south', 'You enter a simplistic building holding food, drinks, medical supplies, and more. Many humans are organizing the supplies, including one man with a bright green shirt.', [o2, o26, o27, o25], [tristan])
-l15 = Location('elf main', "In front of you stands a tower, the only elven building that is taller than the trees. It is made completely of stone, except for a large circular door. It's almost tall enough that you can't see the top. Elves populate the square infront of you, going about their daily business. Here you can enter the command 'talk to elf' to try to get the attention of an elf.", [o32, o33], [elf1, elf2, elf3, princess1, princess2, princess3, accusation1, prince1, guard1, scout])
+l15 = Location('elf main', "In front of you stands a tower, the only elven building that is taller than the trees. It is made completely of stone, except for a large circular door. It's almost tall enough that you can't see the top. Elves populate the square in front of you, going about their daily business. Here you can enter the command 'talk to elf' to try to get the attention of an elf.", [o32, o33], [elf1, elf2, elf3, princess1, princess2, princess3, accusation1, prince1, guard1, scout])
 l16 = Location('elf north', 'You enter a vast garden that is intertwined with the trees and local plants. Many colorful fruits and vegetables are being harvested by a few young elves.', [o3, o15, o40, o42, o43], [])
 l17 = Location('elf south', "You see a storage building guarded by elves. It's smaller structure filled with magical items and a few animals you've never seen before. Under one pile, you see what seems to be a magazine.", [o4, o5, o44, o45, o46], [])
 l18 = Location('1', 'Trees. All around you. Tall and stern.', [], [])
@@ -570,7 +572,7 @@ l57 = Location('40', 'Trees. All around you. Tall and stern.', [], [])
 l58 = Location('41', 'Trees. All around you. Tall and stern.', [], [])
 l59 = Location('42', 'Trees. All around you. Tall and stern.', [], [])
 l60 = Location('43', 'Trees. All around you. Tall and stern.', [], [])
-l61 = Location('44', 'Trees. All around you. Tall and stern.', [], [])
+l61 = Location('44', 'Trees. All around you. Tall and stern.', [o49], [])
 l62 = Location('45', 'A few trees have been cut down here.', [], [])
 l63 = Location('46', 'Trees. All around you. Tall and stern.', [], [])
 l64 = Location('47', 'Trees. All around you. Tall and stern.', [], [])
@@ -673,7 +675,10 @@ def dig(i,coords, q):
             else:
                 print("\nYou dig a little hole.")
         else:
-            print("\nYou dig a little hole.")
+            if o49 in locations[(coords.x,coords.y)].items:
+                print("\nYou dig and find treasure. All that random digging finally paid off, I guess.")
+            else:
+                print("\nYou dig a little hole.")
     else:
         print("\nYou don't have a shovel or anything to dig with.")
     return(i)
@@ -919,7 +924,7 @@ def beast(i):
 
         else:
             illegal = True
-            print("You've entered a command I don't recognize. Please try again.")
+            print("\nYou've entered a command I don't recognize. Please try again.")
             moves += 1
 
         if not illegal:
@@ -1194,7 +1199,7 @@ def motions(command,coords, q, game_end):
     
     else:
         illegal = True
-        print("You've entered a command I don't recognize. Please try again.")
+        print("\nYou've entered a command I don't recognize. Please try again.")
 
     if not illegal:
         objs = []
@@ -1232,7 +1237,7 @@ if __name__ == "__main__":
     similar_words = {"elf" : ["elven", "elfs"], "to marco and ray" : ["to marco", "to ray"],
                      "to commander cedric" : ["to cedric"], "to princess lyra" : ["to lyra", "to princess"], 
                      "clock" : ["red alarm clock", "alarm clock"],
-                     "elven plant" : ["plant", "purple stem", "elf plant"], "plant" : ["garden"],
+                     "elven plant" : ["plant", "purple stem", "elf plant"], "plant" : ["garden", "garden"],
                      "door" : ["circular door"], "take" : ["get", "pick up"], "exit" : ["leave"],
                      'elf territory' : ["elven territory", "elf encampment", "elven encampment"],
                      "human territory" : ["human encampment"], "talk" : ["speak"],
@@ -1240,7 +1245,8 @@ if __name__ == "__main__":
                      "healthy elven plant" : ["elven plant", "plant", "healthy plant"],
                      "yellow bird" : ["bird"], "inspect":["investigate", "check out", "examine"],
                      "window" : ["curtain", "curtains", "windows"],
-                     "bug trap" : ["trap"], "paper" : ["piece of paper"]}
+                     "bug trap" : ["trap"], "paper" : ["piece of paper"], "to royal guard" : ["to guard"],
+                     "to prince aywin" : ["to aywin", "to prince"], "move" : ["push"], "crate" : ["box"]}
     locations = {
         (0.0,0.0) : l1, 
         (0.0,1.0) : l2, 
@@ -1422,7 +1428,7 @@ if __name__ == "__main__":
                             coords.x = 0
                             coords.y = -1
         if realcommand == False:
-            print("You've entered a command I don't recognize. Please try again.")
+            print("\nYou've entered a command I don't recognize. Please try again.")
             
         if "Elf1++++++++s" in q.succeeded and not new_plants:
             x = similar_words.pop("elven plant")
