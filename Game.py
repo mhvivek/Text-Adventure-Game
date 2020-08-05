@@ -209,34 +209,37 @@ class Inventory:
             print(f"\n{item.print_name}")
 
     def add_item(self, thing):
-        if thing.weight == 'heavy':
+        '''checks if possible and then adds item to inventory'''
+        if thing.weight == 'heavy': # checks item attribute
             print(f"\nYou can't take the {thing.print_name.lower()}.")
             return False
         else:
-            self.items.append(thing)
+            self.items.append(thing) # adds item object to list of items in inventory
             print(f"\nYou took the {thing.print_name.lower()}. Inventory updated.")
             return True
 
     def remove_item(self, thing):
+        '''removes an item from the inventory list'''
         self.items.remove(thing)
 
 
 #Item class
+#created for each object that can be interacted with
 class Item:
     def __init__(self, name, title, q_description, s_description, quest, weight, hidden, table, plural):
-        self.plural = plural
-        self.name = name
+        self.plural = plural #boolean
+        self.name = name # all item names are singular
         if self.plural:
-            self.print_name = self.name + "s"
+            self.print_name = self.name + "s" # if plural is True, print_name gets an s added
         else:
             self.print_name = self.name
         self.title = title
-        self.q_description = q_description
-        self.s_description = s_description
-        self.quest = quest
+        self.q_description = q_description #special description for a quest the item is connected to
+        self.s_description = s_description #normal description
+        self.quest = quest #quest the item is connected to
         self.weight = weight
-        self.hidden = hidden
-        self.table = table
+        self.hidden = hidden #helps for printing out items when the player enters a location
+        self.table = table #boolean - has to do with special item
         
     def inspect(self, current_quest):
         if current_quest == self.quest: #if this object is relevant to the quest
@@ -245,7 +248,12 @@ class Item:
             print(f"\nYou see a {self.name}.")
 
 #ALL THE DIALOGUE
+#each conversation is a dictionary with the character's line as the key
+#the value contains the list of player dialogue choices that will trigger the key (from)
+#and those that the character's line will in turn trigger (to)
 
+#after each conversation is the instantiation of the corresponding character object
+                              
 #Initial Conversation with Torma
 torma1_conversation = {"Torma: Welcome. How may I help you?":{"from":[""], "to":["Who are you?", "Who am I?"]},
                       "Torma: I am Torma, I run this place and guide adventurers.":{"from":['Who are you?'], "to":["Where am I?"]},
@@ -344,7 +352,7 @@ elf3_conversation = {"Elf: Ah...you're back.":{"from":[""], "to":["Yes, here is 
 
 elf3 = Character("At the sound of your voice, the elf comes toward you.", "Elf3", "Please help. Our gardens are our livelihood.", "You are nowhere near worthy of my time. Leave.", elf3_conversation, "Elf1+++++++")
 
-
+#Elf quest 2
 #when you first meet the princess
 princess1_conversation = {"Princess Lyra: It's a pleasure to formally meet you. What should I call you?": {"from":[""], "to":["You can call me Rowan, Princess.","Why should I tell you, after you lied about your identity?"]},
                          "Princess Lyra: And you can call me Lyra, Princess of the southern elves. Now, I have information on the tree of healing... but first I need your help with something else.":{"from":["You can call me Rowan, Princess."], "to":["And what would that be?", "I've had enough of your deception. Give me the information."]},
@@ -388,6 +396,7 @@ scout_conversation = {"Human Scout: I promise you I didn't do anything.":{"from"
                      "The Human turns away.":{"from":["Farewell"], "to":["Quest Updated"]}}
 
 scout = Character("The Human stands out among the elves, with tanner skin, smaller ears, and a shorter stature.", "Human Scout1", "I promise I didn't to this. I swear.", "Why didn't you prove my innocence?", scout_conversation, "Elf2+++")
+
 #Accusation time
 accusation_conversation = {"Princess Lyra: What is your verdict?": {"from":[""], "to":["It was Prince Aywin.", "It was your Royal Guard.", "It was the human.", "I don't know yet."]},
                           "Princess Lyra: I don't believe you.\n\nPrince Aywin: Becuase it's not true. I would never hurt my sister. You're crazy!":{"from":["It was Prince Aywin."], "to":["Quest Failed"]},
@@ -397,12 +406,15 @@ accusation_conversation = {"Princess Lyra: What is your verdict?": {"from":[""],
 
 accusation1 = Character("You can almost hear the buzz of tension.", "Princess Lyra2", "Who did it?", "You are no help at all. Leave my sight.", accusation_conversation, "Elf2++++")
 
+                              
+#After you find the rose for the princess
 princess2_conversation = {"Princess Lyra: Did you find my rose?": {"from":["Rose"], "to":["Yes (Give Rose)", "No."]},
                          "Princess Lyra: I will forever be in your debt. If you would be willing to, talk to me again later so we can plan how to get a branch from the healing tree.":{"from":["Yes (Give Rose)"], "to":["Quest Succeeded"]},
                          "Princess Lyra: Keep looking. It can't be far.":{"from":["No."], "to":["*Leave*"]}}
 
 princess2 = Character("You can plainly see the Princesses excitement in her face.", "Princess Lyra3", "Please find my rose.", "I can't believe my guard would do this to me, but I still don't have my rose. I'll be sending out search parties to track it down.", princess2_conversation, "Elf2+++++")
 
+#recieving the final quest from the princess
 princess3_conversation = {"Princess Lyra: I can not thank you enough for returning my magic to me. With this, I can say without a doubt that you are a trustworthy individual. Would you be willing to retrieve the healing tree for the elven army? With it, we will have a much greater chance of winning this stalemate of a war.":{"from":[""], "to":["Absolutely.", "I can't. Not now."]},
                          "Princess Lyra: Thank the Earth. We elves will forever be in your debt. Would you like some guidance for the journey?":{"from":["Absolutely."], "to":["That would be greatly appreciated.", "I can do it on my own."]},
                          "Princess Lyra: Living in the forest is a beast of great power. It is said to be stronger than any living creature but dumber than most. Simply meaning, you will have to trick it into leaving the tree. After you have the item, you won't have long to escape before it catches you. The last adventurers we sent out were determined that the tree was east of the forest entry and they never found anything of note, try going west. Some of our magical plants might help you defeat the beast. I wish you the best of luck.":{"from":["That would be greatly appreciated."], "to":["Quest Obtained"]},
@@ -411,6 +423,7 @@ princess3_conversation = {"Princess Lyra: I can not thank you enough for returni
 
 princess3 = Character("Her voice beckons you closer.", "Princess Lyra4", "Thank you again for your help. When you're free, I have another task for you.", "We need the tree. All of us.", princess3_conversation, 'Elf2++++++s')
 
+#receiving the final quest from the commander
 commander2_conversation = {"Commander Cedric: Hello again doctor. Thank you for convincing Tristan to return the supplies. He finally asked me for help and we worked out a way to get him the food and medicine he so desperately needs. You have officially proven yourself worthy of retrieving the healing tree for us. Will you accept the task?":{"from":[""], "to":["Yes I will.", "No I won't. Not yet at least."]},
                           "Commander Cedric: Wonderful. Do you want some advice on finding it?":{"from":["Yes I will."], "to":["That would be great, thank you.", "No thank you. I'll just start now."]},
                           "Commander Cedric: You must enter the forest and talk with the beast guarding the tree. If you upset him, he will forcefully remove you from the forest and there's no way anyone could fight against him. My advice is to trick him into leaving the tree and then getting a piece of it. Keep in mind, he will notice the tree being disturbed so you will have to get out of there before he catches up to you. The last adventurers we sent out were determined that the tree was west of the forest entry and they never found anything of note, try going east. Feel free to take some food from the warehouse, it might help you defeat the beast.":{"from":["That would be great, thank you."], "to":["Quest Obtained"]},
@@ -430,7 +443,7 @@ beast_conversation = {"Beast: Who are you and why are you here?":{"from":[""], "
 
 beast = Character("The beast is a dragon, its skin a deep purple, its eyes bright yellow. It slowly turns its head to the left and to the right, as if to sniff out danger.", "Beast1", "This is mine. Mine.", "This is mine. Mine.", beast_conversation, "Final+")
 
-                              
+#creating the troll who has no conversation                       
 troll = Character("The troll walks with his head down, and you can't help but notice his ragged clothes.", "Troll1", "Go home. That is where you will find the answers. Everything is a circle, you know? Round...round...infinite...you always end up where you started.", "We are all creations...conflict is pointless...there is no tree. It's a thing of legend that they believe is real just so they can fight another day.", {}, "Troll")
                               
                               
@@ -485,9 +498,10 @@ o43 = Item("Vegetable", "", "Vegetables of various shapes and colors. You probab
 o44 = Item("Megical Item", "", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "Goblets, torches, it’s hard to tell what else. They have a purple glow and seem to phase in and out of existence.", "All", "heavy", True, False, True)
 o45 = Item("Animal", "", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "Most of these creatures have some resemblance to animals you know from before, but they seem to be wrong in some strange way.", "All", "heavy", True, False, True)
 o46 = Item("Magazine", "", "You flip through the pages, which are all blank. Only the front cover has an image, which seems to change between portraits of people you've never met every time you look at it.", "You flip through the pages, which are all blank. Only the front cover has an image, which seems to change between portraits of people you've never met every time you look at it.", "All", "heavy", True, False, False)
-                              
+o47 = Item("Sign", "", "A sign that says 'Dragon's Whisper Tavern and Inn'.", "A sign that says 'Dragon's Whisper Tavern and Inn'.", 'All', 'heavy', True, False, False)                              
                               
 #Location class
+#message is what is printed when you enter, items and npcs are lists of objects
 class Location:
     def __init__(self, name, message, items, npcs):
         self.name = name
@@ -495,7 +509,7 @@ class Location:
         self.items = items
         self.npcs = npcs
 
-#Locations and descriptions (most descriptions need to be changed, it's just a start)
+#Locations and descriptions
 l1 = Location('tavern', "You enter a large clearing. The sun is shining and the sky is perfectly clear, the grass below you is yellow and dry. Directly in front of you is a small path leading south into a dense forest. A well traveled path stands to the west. Countless footprints, horse tracks, and wheel marks litter the ground leading to a large open field. It's hard to make out from this far away, but you can tell there are a few rudimentary buildings and many people hustling to get work done. To the east purplish lanterns illuminate a covered path into the forest. You would have to get closer to know where they lead. The tavern blocks your view to the north, but you hear the rushing of water.", [o18], [])
 l2 = Location('river', 'A large river, too ferocious to pass, rages on to the north of you. No living creature could survive currents like those. The ground is rocky, gray, with splashes of green of moss.', [o6, o36], [])
 l3 = Location('forest', 'A dense forest stretches on to the south. From deep in the forest, you can hear the rumbling breath of something much too big to be trifled with.', [], [])
@@ -505,8 +519,8 @@ l6 = Location('river/canyon', "To the north a river rages on and to the west you
 l7 = Location('canyon/forest',"A canyon lays to the west and a great forest to the south. You notice a small man with wild hair, a large nose, and small but pointed ears. He appears to be a middle aged Troll.", [], [troll])
 l8 = Location('forest/mountains', "You hear the sounds of a forest to the south. Snow peaked mountains reach into the sky, blocking you from traveling east. Trees litter the area with a few hard to define plants.", [o8, o39], [])
 l9 = Location('mountains', "Through the lit path you enter an encampment adorned with blue and purple flags. This must be elf territory. The temporary structures seem to be intertwined with the surrounding flora. Further east you notice tall mountains that tower above you.", [o19], [])
-l10 = Location('tavern main room', 'You find yourself in a large tavern common room filled with tables and chairs, a few various people are sitting at tables chatting or just simply enjoying a meal. At the edge of the room there is a long bar with a gruff but kind looking dwarf. You overhear someone call her Torma. The door to return to your room is to the left.', [o20, o21, o30], [torma1, torma2])
-l11 = Location('tavern left room', "You find yourself in the room in which you woke up. You see a mirror, a table, a dresser, a simple bed, and a window. To the right is a door which leads to the tavern.", [o9, o11, o12, o13, o14, o16, o17, o28, o29], [])
+l10 = Location('tavern main room', 'You find yourself in a large tavern common room filled with tables and chairs, a few various people are sitting at tables chatting or just simply enjoying a meal. At the edge of the room there is a long bar with a gruff but kind looking dwarf. You overhear someone call her Torma. The door to return to your room is to the left. The door to exit the tavern is also in this room.', [o20, o21, o30], [torma1, torma2])
+l11 = Location('tavern left room', "You find yourself in the room in which you woke up. You see a mirror, a table, a dresser, a simple bed, and a window. To the right is a door which leads to the tavern.", [o9, o11, o12, o13, o14, o16, o17, o28, o29, o47], [])
 l12 = Location('human territory main', 'You find yourself in a large courtyard. The area is bustling- everywhere you look you can see a different human toiling away. On one side, some type of sword training is taking place. Near the back, Commander Cedric surveys his people.', [], [commander, commander2])
 l13 = Location('human north', 'You enter a large building filled with bunk beds, dressers, various personal items, and a few tired soldiers. You make out the names of two of them -- Marco and Ray. Candles light the barracks, making shadows dance on the walls.', [o22, o23, o24, o31], [fighters])
 l14 = Location('human south', 'You enter a simplistic building holding food, drinks, medical supplies, and more. Many humans are organizing the supplies, including one man with a bright green shirt.', [o2, o26, o27, o25], [tristan])
@@ -564,6 +578,7 @@ l65 = Location('48', 'Trees. All around you. Tall and stern.', [], [])
 l66 = Location('49', 'Trees. All around you. Tall and stern.', [], [])
 
 def take(i, command, coords, q): #CHANGE
+    '''allows player to take an item and add it to their inventory'''
     if 'take' in command:
         thing = command.replace('take ', '')
         atLocation = False
@@ -594,6 +609,7 @@ def take(i, command, coords, q): #CHANGE
     return False
             
 def open_inventory(i, command):
+    '''prints player inventory'''
     if command == 'open inventory':
         i.show_items()
 
@@ -630,6 +646,7 @@ def talk_to(person_name, player_quest,coords, inventory):
 #     return coordinates
 
 def move(command, coords):
+    '''lets player use command move to push crate'''
     thing = command.replace('move ', '')
     if thing == 'crate':
         if coords.x == 40 and coords.y == 39:
@@ -641,6 +658,7 @@ def move(command, coords):
 
 
 def dig(i,coords, q):
+    '''lets player use command dig with shovel object'''
     if o7 in i.items:
         if coords.x == 1 and coords.y == -1:
             if q.current_quest == 'Elf1+++++':
@@ -662,6 +680,7 @@ def dig(i,coords, q):
 
 
 def catch(command, coords, i, q):
+    '''lets player use command catch with bug trap object'''
     thing = command.replace('catch ', '')
     if thing == 'bug' or thing == 'bugs':
         if coords.x == 0 and coords.y == 1:
@@ -687,6 +706,7 @@ def catch(command, coords, i, q):
 
 
 def inspect(command, q,coords, i):
+    '''prints out object description'''
     thing = command.replace('inspect ', '')
     atLocation = False
     inInventory = False
@@ -736,6 +756,7 @@ def inspect(command, q,coords, i):
             print(f"\nYou can't inspect that.")
 
 def beast(i):
+    '''beast minigame'''
     
     print()
     print("\nThe beast won't be happy once it realizes what you're doing, so don't take too long in breaking it off. Maybe there's something in your inventory that can help speed up the process? To view your inventory enter 'open inventory'. To use something from it enter 'use __'.")
@@ -846,11 +867,10 @@ def beast(i):
                 coords.x -= 1
 
         elif command == 'use human food':
+            illegal = True
             if o2 not in i.items:
-                illegal = True
                 print("\nThere's no human food in your inventory!")
             elif coords.x == 28 and coords.y == 25:
-                illegal = True
                 print("\nYou're still in the clearing with the tree! Only use this valuable resource if you're stuck!")
             else:
                 i.remove_item(o2)
@@ -928,6 +948,7 @@ def beast(i):
 
 
 def motions(command,coords, q, game_end):
+    '''commands that allow player to move around map'''
     
     coords.x = int(coords.x)
     coords.y = int(coords.y)
@@ -1327,7 +1348,7 @@ if __name__ == "__main__":
         elif 'move' in commandlist:
             realcommand = True
             move(command,coords)
-        elif 'dig' == command:
+        elif 'dig' in command:
             realcommand = True
             i = dig(i,coords, q)
         elif 'catch' in commandlist:
@@ -1370,6 +1391,10 @@ if __name__ == "__main__":
                         if escape[0] == True:
                             coords.x = 0
                             coords.y = -1
+                            if "Elf2" in "".join(q.succeeded):
+                                ally = "Elf"
+                            elif "Human2" in "".join(q.succeeded):
+                                ally = "Human"
                             print ("\nYou crash out of the forest, legs numb and breath nearly gone. You seem to have lost track of time in the forest, as it is twilight now. You feel slightly dizzy. As you pick a twig out of your hair, a thought crosses your mind. Silent feet, a whisper. Just loud enough for you to hear. What do you owe to the people who helped you get the branch? You would have gotten it by yourself anyway. Suddenly, the branch feels twice as heavy. No, you must share it. But with whom?")
                             print ("\n1. Humans")
                             print ("2. Elves")
@@ -1378,10 +1403,15 @@ if __name__ == "__main__":
                                 print ("\nEnter a valid number")
                                 choice = input("\n>>> ")
                             game_end = True
+                            betray = ""
                             if choice == "1":
-                                print ("\nYou arrive at the gates of the human settlement, where many humans wait. You present the branch to Commander Cedric, who calls a meeting for all humans. They rejoice in their victory over the elves, and the Commander gives a heartfelt speech about your heroic actions. You are officially made an honorary human.\n\nAs the level of excitement continues to rise, discussions turn to the future. Who can use the branch? Who will guard it? When should another branch be obtained? Plans for defeating the dragon once and for all are layed out, and some even begin talking of an invading the elves. The festivities continue on into the night, and you fall asleep smiling.")
+                                if ally == "Elf":
+                                    betray = "\n\nYou never ask yourself why the Commander welcomed you as a friend, never realize that the elves probably see you as a criminal."
+                                print (f"\nYou arrive at the gates of the human settlement, where many humans wait. You present the branch to Commander Cedric, who calls a meeting for all humans. They rejoice in their victory over the elves, and the Commander gives a heartfelt speech about your heroic actions. You are officially made an honorary human.{betray}\n\nAs the level of excitement continues to rise, discussions turn to the future. Who can use the branch? Who will guard it? When should another branch be obtained? Plans for defeating the dragon once and for all are layed out, and some even begin talking of an invading the elves. The festivities continue on into the night, and you fall asleep smiling.")
                             elif choice == "2":
-                                print ("\nYou stand before the Princess’ tower, tall and strong. She emerges, her robe the color of the sky. She asks you to follow her.\n\nYou enter a small room and the door shuts behind you. Waiting for the right moment, Prince Aywin congratulates you heartily. “This branch,” says the Princess, “will help us discover new kinds of magic, to do what we previously thought impossible. However, we must protect this extraordinary power. This means that there can be no loose ends, no cracks this information can fall through. No one can know about this. No one. Not even you. Do you understand?” She pauses a moment, not long enough for you to say anything.\n\n“Good,” she says. ")
+                                if ally == "Human":
+                                    betray = "\n\nYou never ask yourself why the Princess is treating you like a partner, never realize that that the humans probably see you as a criminal."
+                                print (f"\nYou stand before the Princess’ tower, tall and strong. She emerges, her robe the color of the sky. She asks you to follow her.{betray}\n\nYou enter a small room and the door shuts behind you. Waiting for the right moment, Prince Aywin congratulates you heartily. “This branch,” says the Princess, “will help us discover new kinds of magic, to do what we previously thought impossible. However, we must protect this extraordinary power. This means that there can be no loose ends, no cracks this information can fall through. No one can know about this. No one. Not even you. Do you understand?” She pauses a moment, not long enough for you to say anything.\n\n“Good,” she says. ")
                                 
                                     
                         else:
@@ -1403,22 +1433,4 @@ if __name__ == "__main__":
         if not game_end:
             command = input("\n>>> ").lower().strip()
             realcommand = False
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
