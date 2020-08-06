@@ -4,7 +4,6 @@
 # In[ ]:
 
 
-"""New main function with the axe thing"""
 # Character Class
 # a character object represents one version of an in-game character
 # multiple character objects are created for different conversations with an in-game character
@@ -251,11 +250,6 @@ class Item:
         self.hidden = hidden  # helps for printing out items when the player enters a location
         self.table = table  # boolean - has to do with special item
 
-    def inspect(self, current_quest):
-        if current_quest == self.quest:  # if this object is relevant to the quest
-            print(f"\n{self.q_description}")
-        else:
-            print(f"\nYou see a {self.name}.")
 
 # ALL THE DIALOGUE
 # each conversation is a dictionary with the character's line as the key
@@ -635,42 +629,33 @@ def open_inventory(i, command):
         i.show_items()
 
 def talk_to(person_name, player_quest,coords, inventory):
+    '''talk to an npc for a full conversation or just one line'''
     already = False
     available = False
-    for character in locations[coords.x, coords.y].npcs:
-        if character.name.lower()[:-1] == person_name.lower(): #making sure you can talk to that person
+    for character in locations[coords.x, coords.y].npcs: # loops through all characters in players location
+        if character.name.lower()[:-1] == person_name.lower(): # checks to make sure they can talk to who them entered
             available = True
-                              
-#             print(f"\n{player_quest.current_quest}")
-#             print(f"\n{player_quest.succeeded}")
-#             print(f"\n{character.quest}")
             
             if character.quest == player_quest.current_quest or character.quest in player_quest.succeeded and len(player_quest.current_quest) == 0 or "No" in character.quest and character.quest[3:] not in "".join(player_quest.succeeded) and player_quest.current_quest == '' or character.quest == 'All': #if you are on the correct quest
-                character.meet()
+                character.meet() # print description
                 already = True
                 character.start_conversation(player_quest, inventory, coords)
-#                 print(coords)
-#                 print("______")
-#                 print(coordinates)
-#                 if coords != "":
-#                     coordinates = coords
-#                 print(coords.x, coords.y)
+
                 if character.name in ["Commander Cedric1", "Torma1", "Elf1", "Elf2", "Elf3", "Princess Lyra1", "Herbalist1", "Royal Guard1", "Human Scout1", "Prince Aywin1"] or character.name == "Princess Lyra2" and player_quest.current_quest == "Elf2+++++" or character.name == "Princess Lyra3" and "Elf2++++++s" in player_quest.succeeded or character.name == "Commander Cedric2" and player_quest.current_quest == "Final+" or character.name == "Princess Lyra4" and player_quest.current_quest == "Final+":
-                    locations[(coords.x, coords.y)].npcs.remove(character)
+                    locations[(coords.x, coords.y)].npcs.remove(character) # removes certain characters from locations after you talk to them
                 
             else:
-                if not already:
+                if not already: # so you can only talk to one character at a time
                     character.interact_outside_quest(player_quest)
                     already = True
-    if not available:
+    if not available: # if the character was not at the location
         print("\nThe person you're looking for isn't here.")
-#     return coordinates
 
 def move(command, coords):
     '''lets player use command move to push crate'''
     thing = command.replace('move ', '')
     if thing == 'crate':
-        if coords.x == 40 and coords.y == 39:
+        if coords.x == 40 and coords.y == 39: # if they are in the correct location
             print("\nWith some effort you manage to slide the crate a few feet. Underneath you find a trap door. In the trap door you see a single rose.")
         else:
             print("\nThere is no crate here.")
@@ -680,10 +665,10 @@ def move(command, coords):
 
 def dig(i,coords, q):
     '''lets player use command dig with shovel object'''
-    if o7 in i.items:
-        if coords.x == 1 and coords.y == -1:
-            if q.current_quest == 'Elf1+++++':
-                if o8 not in i.items:
+    if o7 in i.items: # checks if the player has shovel in inventory
+        if coords.x == 1 and coords.y == -1: # checks coordinates
+            if q.current_quest == 'Elf1+++++': # checks quest
+                if o8 not in i.items: # checks if player has already dug
                     q.current_quest += "+"
                     print("\nYou dig and find the antidote!")
                     o8.weight = "light"
@@ -713,10 +698,10 @@ def catch(command, coords, i, q):
                     if o6 in i.items:
                         print("\nYou already have some bugs in your inventory. You don't need any more.")
                     else:
-                        q.current_quest += "+"
+                        q.current_quest += "+" # updates quest
                         o6.weight = "light"
                         print("\nYou successfully catch some bugs.")
-                        i.add_item(o6)
+                        i.add_item(o6) # adds bugs to inventory
                         o6.weight = "heavy"
                 else:
                     print("\nYou need something to catch the bugs with.")
@@ -734,13 +719,13 @@ def inspect(command, q,coords, i):
     thing = command.replace('inspect ', '')
     atLocation = False
     inInventory = False
-    if thing == 'area' or thing == 'room':
+    if thing == 'area' or thing == 'room': # reprints room message
         print(locations[(coords.x,coords.y)].message)
     else:
         for item in locations[(coords.x,coords.y)].items:
-            if item.name.lower() == thing:
+            if item.name.lower() == thing: # checks if item is at your coordinates
                 atLocation = True
-                if thing == 'table':
+                if thing == 'table': # table is a special case
                     objs = []
                     for obj in locations[(coords.x,coords.y)].items:
                         if obj.table == True:
@@ -761,13 +746,13 @@ def inspect(command, q,coords, i):
 
                 else:    
                     if q.current_quest == item.quest or item.quest == "All":
-                        print(f"\n{item.q_description}")
+                        print(f"\n{item.q_description}") # prints quest description if player is on correct quest
                         if item.name == "Elven plant":
                             q.current_quest += "+"
                     else:
-                        print(f"\n{item.s_description}")
+                        print(f"\n{item.s_description}") # prints generic description
         if atLocation == False:
-            for item in i.items:
+            for item in i.items: # allows you to inspect items in you inventory
                 if item.name.lower() == thing:
                     inInventory = True
                     if q.current_quest == item.quest or item.quest == "All":
@@ -776,7 +761,7 @@ def inspect(command, q,coords, i):
                             q.current_quest += "+"
                     else:
                         print(f"\n{item.s_description}")
-        if atLocation == False and inInventory == False:
+        if atLocation == False and inInventory == False: # error handling
             print(f"\nYou can't inspect that.")
 
 def beast(i):
@@ -788,10 +773,11 @@ def beast(i):
     print("\nNow quick, take the branch!")
     print("\n")
     
-    oginventory = []
+    oginventory = [] # saves inventory in case you fail and resatart
     for item in i.items:
         oginventory.append(item)
     
+    # sets initial moves, coordinates
     moves = 20
     print(f"\n{moves} moves left")
     moveslist = ['outta range']
@@ -804,28 +790,28 @@ def beast(i):
     while hello:
         illegal = False
 
-        if command == 'use axe':
+        if command == 'use axe': # use axe to take branch
             if o10 not in i.items:
                 illegal = True
                 print("\nThere is no axe in your inventory!")
-            elif o1 in i.items:
+            elif o1 in i.items: # if you already have the branch
                 illegal = True
                 print("\nYou throw the axe at the beast and it dodges it gracefully. Uh-oh...")
                 i.remove_item(o10)
-            else:
+            else: # if you use the axe to take the branch
                 illegal = True
                 i.remove_item(o10)
                 axed = True
-                print("\nThe axe saves you a lot of time and a branch falls to the ground.") #CHANGE
-                if o1 not in i.items: #CHANGE
-                    i.add_item(o1) #CHANGE #CHANGE(below)
+                print("\nThe axe saves you a lot of time and a branch falls to the ground.")
+                if o1 not in i.items:
+                    i.add_item(o1)
                     print("\nUh-oh. The beast isn't too happy about you taking a branch off the healing tree. I hope you remember the path you took to get here- run!!")
 
         elif command == 'take branch':
             illegal = True
-            if axed == True: #CHANGE (below)
+            if axed == True:
                 print("The branch was added to your inventory when you used the axe.")
-                moves+=1 #CHANGE
+                moves+=1 # so you don't lose a move
                 if o1 not in i.items:
                     i.add_item(o1)
             if axed == False:
@@ -835,20 +821,20 @@ def beast(i):
                     i.add_item(o1)
 
         elif command == 'go north':
-            if coords.y + 1 > 30:
+            if coords.y + 1 > 30: # if you try to go off the edge of the map
                 illegal = True
                 print("\nThe forest grows too dense to get through that direction. Look for a clearing to exit.") 
-            elif (coords.x,coords.y+1) not in locations:
+            elif (coords.x,coords.y+1) not in locations: # if you move into a blocked space
                 illegal = True
                 print("\nThere is a large tree blocking the way! Try going another direction.")
-            elif moveslist[-1] == 'go south':
+            elif moveslist[-1] == 'go south': # takes an extra move to go back the way you came
                 print("\nThe beast is hot on your heels! Going back from where you came takes more time becuase you need to hide from the beast.")
                 moves -= 1
                 coords.y += 1
             else:
                 coords.y += 1
 
-        elif command == 'go east':
+        elif command == 'go east': # similar to north
             if coords.x + 1 > 33:
                 illegal = True
                 print("\nThe forest grows too dense to get through that direction. Look for a clearing to exit.")
@@ -862,7 +848,7 @@ def beast(i):
             else:
                 coords.x += 1
 
-        elif command == 'go south':
+        elif command == 'go south': # similar to north
             if coords.y - 1 < 24:
                 illegal = True
                 print("\nThe forest grows too dense to get through that direction. Look for a clearing to exit.")
@@ -876,7 +862,7 @@ def beast(i):
             else:
                 coords.y -= 1
 
-        elif command == 'go west':
+        elif command == 'go west': #similar to north
             if coords.x - 1 < 27:
                 illegal = True
                 print("\nThe forest grows too dense to get through that direction. Look for a clearing to exit.")
@@ -890,19 +876,19 @@ def beast(i):
             else:
                 coords.x -= 1
 
-        elif command == 'use human food':
+        elif command == 'use human food': # special item
             illegal = True
-            if o2 not in i.items:
+            if o2 not in i.items: # if you don't have it
                 print("\nThere's no human food in your inventory!")
-            elif coords.x == 28 and coords.y == 25:
+            elif coords.x == 28 and coords.y == 25: # you can't use it at the very beginning
                 print("\nYou're still in the clearing with the tree! Only use this valuable resource if you're stuck!")
-            else:
+            else: # if you use it
                 i.remove_item(o2)
                 moves += 4
                 print("\nYou throw the food on the ground at the feet of the beast and it stops to eat- you've temporarily distracted it! Run while you have time!")
 
 
-        elif command == 'use elven plants':
+        elif command == 'use elven plants': # special item
             if o3 not in i.items:
                 illegal = True
                 print("\nThere are no elven plants in your inventory!")
@@ -913,8 +899,8 @@ def beast(i):
                 i.remove_item(o3)
                 moves += 5
                 print("\nYou toss the magical plants behind you and they grow huge in an instant, blocking the path of the beast!")
-                if moveslist[-1] == 'go north':
-                    del locations[(coords.x,coords.y-1)]
+                if moveslist[-1] == 'go north': # this item blocks the the path behind you
+                    del locations[(coords.x,coords.y-1)] # removes space behind you from forest map
                 elif moveslist[-1] == 'go south':
                     del locations[(coords.x,coords.y+1)]
                 elif moveslist[-1] == 'go east':
@@ -930,7 +916,7 @@ def beast(i):
             print()
             moves += 1
 
-        elif 'use ' in command:
+        elif 'use ' in command: # if you try to use another item
             illegal = True
             invent = False
             thing = command.replace('use ', '')
@@ -941,16 +927,16 @@ def beast(i):
             if invent == False:
                 print(f"\nI don't see a '{thing}' in your inventory.")
 
-        else:
+        else: # error handling
             illegal = True
             print("\nYou've entered a command I don't recognize. Please try again.")
             moves += 1
 
         if not illegal:
-            if (coords.x,coords.y) != (28,25):
-                print(locations[(coords.x,coords.y)].message)
+            if (coords.x,coords.y) != (28,25): # if you moved out of the starting location
+                print(locations[(coords.x,coords.y)].message) # print location description
             else:
-                print("\nYou're back at the clearing where you stole the healing tree from!")
+                print("\nYou're back at the clearing where you stole the healing tree from!") # get printed after every few moves
             if moves == 2:
                 print("\nYou see the beast out of the corner of your eye. It's now or never. You can only hope that the exit of the forest is on the other side of those trees.")
             elif moves == 4:
@@ -962,22 +948,22 @@ def beast(i):
             elif moves == 14:
                 print("\nThe beast is moving quick and you know you have limited time to escape the forest. Can you run any faster?")
             
-            moveslist.append(command)
+            moveslist.append(command) # keeping track of what commands you put in
 
-        if moves > 0:
-            moves-=1
+        if moves > 0: # if you have moves left
+            moves-=1 # subtracts a move after every command
         print("\n" + str(moves) + " moves left")
 
-        if moves == 0:
+        if moves == 0: # if you run out of moves
             print("\nThe beast catches you and throws you out of the forest. You collect yourself and look around. You're at the very edge of the forest to the south of the tavern.")
-            return(False, oginventory)
-        elif locations[(coords.x,coords.y)].message == "You find yourself in a small clearing with dense forest all around.":
+            return(False, oginventory) # return values so game can be restarted
+        elif locations[(coords.x,coords.y)].message == "You find yourself in a small clearing with dense forest all around.": # if you get out of the forest
             print("\nYou escaped from the beast.")
             if o1 not in i.items:
                 i.add_item(o1)
             return(True, oginventory)
         else:
-            command = input("\n>>> ").lower()
+            command = input("\n>>> ").lower() # asks for new command
 
 
 
