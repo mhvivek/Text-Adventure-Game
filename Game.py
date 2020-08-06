@@ -8,8 +8,9 @@
 # Character Class
 # a character object represents one version of an in-game character
 # multiple character objects are created for different conversations with an in-game character
+
+
 class Character:
-    
 
     def __init__(self, description, name, one_line_in_quest, one_line_general, conversation, quest):
         self.description = description
@@ -71,10 +72,12 @@ class Character:
 
         if choice != "Leave":  # if you don't end the conversation
             self.char_responds(choice, quests_object, inventory, coords)  # character responds
+
     def char_responds(self, player_choice, quests_object, inventory, coords):
+
         for char_line in self.conversation:
             # print(char_line)
-            if player_choice in self.conversation[char_line]["from"]: #if what the player chooses triggers this line
+            if player_choice in self.conversation[char_line]["from"]:  # if what the player chooses triggers this line
 
                 if "Quest Succeeded" in self.conversation[char_line]["to"]:  # if this completes a quest
                     print(f"\n{char_line}\n\n-----Quest Completed!------")
@@ -123,17 +126,21 @@ class Character:
                     self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory, coords)  # player responds to character
 
 # sets the player's starting coordinates
+
+
 class Coord():
-    
+
     def __init__(self):
         self.x = 9
         self.y = 10
 
 # Quest class
 # handles adding, removing, clearing quests, as well as printing quest information
+
+
 class Quests:
-    
-    def __init__ (self):
+
+    def __init__(self):
         self.quest_info = ""  # description of current quest
         self.current_quest = ""  # starts out like 'Human1' and "+" is added after succeeded important interactions
         self.succeeded = []
@@ -160,6 +167,7 @@ class Quests:
         elif giver_name == "Princess Lyra4":
             self.quest_info = "Get the tree of healing and share it with the Elves."
             self.current_quest = "Final"
+
     def show_quest(self):
         '''prints out quest_info'''
         if 'Human' in self.current_quest or 'Elf' in self.current_quest or "Secret" in self.current_quest or "Final" in self.current_quest:
@@ -197,9 +205,10 @@ class Quests:
         self.quest_info = ""
         self.current_quest = ""
 
+
 # Inventory class
 class Inventory:
-    
+
     def __init__(self):
         self.items = []  # will be a list of item objects
 
@@ -256,30 +265,31 @@ class Item:
 # after each conversation is the instantiation of the corresponding character object
 
 # Initial Conversation with Torma
+
 torma1_conversation = {"Torma: Welcome. How may I help you?": {"from": [""], "to": ["Who are you?", "Who am I?"]},
-                      "Torma: I am Torma, I run this place and guide adventurers.": {"from": ['Who are you?'], "to": ["Where am I?"]},
-                      "Torma: That's for you to answer.": {'from': ["Who am I?"], "to": ["Where am I?"]},
-                      "Torma: You are in my tavern. It's a safe space for all who wish to get away from the dangers of the outside world.": {"from": ["Where am I?"], "to": ["What dangers?"]},
-                      "Torma: You don't know? There's a war between the elves and humans, they've been fighting for generations.": {"from": ["What dangers?"], "to": ["Why are they fighting?"]},
-                      "Torma: No one really knows anymore. At least I don't. They both want to get their hands on a magical tree. I think it's called the healing tree. If you help one of them out, you might be able to end this senseless fighting. The humans are north west of here and the elves are directly east. Keep in mind, the elves are more cunning folk, they will test your skills in a more intense manner than the humans in order to determine your worthiness. Good luck, and remember, you're always welcome back here!": {"from": ["Why are they fighting?"], "to": ["What does the healing tree do?", "Why haven't the humans or elves gotten to the tree?"]},
-                      "Torma: No one knows. Ancient stories say just a branch could instantly heal entire armies.": {"from": ["What does the healing tree do?"], "to": ["*Leave*"]},
-                      "Torma: Nasty rumors of dangerous creatures roaming the forest have kept everyone out for millenia.": {"from": ["Why haven't the humans or elves gotten to the tree?"], "to": ["*Leave*"]}}
+                        "Torma: I am Torma, I run this place and guide adventurers.": {"from": ['Who are you?'], "to": ["Where am I?"]},
+                        "Torma: That's for you to answer.": {'from': ["Who am I?"], "to": ["Where am I?"]},
+                        "Torma: You are in my tavern. It's a safe space for all who wish to get away from the dangers of the outside world.": {"from": ["Where am I?"], "to": ["What dangers?"]},
+                        "Torma: You don't know? There's a war between the elves and humans, they've been fighting for generations.": {"from": ["What dangers?"], "to": ["Why are they fighting?"]},
+                        "Torma: No one really knows anymore. At least I don't. They both want to get their hands on a magical tree. I think it's called the healing tree. If you help one of them out, you might be able to end this senseless fighting. The humans are north west of here and the elves are directly east. Keep in mind, the elves are more cunning folk, they will test your skills in a more intense manner than the humans in order to determine your worthiness. Good luck, and remember, you're always welcome back here!": {"from": ["Why are they fighting?"], "to": ["What does the healing tree do?", "Why haven't the humans or elves gotten to the tree?"]},
+                        "Torma: No one knows. Ancient stories say just a branch could instantly heal entire armies.": {"from": ["What does the healing tree do?"], "to": ["*Leave*"]},
+                        "Torma: Nasty rumors of dangerous creatures roaming the forest have kept everyone out for millenia.": {"from": ["Why haven't the humans or elves gotten to the tree?"], "to": ["*Leave*"]}}
 
 torma1 = Character("You see a dwarf cleaning out a glass behind a long bar. When she notices you, she smiles and waves you over.", "Torma1", "Welcome back.", "Welcome back.", torma1_conversation, "All")
 
 # This is the first conversation in human quest 1
 commander_conversation = {"Commander Cedric: Hello. Who are you and what is your purpose?": {"from": [""], "to": ["I am Rowan and I am looking for the tree of healing."]},
-               "Commander Cedric: As are we. We have some information on it, but first, you must prove to us that you are worthy.": {"from": ["I am Rowan and I am looking for the tree of healing."], "to": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?", "If you have some information about the tree of healing, why don't you get it yourself?"]},
-               "Commander Cedric: Because it grows in the heart of the forest.": {"from": ["If you have some information about the tree of healing, why don't you get it yourself?"],"to": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"]},
-               "Commander Cedric: First you must help us. Someone has been stealing from our stockpile of food and supplies. Find them and talk to them.": {"from": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"],"to": ["Quest Obtained"]}}
+                 "Commander Cedric: As are we. We have some information on it, but first, you must prove to us that you are worthy.": {"from": ["I am Rowan and I am looking for the tree of healing."], "to": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?", "If you have some information about the tree of healing, why don't you get it yourself?"]},
+                 "Commander Cedric: Because it grows in the heart of the forest.": {"from": ["If you have some information about the tree of healing, why don't you get it yourself?"],"to": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"]},
+                 "Commander Cedric: First you must help us. Someone has been stealing from our stockpile of food and supplies. Find them and talk to them.": {"from": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"],"to": ["Quest Obtained"]}}
 
 commander = Character("Commander Cedric is a gruff man that commands respect. He has a uniform covered in medals commemorating his various achievements.", "Commander Cedric1", "If they aren't working, then they're most likely in the barracks.", "What do you want, elf sympathizer?", commander_conversation, "No Human")
 
 # This is the second conversation in human quest 1
-fighters_conversation = {"Marco: Traitor! I'll tell Commander Cedric!\nRay: It was you. YOU. I saw you do it. And if you tell the Commander, I'm going to leave.": {"from": [""], "to": ["Hello?"]},
-                        "They stop fighting.\n\nMarco and Ray: We were just talking.": {"from": ["Hello?"], "to": ["About what?", "Do either of you know who stole from the stockpile?", "When was the food last seen?"]},
+fighters_conversation = {"Marco: Traitor! I'll tell Commander Cedric!\nRay: It was you. YOU. I saw you do it. And if you tell the Commander, I'm going to leave.": {"from": [""], "to": ["Hello?"]}, 
+                        "They stop fighting.\n\nMarco and Ray: We were just talking.": {"from": ["Hello?"], "to": ["About what?", "Do either of you know who stole from the stockpile?", "When was the food last seen?"]},                        
                         "Marco and Ray: Nothing.": {"from":["About what?"], "to": ["See, the thing is, I think it was one of you who stole from the stockpile.", "I'm going to tell Commander Cedric that it was one of you who stole from the stockpile."]},
-                        "The soldiers share a look and then run off in opposite directions." : {"from": ["I'm going to tell Commander Cedric that it was one of you who stole from the stockpile."], "to": ["Quest Failed"]},
+                        "The soldiers share a look and then run off in opposite directions.": {"from": ["I'm going to tell Commander Cedric that it was one of you who stole from the stockpile."], "to": ["Quest Failed"]},
                         "Marco and Ray: He did!\nMarco: I did not!\nRay: Well neither did I!": {"from": ["Do either of you know who stole from the stockpile?", "See, the thing is, I think it was one of you who stole from the stockpile."], "to": ["Do you have any evidence against each other?"]},
                         "Marco: No, but he was a guard on duty right before it was stolen\nRay: The food was there when I left, I can prove it. Another guard logged that it was all there. I heard a weird noise at the shift change, but I decided against checking what it was.\nMarco: That's a lie. He stole the food and forged the logs.": {"from": ["Do you have any evidence against each other?"], "to": ["Do you know who would have more information?", "He did it. *point at Ray*"]},
                         "Ray: Last night, right before the shift change. I thought I heard a strange noise, gut it was late and I wanted to go to bed.\nMarco: That's a lie. He stole the food and forged the logs.": {"from": ["When was the food last seen?"], "to": ["Do you know who would have more information?", "He did it. *point at Ray*"]},
@@ -289,170 +299,170 @@ fighters_conversation = {"Marco: Traitor! I'll tell Commander Cedric!\nRay: It w
 fighters = Character("Marco and Ray are two soldiers that are both wearing simple uniforms. They are too focused on their heated argument to notice you entered the barracks.", "Marco and Ray1", "What? You came back for directions? Find her yourself.", "Leave us alone.", fighters_conversation, "Human1+")
 
 #How you get human quest 2
-torma2_conversation = {"Torma: I'm so glad to see you again!":{"from":[""], "to":["What do you know about the missing supplies from the human camp?"]},
-                      "Torma: Everything, I saw it happen. A human named Tristan came into the warehouse during shift change and took everything he could carry. He's a warehouse guard so he's probably on duty right now. Make sure to catch him before shift change. You'll know him by the bright green shirt he always wears. Talk to him and then to the Commander. Oh... one more thing. Please be good to him. I know he has a good heart.":{"from":["What do you know about the missing supplies from the human camp?"], "to":["Quest Obtained"]}}
+torma2_conversation = {"Torma: I'm so glad to see you again!": {"from": [""], "to": ["What do you know about the missing supplies from the human camp?"]},
+                      "Torma: Everything, I saw it happen. A human named Tristan came into the warehouse during shift change and took everything he could carry. He's a warehouse guard so he's probably on duty right now. Make sure to catch him before shift change. You'll know him by the bright green shirt he always wears. Talk to him and then to the Commander. Oh... one more thing. Please be good to him. I know he has a good heart.": {"from": ["What do you know about the missing supplies from the human camp?"], "to": ["Quest Obtained"]}}
 
 torma2 = Character("Torma beams at you, as if she hasn't seen another adventurer in decades.", "Torma2", "Hello, again!", "Hello, again!", torma2_conversation, "Human1++s")
 
 #Talk to Tristan
-tristan_conversation = {"Tristan: I'm busy.":{"from":[""], "to":["Are you Tristan?"]},
-                       "Tristan: What do you want? Did Cedric send you?":{"from":["Are you Tristan?"], "to":["Yes he did. I just want to help you.", "That doesn't matter. I want you to return what's not yours.", "I want to take you to the commander to face punishment."]},
-                       "Tristan: Why would you want to help me?":{"from":["Yes he did. I just want to help you."], "to":["I think we can come to a fair solution for everyone. You just need to return the supplies.", "One bad choice doesn't mean you're a bad person.", "You've done something wrong and the only way to help you is to make you pay for you crimes."]},
-                       "Tristan: I'm not sure I can come back from this.":{"from":["One bad choice doesn't mean you're a bad person."], "to":["You can and will. Go clear things up with Commander Cedric.", "You need to accept punishment for you actions."]},
-                       "Tristan: I can't. I need the supplies for my family.":{'from':["I think we can come to a fair solution for everyone. You just need to return the supplies.", "That doesn't matter. I want you to return what's not yours."], "to":["The others need these supplies too, it's wrong for you to take them without forethought.", "Why didn't you talk to the commander first?", "No matter, you need to be punished."]},
-                       "Tristan: Please, I'll do anything. I just need the supplies for my family.":{"from":["I want to take you to the commander to face punishment."], "to":["The others need these supplies too, it's wrong for you to take them without forethought.", "Why didn't you talk to the commander first?", "No matter, you need to be punished."]},
-                       "Tristan: I was so afraid he wouldn't agree.":{"from":["The others need these supplies too, it's wrong for you to take them without forethought.", "Why didn't you talk to the commander first?"], "to":["Return the supplies and go talk to him.", "He might not, but that's his choice to make, not yours. Talk to him."]},
-                       "Tristan: Okay, I will. Thank you.\n\nTristan leaves, walking the slightest bit more confidently.":{"from":["Return the supplies and go talk to him.", "You can and will. Go clear things up with Commander Cedric."], "to":["Quest Succeeded"]},
-                       "Tristan takes your leave.":{"from":["He might not, but that's his choice to make, not yours. Talk to him."], "to":["Quest Succeeded"]},
-                       "Tristan: I can't leave my family. I'm sorry, I just can't.\n\nTristan runs away, careful not to look back.":{"from":["No matter, you need to be punished.", "You've done something wrong and the only way to help you is to make you pay for you crimes.", "You need to accept punishment for your actions."], "to":["Quest Failed"]}}
+tristan_conversation = {"Tristan: I'm busy.": {"from": [""], "to": ["Are you Tristan?"]},
+                       "Tristan: What do you want? Did Cedric send you?": {"from": ["Are you Tristan?"], "to": ["Yes he did. I just want to help you.", "That doesn't matter. I want you to return what's not yours.", "I want to take you to the commander to face punishment."]},
+                       "Tristan: Why would you want to help me?": {"from": ["Yes he did. I just want to help you."], "to": ["I think we can come to a fair solution for everyone. You just need to return the supplies.", "One bad choice doesn't mean you're a bad person.", "You've done something wrong and the only way to help you is to make you pay for you crimes."]},
+                       "Tristan: I'm not sure I can come back from this.": {"from": ["One bad choice doesn't mean you're a bad person."], "to": ["You can and will. Go clear things up with Commander Cedric.", "You need to accept punishment for you actions."]},
+                       "Tristan: I can't. I need the supplies for my family.": {'from':["I think we can come to a fair solution for everyone. You just need to return the supplies.", "That doesn't matter. I want you to return what's not yours."], "to": ["The others need these supplies too, it's wrong for you to take them without forethought.", "Why didn't you talk to the commander first?", "No matter, you need to be punished."]},
+                       "Tristan: Please, I'll do anything. I just need the supplies for my family.": {"from": ["I want to take you to the commander to face punishment."], "to": ["The others need these supplies too, it's wrong for you to take them without forethought.", "Why didn't you talk to the commander first?", "No matter, you need to be punished."]},
+                       "Tristan: I was so afraid he wouldn't agree.":{"from":["The others need these supplies too, it's wrong for you to take them without forethought.", "Why didn't you talk to the commander first?"], "to": ["Return the supplies and go talk to him.", "He might not, but that's his choice to make, not yours. Talk to him."]},
+                       "Tristan: Okay, I will. Thank you.\n\nTristan leaves, walking the slightest bit more confidently.": {"from": ["Return the supplies and go talk to him.", "You can and will. Go clear things up with Commander Cedric."], "to": ["Quest Succeeded"]},
+                       "Tristan takes your leave.": {"from": ["He might not, but that's his choice to make, not yours. Talk to him."], "to": ["Quest Succeeded"]},
+                       "Tristan: I can't leave my family. I'm sorry, I just can't.\n\nTristan runs away, careful not to look back.": {"from": ["No matter, you need to be punished.", "You've done something wrong and the only way to help you is to make you pay for you crimes.", "You need to accept punishment for your actions."], "to":["Quest Failed"]}}
 
 tristan = Character("Tristan is skinny man with bright red hair. He has a bright green shirt on.", "Tristan1", "I'm busy.", "I'm busy.", tristan_conversation, "Human2+")
 
 #Elf quest 1
 #first conversation
-elf1_conversation = {"Elf: Hello. Who are you? I haven't seen you around here before.":{"from":[""], "to":["I'm looking for the tree of healing. Where is your leader? I need to talk to them."]},
-                    "Elf: No, no. You don't need to talk to her. You need to talk to me. I know everything about the tree. I have dedicated my life to it.":{"from":["I'm looking for the tree of healing. Where is your leader? I need to talk to them."], "to":["And why should I believe you?", "Please, tell me everything!", "First I have a couple questions. If you know so much about this tree, why haven't you gotten a leaf yourself?"]},
-                    "Elf: Because I am telling the truth.":{"from":["And why should I believe you?"], "to":["Get lost.", "Let's hear it."]},
-                    "Elf: Suit yourself.\n\nThe elf walks away.\n\n-----You may no longer take Elf quests-----":{"from":["Get lost."], "to":["*Leave*"]},
-                    "Elf: You think you're trying to be sneaky, don't you?":{"from":["First I have a couple questions. If you know so much about this tree, why haven't you gotten a leaf yourself?"], "to":["I'm not sure if I understand."]},
-                    "Elf: Everything comes with a price. Lately, the plants in our garden have started dying unexpectedly, one second normal, the next yellow and shriveled. Find a cure and the information is yours. Take a look at the plants and then report back to me.":{"from":["I'm not sure if I understand.", "Let's hear it.", "Please, tell me everything!"], "to":["Quest Obtained"]}}
+elf1_conversation = {"Elf: Hello. Who are you? I haven't seen you around here before.": {"from": [""], "to": ["I'm looking for the tree of healing. Where is your leader? I need to talk to them."]},
+                    "Elf: No, no. You don't need to talk to her. You need to talk to me. I know everything about the tree. I have dedicated my life to it.": {"from": ["I'm looking for the tree of healing. Where is your leader? I need to talk to them."], "to": ["And why should I believe you?", "Please, tell me everything!", "First I have a couple questions. If you know so much about this tree, why haven't you gotten a leaf yourself?"]},
+                    "Elf: Because I am telling the truth.": {"from": ["And why should I believe you?"], "to": ["Get lost.", "Let's hear it."]},
+                    "Elf: Suit yourself.\n\nThe elf walks away.\n\n-----You may no longer take Elf quests-----": {"from": ["Get lost."], "to": ["*Leave*"]},
+                    "Elf: You think you're trying to be sneaky, don't you?": {"from": ["First I have a couple questions. If you know so much about this tree, why haven't you gotten a leaf yourself?"], "to": ["I'm not sure if I understand."]},
+                    "Elf: Everything comes with a price. Lately, the plants in our garden have started dying unexpectedly, one second normal, the next yellow and shriveled. Find a cure and the information is yours. Take a look at the plants and then report back to me.": {"from": ["I'm not sure if I understand.", "Let's hear it.", "Please, tell me everything!"], "to": ["Quest Obtained"]}}
 
 
 elf1 = Character("The elf is a tall woman in common clothes. She seems slightly peculiar, but you can't but your finger on why.", "Elf1", "The garden is a place of magic. So beautiful.", "What do you want, human sympathizer?", elf1_conversation, "No Elf")
 
 
 #second conversation
-elf2_conversation = {"Elf: You're back so soon?":{"from":[""], "to":["The plants have been poisoned. Who could make an antidote?", "There were these weird orange markings near the base. Do you know what they could be?"]},
-                    "Elf: Poisoned? Poisoned… The herbalist. She has a hut by the river. She should be able to fix up an antidote, afterwards, return to me.":{"from":["The plants have been poisoned. Who could make an antidote?"], "to":["Quest Updated"]},
-                    "Elf: Orange marks… no… it couldn't be… but what if it is? It's from the Legend. It is a disease that was given as punishment to us elves for deception. It sucks magic out of your body. Ooooh...it's terrible. Go to the herbalist. She lives in a hut by the river. She should be able to fix up an antidote, afterwards, return to me.":{"from":["There were these weird orange markings near the base. Do you know what they could be?"], "to":["Quest Updated"]}}
+elf2_conversation = {"Elf: You're back so soon?": {"from": [""], "to": ["The plants have been poisoned. Who could make an antidote?", "There were these weird orange markings near the base. Do you know what they could be?"]},
+                    "Elf: Poisoned? Poisoned… The herbalist. She has a hut by the river. She should be able to fix up an antidote, afterwards, return to me.": {"from": ["The plants have been poisoned. Who could make an antidote?"], "to": ["Quest Updated"]},
+                    "Elf: Orange marks… no… it couldn't be… but what if it is? It's from the Legend. It is a disease that was given as punishment to us elves for deception. It sucks magic out of your body. Ooooh...it's terrible. Go to the herbalist. She lives in a hut by the river. She should be able to fix up an antidote, afterwards, return to me.": {"from": ["There were these weird orange markings near the base. Do you know what they could be?"], "to": ["Quest Updated"]}}
 
 elf2 = Character("The elf rushes toward you.", "Elf2", "The garden is a place of magic. So beautiful.", "Why would I talk to you again?", elf2_conversation, "Elf1++")
 
 
 #first conversation with the herbalist
-herbalist1_conversation = {"Herbalist: What do you need?":{"from":[""], "to":["It's the elven plants. They're all dying. There's some orange web-like things that are poisoning them."]},
-                          "Herbalist: I knew it would happen, the Cleansing. The vital ingredient for the antidote, Elven Roots, grow underground. They grow only in the alpine regions and only Greary Bugs can detect them. There should be some bugs on the river bank -- you just need to catch them. Bring the root back to me so that I can make the antidote. Run, before you are the next victim!":{"from":["It's the elven plants. They're all dying. There's some orange web-like things that are poisoning them."], "to":["Quest Updated"]}}
+herbalist1_conversation = {"Herbalist: What do you need?": {"from": [""], "to": ["It's the elven plants. They're all dying. There's some orange web-like things that are poisoning them."]},
+                          "Herbalist: I knew it would happen, the Cleansing. The vital ingredient for the antidote, Elven Roots, grow underground. They grow only in the alpine regions and only Greary Bugs can detect them. There should be some bugs on the river bank -- you just need to catch them. Bring the root back to me so that I can make the antidote. Run, before you are the next victim!": {"from": ["It's the elven plants. They're all dying. There's some orange web-like things that are poisoning them."], "to": ["Quest Updated"]}}
 
 herbalist1 = Character("The herbalist is hunched over and walks with a wooden cane. She has friendly eyes and a welcoming smile.", "Herbalist1", "You must have lost your way. There's nothing interesting here.", "You must have lost your way. There's nothing interesting here.", herbalist1_conversation, "Elf1+++")
 
 
 #second conversation with the herbalist
-herbalist2_conversation = {"Herbalist: Did you find it? Bring it here.":{"from":["Elven Root"], "to":["Yes. Here it is. (Give Elven Roots)"]},
-                          "Herbalist: Fly back to the elves, and warn them that the end is coming.":{"from":["Yes. Here it is. (Give Elven Roots)"], "to":["Quest Updated"]}}
+herbalist2_conversation = {"Herbalist: Did you find it? Bring it here.": {"from": ["Elven Root"], "to": ["Yes. Here it is. (Give Elven Roots)"]},
+                          "Herbalist: Fly back to the elves, and warn them that the end is coming.": {"from": ["Yes. Here it is. (Give Elven Roots)"], "to": ["Quest Updated"]}}
 
 herbalist2 = Character("The Herbalist is busy preparing something, but when she sees you, she stops her work.", "Herbalist2", "Go! Get the bugs and then the roots before the Cleansing arrives!", "The Cleansing has arrived!", herbalist2_conversation, "Elf1++++++")
 
 
 #when you return to the elf
-elf3_conversation = {"Elf: Ah...you're back.":{"from":[""], "to":["Yes, here is the antidote. Now what do you know about the tree?"]},
-                    "Elf: I really did think you were smarter, you know. I know nothing of it, of course. You need to embrace the game! Play me!":{"from":["Yes, here is the antidote. Now what do you know about the tree?"], "to":["I'm leaving now.", "No need to. I know you're lying."]},
-                    "As you leave, the elf begins to laugh.":{"from":["I'm leaving now."], "to":["Quest Failed"]},
-                    "Elf: Not a believer, I see. Well, I do know who knows about this tree.":{"from":["No need to. I know you're lying."], "to":["Who?"]},
-                    "Elf: The Princess Lyra.":{"from":["Who?"], "to":["How do I get to her?"]},
-                    "Elf: She resides in the Tower, but you should be able to talk to her from out here.":{"from":["How do I get to her?"], "to":["Quest Succeeded"]}}
+elf3_conversation = {"Elf: Ah...you're back.": {"from": [""], "to": ["Yes, here is the antidote. Now what do you know about the tree?"]},
+                    "Elf: I really did think you were smarter, you know. I know nothing of it, of course. You need to embrace the game! Play me!": {"from": ["Yes, here is the antidote. Now what do you know about the tree?"], "to": ["I'm leaving now.", "No need to. I know you're lying."]},
+                    "As you leave, the elf begins to laugh.": {"from": ["I'm leaving now."], "to": ["Quest Failed"]},
+                    "Elf: Not a believer, I see. Well, I do know who knows about this tree.": {"from": ["No need to. I know you're lying."], "to": ["Who?"]},
+                    "Elf: The Princess Lyra.": {"from": ["Who?"], "to": ["How do I get to her?"]},
+                    "Elf: She resides in the Tower, but you should be able to talk to her from out here.": {"from": ["How do I get to her?"], "to": ["Quest Succeeded"]}}
 
 elf3 = Character("At the sound of your voice, the elf comes toward you.", "Elf3", "Have you talked to the Herbalist?", "You are nowhere near worthy of my time. Leave.", elf3_conversation, "Elf1+++++++")
 
 #Elf quest 2
 #when you first meet the princess
-princess1_conversation = {"Princess Lyra: It's a pleasure to formally meet you. What should I call you?": {"from":[""], "to":["You can call me Rowan, Princess.","Why should I tell you, after you lied about your identity?"]},
-                         "Princess Lyra: And you can call me Lyra, Princess of the southern elves. Now, I have information on the tree of healing... but first I need your help with something else.":{"from":["You can call me Rowan, Princess."], "to":["And what would that be?", "I've had enough of your deception. Give me the information."]},
-                         "Princess Lyra: You've earned my trust. That doesn't mean I have to have yours. I will give you the information, with or without your name. I also must request your help again.":{"from":["Why should I tell you, after you lied about your identity?"], "to":["And what would that be?", "I've had enough of your deception. Give me the information."]},
-                         "Princess Lyra: Of course. Rumor has it that the forest is a maze of trees. You will have to remember your exact path if you want a chance of getting back out. Are you sure you don't want to help me? I have something which you will need if you want to venture into the forest.":{"from":"I've had enough of your deception. Give me the information.", "to":["I don't need your help, so you won't get mine.", "Actually, what do you need?"]},
-                         "Princess Lyra: Overconfidence leads to arrogance. Arrogance leads to failure. Goodbye.\n\nThe princess strides away.\n\n-----You may no longer take Elf quests-----":{"from":["I don't need your help, so you won't get mine."], "to":["*Leave*"]},
-                         "Princess Lyra: A terrible tragedy has occurred, someone has stolen my rose plant.":{"from":["Actually, what do you need?"], "to":["What's so important about a silly plant?", "So you just want me to get the rose back to you?"]},
-                         "Princess Lyra: First, your information. Rumor has it that the forest is a maze of trees. You will have to remember your exact path if you want a chance of getting back out. All I ask of you is the safe return of my rose plant, which some foolish being has swiped.":{"from":["And what would that be?"], "to":["What's so important about a silly plant?", "So you just want me to get the rose back to you?"]},
-                         "Princess Lyra: That 'silly plant' is the source of all my magic, without it I have no way to protect my people. I need you to find out who did it and get it back to me. The suspects are my personal Royal Guard, my brother Prince Aywin, and a measly Human Scout that we caught wandering the camp earlier this morning. Talk to them and then tell me your verdict.":{"from":["What's so important about a silly plant?"], "to":["Quest Obtained"]},
-                         "Princess Lyra: I need you to find out who stole the plant. Then find the plant and bring it back to me. The suspects are my Royal Guard, my brother Prince Aywin, and a measly Human Scout that we caught wandering the camp earlier this morning. Talk to them and then tell me your verdict.":{"from":["So you just want me to get the rose back to you?"], "to":["Quest Obtained"]}}
+princess1_conversation = {"Princess Lyra: It's a pleasure to formally meet you. What should I call you?": {"from": [""], "to": ["You can call me Rowan, Princess.","Why should I tell you, after you lied about your identity?"]},
+                         "Princess Lyra: And you can call me Lyra, Princess of the southern elves. Now, I have information on the tree of healing... but first I need your help with something else.": {"from": ["You can call me Rowan, Princess."], "to": ["And what would that be?", "I've had enough of your deception. Give me the information."]},
+                         "Princess Lyra: You've earned my trust. That doesn't mean I have to have yours. I will give you the information, with or without your name. I also must request your help again.": {"from": ["Why should I tell you, after you lied about your identity?"], "to": ["And what would that be?", "I've had enough of your deception. Give me the information."]},
+                         "Princess Lyra: Of course. Rumor has it that the forest is a maze of trees. You will have to remember your exact path if you want a chance of getting back out. Are you sure you don't want to help me? I have something which you will need if you want to venture into the forest.": {"from": ["I've had enough of your deception. Give me the information."], "to": ["I don't need your help, so you won't get mine.", "Actually, what do you need?"]},
+                         "Princess Lyra: Overconfidence leads to arrogance. Arrogance leads to failure. Goodbye.\n\nThe princess strides away.\n\n-----You may no longer take Elf quests-----": {"from": ["I don't need your help, so you won't get mine."], "to": ["*Leave*"]},
+                         "Princess Lyra: A terrible tragedy has occurred, someone has stolen my rose plant.": {"from": ["Actually, what do you need?"], "to": ["What's so important about a silly plant?", "So you just want me to get the rose back to you?"]},
+                         "Princess Lyra: First, your information. Rumor has it that the forest is a maze of trees. You will have to remember your exact path if you want a chance of getting back out. All I ask of you is the safe return of my rose plant, which some foolish being has swiped.": {"from": ["And what would that be?"], "to": ["What's so important about a silly plant?", "So you just want me to get the rose back to you?"]},
+                         "Princess Lyra: That 'silly plant' is the source of all my magic, without it I have no way to protect my people. I need you to find out who did it and get it back to me. The suspects are my personal Royal Guard, my brother Prince Aywin, and a measly Human Scout that we caught wandering the camp earlier this morning. Talk to them and then tell me your verdict.": {"from": ["What's so important about a silly plant?"], "to": ["Quest Obtained"]},
+                         "Princess Lyra: I need you to find out who stole the plant. Then find the plant and bring it back to me. The suspects are my Royal Guard, my brother Prince Aywin, and a measly Human Scout that we caught wandering the camp earlier this morning. Talk to them and then tell me your verdict.": {"from": ["So you just want me to get the rose back to you?"], "to": ["Quest Obtained"]}}
 
 princess1 = Character("The Princess beckons you inside of the tower. She looks oddly similar to the elf which you talked to earlier. You ascend a flight of stairs to a room with elaborate decoration.", "Princess Lyra1", "Go. Work.", "I'm a bit busy. Let's talk later.", princess1_conversation, "Elf1++++++++s")
 #Elf1++++++++s
 
 #Question the Prince
-prince_conversation = {"Prince Aywin: Hello.":{"from":[""], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?"]},
-                      "Prince Aywin: I was in my quarters, obviously. Every single night I retire to my quarters immediately after supper. Lyra must have had another one of her nightmares; I woke up to her shouting at some point in the middle of the night. She was peacefully asleep after a few minutes though.":{"from":["Where were you last night?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                      "Prince Aywin: Of course I do, she's my sister. I go in there all the time to get the stuff she took from me.":{"from":["Do you have access to the Princesses room?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                      "Prince Aywin: I saw the guard searching in the warehouse while I was on my daily walk. I think she might have a lead as to where it is.":{"from":["Do you know where the plant could be?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                      "Prince Aywin: I think it was the human. Why else would she be in the encampment. It can't be a coincidence. Lyra's guard on the other hand, is her most trusted advisor and we've known her since we were kids. There's no way she would ever do anything to hurt us.":{"from":["Do you have any evidence against the other two?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                      "Prince Aywin turns away.":{"from":["Farewell"], "to":["Quest Updated"]}}
+prince_conversation = {"Prince Aywin: Hello.": {"from": [""], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?"]},
+                      "Prince Aywin: I was in my quarters, obviously. Every single night I retire to my quarters immediately after supper. Lyra must have had another one of her nightmares; I woke up to her shouting at some point in the middle of the night. She was peacefully asleep after a few minutes though.": {"from": ["Where were you last night?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                      "Prince Aywin: Of course I do, she's my sister. I go in there all the time to get the stuff she took from me.": {"from": ["Do you have access to the Princesses room?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                      "Prince Aywin: I saw the guard searching in the warehouse while I was on my daily walk. I think she might have a lead as to where it is.": {"from": ["Do you know where the plant could be?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                      "Prince Aywin: I think it was the human. Why else would she be in the encampment. It can't be a coincidence. Lyra's guard on the other hand, is her most trusted advisor and we've known her since we were kids. There's no way she would ever do anything to hurt us.": {"from": ["Do you have any evidence against the other two?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                      "Prince Aywin turns away.": {"from": ["Farewell"], "to": ["Quest Updated"]}}
 
 prince1 = Character("Prince Aywin looks almost exactly like Princess Lyra. He is slightly taller than her with significantly darker eyes.", "Prince Aywin1", "Please find out who did this.", "We'll find who did this, with or without you", prince_conversation, "Elf2+")
 
 #Question the guard
-guard_conversation = {"Royal Guard: Fire away.":{"from":[""], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?"]},
-                     "Royal Guard: I was with the princess like always. She went to bed not long after dark, it was a very uneventful night. I almost fell asleep in the middle of the night. I didn't hear anyone enter her quarters. The thief must have come in while we were at breakfast.":{"from":["Where were you last night?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "Royal Guard: Yes, I do. Anywhere Lyra goes, I go. No one came into the room while we were there.":{"from":["Do you have access to the Princesses room?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "Royal Guard: Yes and no. Aywin's guard didn't notice him moving around last night so he couldn't have done it. The human scum was found just before breakfast. The princess didn't notice her Rose was missing until we returned for her to get ready to meet with the human commander. Of course we cancelled the meeting immediately. Anyway, I think the human did it.":{"from":["Do you have any evidence against the other two?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "Royal Guard: I have no idea. The human probably would know.":{"from":["Do you know where the plant could be?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "The Royal Guard turns away.":{"from":["Farewell"], "to":["Quest Updated"]}}
+guard_conversation = {"Royal Guard: Fire away.": {"from": [""], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?"]},
+                     "Royal Guard: I was with the princess like always. She went to bed not long after dark, it was a very uneventful night. I almost fell asleep in the middle of the night. I didn't hear anyone enter her quarters. The thief must have come in while we were at breakfast.": {"from": ["Where were you last night?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "Royal Guard: Yes, I do. Anywhere Lyra goes, I go. No one came into the room while we were there.": {"from": ["Do you have access to the Princesses room?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "Royal Guard: Yes and no. Aywin's guard didn't notice him moving around last night so he couldn't have done it. The human scum was found just before breakfast. The princess didn't notice her Rose was missing until we returned for her to get ready to meet with the human commander. Of course we cancelled the meeting immediately. Anyway, I think the human did it.": {"from": ["Do you have any evidence against the other two?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "Royal Guard: I have no idea. The human probably would know.": {"from": ["Do you know where the plant could be?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "The Royal Guard turns away.": {"from": ["Farewell"], "to": ["Quest Updated"]}}
 
 guard1 = Character("The Royal Guard wears silver armour and wields a broad sword and has her hair in a loose braid.", "Royal Guard1", "At your service.", "Of course you weren't up to a task only fit for a true elf.", guard_conversation, "Elf2++")
 
 #Question the human
-scout_conversation = {"Human Scout: I promise you I didn't do anything.":{"from":[""], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?"]},
-                     "Human Scout: I was in the warehouse. I thought the elves had stolen our supplies and I was going to be a hero by getting them back.":{"from":["Where were you last night?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "Human Scout: How would I? I don't even know who the princess is or why I'm here. Are they going to hurt me? I swear I didn't do anything wrong.":{"from":["Do you have access to the Princesses room?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "Human Scout: Actually the opposite, I may not completely know what's happening but I've heard the two of them speaking all morning. The one in fancy clothes talks tough but he is very worried about the Princess, I don't think he would ever do anything to hurt her.":{"from":["Do you have any evidence against the other two?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "Human Scout: I think I heard someone rifling around in the warehouse while I was there last night. I was hiding in behind some crates so I didn't see who it was.":{"from":["Do you know where the plant could be?"], "to":["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
-                     "The Human turns away.":{"from":["Farewell"], "to":["Quest Updated"]}}
+scout_conversation = {"Human Scout: I promise you I didn't do anything.": {"from": [""], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?"]},
+                     "Human Scout: I was in the warehouse. I thought the elves had stolen our supplies and I was going to be a hero by getting them back.": {"from": ["Where were you last night?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "Human Scout: How would I? I don't even know who the princess is or why I'm here. Are they going to hurt me? I swear I didn't do anything wrong.": {"from": ["Do you have access to the Princesses room?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "Human Scout: Actually the opposite, I may not completely know what's happening but I've heard the two of them speaking all morning. The one in fancy clothes talks tough but he is very worried about the Princess, I don't think he would ever do anything to hurt her.": {"from": ["Do you have any evidence against the other two?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "Human Scout: I think I heard someone rifling around in the warehouse while I was there last night. I was hiding in behind some crates so I didn't see who it was.": {"from": ["Do you know where the plant could be?"], "to": ["Where were you last night?", "Do you have access to the Princesses room?", "Do you have any evidence against the other two?", "Do you know where the plant could be?", "Farewell"]},
+                     "The Human turns away.": {"from": ["Farewell"], "to": ["Quest Updated"]}}
 
 scout = Character("The Human stands out among the elves, with tanner skin, smaller ears, and a shorter stature.", "Human Scout1", "I promise I didn't to this. I swear.", "Why didn't you prove my innocence?", scout_conversation, "Elf2+++")
 
 #Accusation time
-accusation_conversation = {"Princess Lyra: What is your verdict?": {"from":[""], "to":["It was Prince Aywin.", "It was your Royal Guard.", "It was the human.", "I don't know yet."]},
-                          "Princess Lyra: I don't believe you.\n\nPrince Aywin: Becuase it's not true. I would never hurt my sister. You're crazy!":{"from":["It was Prince Aywin."], "to":["Quest Failed"]},
-                          "Royal Guard: She doesn't deserve the magic, I do! With her in charge, we have no chance of winning this war! I'm the one with training in fighting and she's just a child. I should be the one leading this army.\nPrincess Lyra: My own guard? How could it be my own guard? Please find the rose and bring it back to me.":{"from":["It was your Royal Guard."], "to":["Quest Updated"]},
-                          "Human Scout: No no, I didn't do it. I- I just wanted to help my people.\n\nPrincess Lyra: I'm not buying that, but I see no way that this scrawny, incomptent -- thing -- could be capable of stealing such powerful magic.":{"from":["It was the human."], "to":["Quest Failed"]},
-                          "Well then, get to work!":{"from":["I don't know yet."], "to":["*Leave*"]}}
+accusation_conversation = {"Princess Lyra: What is your verdict?": {"from": [""], "to": ["It was Prince Aywin.", "It was your Royal Guard.", "It was the human.", "I don't know yet."]},
+                          "Princess Lyra: I don't believe you.\n\nPrince Aywin: Becuase it's not true. I would never hurt my sister. You're crazy!": {"from": ["It was Prince Aywin."], "to": ["Quest Failed"]},
+                          "Royal Guard: She doesn't deserve the magic, I do! With her in charge, we have no chance of winning this war! I'm the one with training in fighting and she's just a child. I should be the one leading this army.\nPrincess Lyra: My own guard? How could it be my own guard? Please find the rose and bring it back to me.": {"from": ["It was your Royal Guard."], "to": ["Quest Updated"]},
+                          "Human Scout: No no, I didn't do it. I- I just wanted to help my people.\n\nPrincess Lyra: I'm not buying that, but I see no way that this scrawny, incomptent -- thing -- could be capable of stealing such powerful magic.": {"from": ["It was the human."], "to": ["Quest Failed"]},
+                          "Well then, get to work!": {"from": ["I don't know yet."], "to": ["*Leave*"]}}
 
 accusation1 = Character("You can almost hear the buzz of tension.", "Princess Lyra2", "Who did it?", "You are no help at all. Leave my sight.", accusation_conversation, "Elf2++++")
 
                               
 #After you find the rose for the princess
-princess2_conversation = {"Princess Lyra: Did you find my rose?": {"from":["Rose"], "to":["Yes (Give Rose)", "No."]},
-                         "Princess Lyra: I will forever be in your debt. If you would be willing to, talk to me again later so we can plan how to get a branch from the healing tree.":{"from":["Yes (Give Rose)"], "to":["Quest Succeeded"]},
-                         "Princess Lyra: Keep looking. It can't be far.":{"from":["No."], "to":["*Leave*"]}}
+princess2_conversation = {"Princess Lyra: Did you find my rose?": {"from": ["Rose"], "to": ["Yes (Give Rose)", "No."]},
+                         "Princess Lyra: I will forever be in your debt. If you would be willing to, talk to me again later so we can plan how to get a branch from the healing tree.": {"from": ["Yes (Give Rose)"], "to": ["Quest Succeeded"]},
+                         "Princess Lyra: Keep looking. It can't be far.": {"from": ["No."], "to": ["*Leave*"]}}
 
 princess2 = Character("You can plainly see the Princesses excitement in her face.", "Princess Lyra3", "Please find my rose.", "I can't believe my guard would do this to me, but I still don't have my rose. I'll be sending out search parties to track it down.", princess2_conversation, "Elf2+++++")
 
 #recieving the final quest from the princess
-princess3_conversation = {"Princess Lyra: I can not thank you enough for returning my magic to me. With this, I can say without a doubt that you are a trustworthy individual. Would you be willing to retrieve the healing tree for the elven army? Us elves will be able to experiment with new types of magic!":{"from":[""], "to":["Absolutely.", "I can't. Not now."]},
-                         "Princess Lyra: Thank the Earth. We elves will forever be in your debt. Would you like some guidance for the journey?":{"from":["Absolutely."], "to":["That would be greatly appreciated.", "I can do it on my own."]},
-                         "Princess Lyra: Living in the forest is a beast of great power. It is said to be stronger than any living creature but dumber than most. Simply meaning, you will have to trick it into leaving the tree. After you have the item, you won't have long to escape before it catches you. The last adventurers we sent out were determined that the tree was east of the forest entry and they never found anything of note, try going west. Some of our magical plants might help you defeat the beast. I wish you the best of luck.":{"from":["That would be greatly appreciated."], "to":["Quest Obtained"]},
-                         "Princess Lyra: Then I wish you the best of luck. Feel free to take some plants, they may just be the help you need on your journey.":{"from":["I can do it on my own."], "to":["Quest Obtained"]},
-                         "Princess Lyra: Oh… I see. Goodbye then.":{"from":["I can't. Not now."], "to":["*Leave*"]}}
+princess3_conversation = {"Princess Lyra: I can not thank you enough for returning my magic to me. With this, I can say without a doubt that you are a trustworthy individual. Would you be willing to retrieve the healing tree for the elven army? Us elves will be able to experiment with new types of magic!": {"from": [""], "to": ["Absolutely.", "I can't. Not now."]},
+                         "Princess Lyra: Thank the Earth. We elves will forever be in your debt. Would you like some guidance for the journey?": {"from": ["Absolutely."], "to": ["That would be greatly appreciated.", "I can do it on my own."]},
+                         "Princess Lyra: Living in the forest is a beast of great power. It is said to be stronger than any living creature but dumber than most. Simply meaning, you will have to trick it into leaving the tree. After you have the item, you won't have long to escape before it catches you. The last adventurers we sent out were determined that the tree was east of the forest entry and they never found anything of note, try going west. Some of our magical plants might help you defeat the beast. I wish you the best of luck.": {"from": ["That would be greatly appreciated."], "to": ["Quest Obtained"]},
+                         "Princess Lyra: Then I wish you the best of luck. Feel free to take some plants, they may just be the help you need on your journey.": {"from": ["I can do it on my own."], "to": ["Quest Obtained"]},
+                         "Princess Lyra: Oh… I see. Goodbye then.": {"from": ["I can't. Not now."], "to": ["*Leave*"]}}
 
 princess3 = Character("Her voice beckons you closer.", "Princess Lyra4", "Thank you again for your help. When you're free, I have another task for you.", "We need the tree. All of us.", princess3_conversation, 'Elf2++++++s')
 
 #receiving the final quest from the commander
-commander2_conversation = {"Commander Cedric: Hello again doctor. Thank you for convincing Tristan to return the supplies. He finally asked me for help and we worked out a way to get him the food and medicine he so desperately needs. You have officially proven yourself worthy of retrieving the healing tree for us. Once the tree is in our possession, we will be unstoppable! Will you accept by offer?":{"from":[""], "to":["Yes I will.", "No I won't. Not yet at least."]},
-                          "Commander Cedric: Wonderful. Do you want some advice on finding it?":{"from":["Yes I will."], "to":["That would be great, thank you.", "No thank you. I'll just start now."]},
-                          "Commander Cedric: You must enter the forest and talk with the beast guarding the tree. If you upset him, he will forcefully remove you from the forest and there's no way anyone could fight against him. My advice is to trick him into leaving the tree and then getting a piece of it. Keep in mind, he will notice the tree being disturbed so you will have to get out of there before he catches up to you. The last adventurers we sent out were determined that the tree was east of the forest entry and they never found anything of note, try going west. Feel free to take some food from the warehouse, it might help you defeat the beast.":{"from":["That would be great, thank you."], "to":["Quest Obtained"]},
-                          "Commander Cedric: Good luck then mighty traveler.":{"from":["No thank you. I'll just start now."], "to":["Quest Obtained"]},
-                          "Commander Cedric: I understand. I hope you succeed.":{"from":["No I won't."], "to":["*Leave*"]}}
+commander2_conversation = {"Commander Cedric: Hello again doctor. Thank you for convincing Tristan to return the supplies. He finally asked me for help and we worked out a way to get him the food and medicine he so desperately needs. You have officially proven yourself worthy of retrieving the healing tree for us. Once the tree is in our possession, we will be unstoppable! Will you accept by offer?": {"from": [""], "to": ["Yes I will.", "No I won't. Not yet at least."]},
+                          "Commander Cedric: Wonderful. Do you want some advice on finding it?": {"from": ["Yes I will."], "to": ["That would be great, thank you.", "No thank you. I'll just start now."]},
+                          "Commander Cedric: You must enter the forest and talk with the beast guarding the tree. If you upset him, he will forcefully remove you from the forest and there's no way anyone could fight against him. My advice is to trick him into leaving the tree and then getting a piece of it. Keep in mind, he will notice the tree being disturbed so you will have to get out of there before he catches up to you. The last adventurers we sent out were determined that the tree was east of the forest entry and they never found anything of note, try going west. Feel free to take some food from the warehouse, it might help you defeat the beast.": {"from": ["That would be great, thank you."], "to": ["Quest Obtained"]},
+                          "Commander Cedric: Good luck then mighty traveler.": {"from": ["No thank you. I'll just start now."], "to": ["Quest Obtained"]},
+                          "Commander Cedric: I understand. I hope you succeed.": {"from": ["No I won't."], "to": ["*Leave*"]}}
 
 commander2 = Character("He gestures to you to talk to him.", "Commander Cedric2", "You are proving yourself a helpful hand. If you get the time, I would like your help to finally retrieve the healing tree for my legion.", "If we don't get the tree, the elves will win.", commander2_conversation, "Human2++s")
 #Human2++s
 #Talk to the beast
-beast_conversation = {"Beast: Who are you and why are you here?":{"from":[""], "to":["I am Rowan. I am here to take the tree of healing.", "I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you.", "Why do you need to know?"]},
-                     "Beast: I will never let you have it. I will do anything to protect the tree. I was created for this purpose and this purpose only.":{"from":["I am Rowan. I am here to take the tree of healing.", "Well I'm going to take it anyway.", "I am going to take it from you."], "to":["Restart"]},
-                     "Beast: Where will they be attacking from? I must stop them.":{"from":["I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you.", "There is an elf attack incoming."], "to":["They will be coming from the south. Hurry to stop them."]},
-                     "Beast: I am the protector of the healing tree. I can not let anyone take it.":{'from':["Why do you need to know?"], "to":["Well I'm going to take it anyway.", "I understand, and I am here to offer you some vital information towards protecting the tree.", "You can't protect it forever, beast."]},
-                     "Beast: What is it, mortal.":{"from":["I understand, and I am here to offer you some vital information towards protecting the tree."], "to":["I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you."]},
-                     "Beast: How do you know?":{"from":["You can't protect it forever, beast."], "to":["I am going to take it from you.", "There is an elf attack incoming."]},
-                     "The beast leaves to the south, crushing various plants in its path. You are now alone in the forest. You see the healing tree, in front of you, giving off a whitish glow. All you need is one branch.":{"from":["They will be coming from the south. Hurry to stop them."], "to":["Quest Updated"]}}
+beast_conversation = {"Beast: Who are you and why are you here?": {"from": [""], "to": ["I am Rowan. I am here to take the tree of healing.", "I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you.", "Why do you need to know?"]},
+                     "Beast: I will never let you have it. I will do anything to protect the tree. I was created for this purpose and this purpose only.": {"from": ["I am Rowan. I am here to take the tree of healing.", "Well I'm going to take it anyway.", "I am going to take it from you."], "to": ["Restart"]},
+                     "Beast: Where will they be attacking from? I must stop them.": {"from": ["I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you.", "There is an elf attack incoming."], "to": ["They will be coming from the south. Hurry to stop them."]},
+                     "Beast: I am the protector of the healing tree. I can not let anyone take it.": {'from': ["Why do you need to know?"], "to": ["Well I'm going to take it anyway.", "I understand, and I am here to offer you some vital information towards protecting the tree.", "You can't protect it forever, beast."]},
+                     "Beast: What is it, mortal.": {"from": ["I understand, and I am here to offer you some vital information towards protecting the tree."], "to": ["I am here to warn you of an incoming attack for your tree. The elves will be here in minutes to steal it from you."]},
+                     "Beast: How do you know?": {"from": ["You can't protect it forever, beast."], "to": ["I am going to take it from you.", "There is an elf attack incoming."]},
+                     "The beast leaves to the south, crushing various plants in its path. You are now alone in the forest. You see the healing tree, in front of you, giving off a whitish glow. All you need is one branch.": {"from": ["They will be coming from the south. Hurry to stop them."], "to": ["Quest Updated"]}}
 
 beast = Character("The beast is a dragon, its skin a deep purple, its eyes bright yellow. It slowly turns its head to the left and to the right, as if to sniff out danger.", "Beast1", "This is mine. Mine.", "This is mine. Mine.", beast_conversation, "Final+")
 
 #creating the troll who has no conversation                       
 troll = Character("The troll walks with his head down, and you can't help but notice his ragged clothes.", "Troll1", "Go home. That is where you will find the answers. Everything is a circle, you know? Round...round...infinite...you always end up where you started.", "We are all creations...conflict is pointless...there is no tree. It's a thing of legend that they believe is real just so they can fight another day.", {}, "Troll")
                               
-bird_conversation = {"Chirp. Chirp chirp." : {"from":[""], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "Chirp" : {"from":["Are you real?", "Are the humans good?", "Are the elves good?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "Chiiirrp chirp" : {"from":["Is the beast friendly", "Can I take you with me?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "      chirp\n      chirp\n      chirp\nchirp chirp\n" : {"from":["Where is the healing tree?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "Chirp chiiirrrp chiirrrrrp chirp" :{"from":["What's your name?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "chirpchirpchirpchirp" :{"from":["How are you?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]}}
+bird_conversation = {"Chirp. Chirp chirp.": {"from": [""], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Chirp": {"from": ["Are you real?", "Are the humans good?", "Are the elves good?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Chiiirrp chirp": {"from": ["Is the beast friendly", "Can I take you with me?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "      chirp\n      chirp\n      chirp\nchirp chirp\n": {"from": ["Where is the healing tree?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Chirp chiiirrrp chiirrrrrp chirp": {"from": ["What's your name?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "chirpchirpchirpchirp": {"from": ["How are you?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]}}
 
 bird = Character("A small yellow song bird perched on a branch.", "Bird1", "Chirp. Chirp chirp.", "Chirp. Chirp chirp.", bird_conversation, "All")
                               
@@ -1245,86 +1255,86 @@ if __name__ == "__main__":
 #     coords.x = 9
 #     coords.y = 10
     #dictionary of locations from above along with coordinates as key
-    similar_words = {"elf" : ["elven", "elfs"], "to marco and ray" : ["to marco", "to ray"],
-                     "to commander cedric" : ["to cedric"], "to princess lyra" : ["to lyra", "to princess"], 
-                     "clock" : ["red alarm clock", "alarm clock"],
-                     "elven plant" : ["plant", "purple stem", "elf plant"], "plant" : ["garden", "garden"],
-                     "door" : ["circular door"], "take" : ["get", "pick up"], "exit" : ["leave"],
-                     'elf territory' : ["elven territory", "elf encampment", "elven encampment"],
-                     "human territory" : ["human encampment"], "talk" : ["speak"],
-                     "i" : ["?", "help", "available commands"],
-                     "healthy elven plant" : ["elven plant", "plant", "healthy plant"],
-                     "yellow bird" : ["bird"], "inspect":["investigate", "check out", "examine"],
-                     "window" : ["curtain", "curtains", "windows"],
-                     "bug trap" : ["trap"], "paper" : ["piece of paper"], "to royal guard" : ["to guard"],
-                     "to prince aywin" : ["to aywin", "to prince"], "move" : ["push"], "crate" : ["box"]}
+    similar_words = {"elf": ["elven", "elfs"], "to marco and ray": ["to marco", "to ray"],
+                     "to commander cedric": ["to cedric"], "to princess lyra": ["to lyra", "to princess"], 
+                     "clock": ["red alarm clock", "alarm clock"],
+                     "elven plant": ["plant", "purple stem", "elf plant"], "plant": ["garden", "garden"],
+                     "door": ["circular door"], "take": ["get", "pick up"], "exit": ["leave"],
+                     'elf territory': ["elven territory", "elf encampment", "elven encampment"],
+                     "human territory": ["human encampment"], "talk": ["speak"],
+                     "i": ["?", "help", "available commands"],
+                     "healthy elven plant": ["elven plant", "plant", "healthy plant"],
+                     "yellow bird": ["bird"], "inspect":["investigate", "check out", "examine"],
+                     "window": ["curtain", "curtains", "windows"],
+                     "bug trap": ["trap"], "paper": ["piece of paper"], "to royal guard": ["to guard"],
+                     "to prince aywin": ["to aywin", "to prince"], "move": ["push"], "crate": ["box"]}
     locations = {
-        (0.0,0.0) : l1, 
-        (0.0,1.0) : l2, 
-        (0.0,-1.0) : l3, 
-        (-1.0,0.0) : l4, 
-        (1.0,1.0) : l5, 
-        (-1.0,1.0) : l6, 
-        (-1.0, -1.0) : l7, 
-        (1.0,-1.0) : l8,
-        (1.0,0.0) : l9,
-        (10,10) : l10,
-        (9,10) : l11,
-        (20,20) : l12,
-        (20,21) : l13,
-        (20,19) : l14,
-        (40,40) : l15, 
-        (40,41) : l16, 
-        (40,39) : l17, 
-        (27,30) : l18, 
-        #(28,30) : l19, 
-        (29,30) : l20, 
-        (30,30) : l21, 
-        (31,30) : l22, 
-        (32,30) : l23, 
-        #(33,30) : l24, 
-        (27,29) : l25,
-        (28,29) : l26,
-        (29,29) : l27,
-        (30,29) : l28,
-        (31,29) : l29,
-        (32,29) : l30,
-        (33,29) : l31,
-        #(27,28) : l32,
-        (28,28) : l33,
-        (29,28) : l34,
-        #(30,28) : l35,
-        (31,28) : l36,
-        #(32,28) : l37,
-        (33,28) : l38,
-        (27,27) : l39,
-        #(28,27) : l40,
-        (29,27) : l41,
-        (30,27) : l42,
-        (31,27) : l43,
-        (32,27) : l44,
-        #(33,27) : l45,
-        (27,26) : l46,
-        (28,26) : l47,
-        (29,26) : l48,
-        (30,26) : l49,
-        (31,26) : l50,
-        #(32,26) : l51,
-        (33,26) : l52,
-        (27,25) : l53,
-        (28,25) : l54,
-        (29,25) : l55,
-        #(30,25) : l56,
-        (31,25) : l57,
-        (32,25) : l58,
-        (33,25) : l59,
-        #(27,24) : l60,
-        (28,24) : l61,
-        (29,24) : l62,
-        (30,24) : l63,
-        (31,24) : l64,
-        #(32,24) : l65,
-        (33,24) : l66,
+        (0.0,0.0): l1, 
+        (0.0,1.0): l2, 
+        (0.0,-1.0): l3, 
+        (-1.0,0.0): l4, 
+        (1.0,1.0): l5, 
+        (-1.0,1.0): l6, 
+        (-1.0, -1.0): l7, 
+        (1.0,-1.0): l8,
+        (1.0,0.0): l9,
+        (10,10): l10,
+        (9,10): l11,
+        (20,20): l12,
+        (20,21): l13,
+        (20,19): l14,
+        (40,40): l15, 
+        (40,41): l16, 
+        (40,39): l17, 
+        (27,30): l18, 
+        #(28,30): l19, 
+        (29,30): l20, 
+        (30,30): l21, 
+        (31,30): l22, 
+        (32,30): l23, 
+        #(33,30): l24, 
+        (27,29): l25,
+        (28,29): l26,
+        (29,29): l27,
+        (30,29): l28,
+        (31,29): l29,
+        (32,29): l30,
+        (33,29): l31,
+        #(27,28): l32,
+        (28,28): l33,
+        (29,28): l34,
+        #(30,28): l35,
+        (31,28): l36,
+        #(32,28): l37,
+        (33,28): l38,
+        (27,27): l39,
+        #(28,27): l40,
+        (29,27): l41,
+        (30,27): l42,
+        (31,27): l43,
+        (32,27): l44,
+        #(33,27): l45,
+        (27,26): l46,
+        (28,26): l47,
+        (29,26): l48,
+        (30,26): l49,
+        (31,26): l50,
+        #(32,26): l51,
+        (33,26): l52,
+        (27,25): l53,
+        (28,25): l54,
+        (29,25): l55,
+        #(30,25): l56,
+        (31,25): l57,
+        (32,25): l58,
+        (33,25): l59,
+        #(27,24): l60,
+        (28,24): l61,
+        (29,24): l62,
+        (30,24): l63,
+        (31,24): l64,
+        #(32,24): l65,
+        (33,24): l66,
         }
     #key words for motions
     motionlist = ['go', 'enter', 'exit']
