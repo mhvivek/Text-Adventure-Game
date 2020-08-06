@@ -598,36 +598,36 @@ l64 = Location('47', 'Trees. All around you. Tall and stern.', [], [])
 l65 = Location('48', 'Trees. All around you. Tall and stern.', [], [])
 l66 = Location('49', 'Trees. All around you. Tall and stern.', [], [])
 
-def take(i, command, coords, q): #CHANGE
+def take(i, command, coords, q):
     '''allows player to take an item and add it to their inventory'''
     if 'take' in command:
-        thing = command.replace('take ', '')
+        thing = command.replace('take ', '')  # removes command to isolate object
         atLocation = False
         for item in locations[(coords.x,coords.y)].items:
             if item.name.lower() == thing:
-                atLocation = True
+                atLocation = True  # if object is at player coordinates
                 if item == o1: 
-                    if q.current_quest == "Final++": #CHANGE
-                        if coords.x == 28 and coords.y == 25:
+                    if q.current_quest == "Final++": 
+                        if coords.x == 28 and coords.y == 25:  # if command initiates beast minigame
                             print("\nYou prepare to grab a branch of the healing tree.")
                             locations[(coords.x,coords.y)].items.remove(item)
-                            return True
+                            return True  # True boolean initiates beast game
                         else:
                             print("\nYou took the branch. It was added to your inventory.")
                             locations[(coords.x,coords.y)].items.remove(item)
                             if o1 not in i.items:
                                 i.add_item(item)
                             return False
-                    else: #CHANGE
-                        print("\nYou can't take that right now.") #CHANGE
-                        return False #CHANGE
-                else:
+                    else:  # if player not on right quest
+                        print("\nYou can't take that right now.")
+                        return False
+                else:  # adds object to inventory and removes from location
                     taken = i.add_item(item)
                     if taken == True:
                         locations[(coords.x,coords.y)].items.remove(item)
         if atLocation == False:
             print(f"\nYou can't take that.")
-    return False
+    return False  # doesn't initiate beast minigame
             
 def open_inventory(i, command):
     '''prints player inventory'''
@@ -655,7 +655,7 @@ def talk_to(person_name, player_quest,coords, inventory):
 #                 if coords != "":
 #                     coordinates = coords
 #                 print(coords.x, coords.y)
-                if character.name in ["Commander Cedric1", "Torma1", "Elf1", "Elf2", "Elf3", "Princess Lyra1", "Herbalist1", "Royal Guard1", "Human Scout1", "Prince Aywin1"] or character.name == "Princess Lyra2" and player_quest.current_quest == "Elf2+++++" or character.name == "Princess Lyra3" and "Elf2++++++s" in player_quest.succeeded or character.name == "Commander Cedric2" and player_quest.current_quest == "Final+" or character.name == "Princess Lyra4" and player_quest.current_quest == "Final+" or character.name == "Beast1" and player_quest.current_quest == "Final++":
+                if character.name in ["Commander Cedric1", "Torma1", "Elf1", "Elf2", "Elf3", "Princess Lyra1", "Herbalist1", "Royal Guard1", "Human Scout1", "Prince Aywin1"] or character.name == "Princess Lyra2" and player_quest.current_quest == "Elf2+++++" or character.name == "Princess Lyra3" and "Elf2++++++s" in player_quest.succeeded or character.name == "Commander Cedric2" and player_quest.current_quest == "Final+" or character.name == "Princess Lyra4" and player_quest.current_quest == "Final+":
                     locations[(coords.x, coords.y)].npcs.remove(character)
                 
             else:
@@ -783,7 +783,7 @@ def beast(i):
     '''beast minigame'''
     
     print()
-    print("\nThe beast won't be happy once it realizes what you're doing, so don't take too long in breaking it off. Maybe there's something in your inventory that can help speed up the process? To view your inventory enter 'open inventory'. To use something from it enter 'use __'.")
+    print("\nThe beast won't be happy once it realizes what you're doing, so don't take too long in breaking it off. Maybe there's something in your inventory that can help speed up the process? For example, although you may not have had a use for an axe before, you certainly do now. If you have the axe in your inventory, it will help speed up the process of taking the branch. To view your inventory enter 'open inventory'. To use something from it enter 'use __'.")
     print("\nUse commands 'go north', 'go south', 'go east', and 'go west' to get to the exit of the forest! Keep in mind there are many obstacles in the way such as logs, large trees, hedges, and more. The beast is chasing you, so try not to backtrack! If you get stuck and really need to, there might be something in your inventory that can help. You only have 20 moves to escape the forest before the beast catches you, but some inventory items will slow the beast down and give you extra moves. Good luck!")
     print("\nNow quick, take the branch!")
     print("\n")
@@ -951,6 +951,17 @@ def beast(i):
                 print(locations[(coords.x,coords.y)].message)
             else:
                 print("\nYou're back at the clearing where you stole the healing tree from!")
+            if moves == 2:
+                print("\nYou see the beast out of the corner of your eye. It's now or never. You can only hope that the exit of the forest is on the other side of those trees.")
+            elif moves == 4:
+                print("\nYou hear the growling of the beast close behind you and you know you don't have much time left.")
+            elif moves == 6:
+                print("\nThe forest is a maze. Everywhere you look is the same. Have you seen that tree before? Probably. You're beginning to lose hope.")
+            elif moves == 11:
+                print("\nYou hear the crack of branches on the forest floor coming from behind you. The beast is gaining on you.")
+            elif moves == 14:
+                print("\nThe beast is moving quick and you know you have limited time to escape the forest. Can you run any faster?")
+            
             moveslist.append(command)
 
         if moves > 0:
@@ -1250,24 +1261,25 @@ def motions(command,coords, q, game_end):
 
 if __name__ == "__main__":
     
+    # introduction
     print("\n\n\nYou wake up in a small room, with no memories of who or where you are, except for your name. You are laying on a simple straw bed with light filtering in from a barely curtained window. In the room you can see a mirror hanging on the wall above a simple dresser, a small table with a few non-descript items, and a dark wooden door to the right. A sign on the wall reads 'Dragon's Whisper Tavern and Inn' Use the command 'inspect ___' to search the room.")
-    #starting coords
-#     coords.x = 9
-#     coords.y = 10
-    #dictionary of locations from above along with coordinates as key
-    similar_words = {"elf": ["elven", "elfs"], "to marco and ray": ["to marco", "to ray"],
-                     "to commander cedric": ["to cedric"], "to princess lyra": ["to lyra", "to princess"], 
-                     "clock": ["red alarm clock", "alarm clock"],
-                     "elven plant": ["plant", "purple stem", "elf plant"], "plant": ["garden", "garden"],
-                     "door": ["circular door"], "take": ["get", "pick up"], "exit": ["leave"],
-                     'elf territory': ["elven territory", "elf encampment", "elven encampment"],
-                     "human territory": ["human encampment"], "talk": ["speak"],
-                     "i": ["?", "help", "available commands"],
-                     "healthy elven plant": ["elven plant", "plant", "healthy plant"],
-                     "yellow bird": ["bird"], "inspect":["investigate", "check out", "examine"],
-                     "window": ["curtain", "curtains", "windows"],
-                     "bug trap": ["trap"], "paper": ["piece of paper"], "to royal guard": ["to guard"],
-                     "to prince aywin": ["to aywin", "to prince"], "move": ["push"], "crate": ["box"]}
+
+    # dictionary of similar words to working commands
+    similar_words = {"elf" : ["elven", "elfs"], "to marco and ray" : ["to marco", "to ray"],
+                     "to commander cedric" : ["to cedric"], "to princess lyra" : ["to lyra", "to princess"], 
+                     "clock" : ["red alarm clock", "alarm clock"],
+                     "elven plant" : ["plant", "purple stem", "elf plant"], "plant" : ["garden", "garden"],
+                     "door" : ["circular door"], "take" : ["get", "pick up"], "exit" : ["leave"],
+                     'elf territory' : ["elven territory", "elf encampment", "elven encampment"],
+                     "human territory" : ["human encampment"], "talk" : ["speak"],
+                     "i" : ["?", "help", "available commands"],
+                     "healthy elven plant" : ["elven plant", "plant", "healthy plant"],
+                     "yellow bird" : ["bird"], "inspect":["investigate", "check out", "examine"],
+                     "window" : ["curtain", "curtains", "windows"],
+                     "bug trap" : ["trap"], "paper" : ["piece of paper"], "to royal guard" : ["to guard"],
+                     "to prince aywin" : ["to aywin", "to prince"], "move" : ["push"], "crate" : ["box"]}
+    
+    # dictionary of locations from above along with coordinates as key
     locations = {
         (0.0,0.0): l1, 
         (0.0,1.0): l2, 
@@ -1336,32 +1348,33 @@ if __name__ == "__main__":
         #(32,24): l65,
         (33,24): l66,
         }
-    #key words for motions
+    
+    # initiating important game variables
     motionlist = ['go', 'enter', 'exit']
     itemlist = ['take']
     new_plants = False
-    i = Inventory()
-    q = Quests()
-    coords = Coord()
+    i = Inventory()  # creating inventory object
+    q = Quests()  # creating quest object 
+    coords = Coord()  # creating coordinates object
     beasttime = False
     realcommand = False
     game_end = False
-    command = input("\n>>> ").lower().strip()
-    while not game_end:
+    command = input("\n>>> ").lower().strip()  # first player input
+    while not game_end:  # main game loop
         if len(command) > 1 and " " in command:
             commandlist = [command.split()[0], " ".join(command.split()[1:])]
             for word in commandlist:
-                if word[-1] == 's':
+                if word[-1] == 's': # handles plurar vs singular commands
                     commandlist[commandlist.index(word)] = commandlist[commandlist.index(word)][:-1]
                     word = word[:-1]
-                for w, similar in similar_words.items():
+                for w, similar in similar_words.items(): # handles similar but not exact commands
                     if word == w:
                         break
                     if word in similar:
                         commandlist[commandlist.index(word)] = w
                         if w == 'healthy elven plant':
                             break
-
+        #Checks for specific command and then calls corresponding function
             command = " ".join(commandlist)
         if command == 'q':
             realcommand = True
@@ -1398,41 +1411,41 @@ if __name__ == "__main__":
         else:
             commandlist = command.split()
             movementcommand = False
-            for motion in motionlist:
+            for motion in motionlist: #handles all movement commands like 'go' and 'enter'
                 if motion in commandlist:
                     movementcommand = True
                     realcommand = True
-                    newcoords = motions(command,coords, q, game_end)
+                    newcoords = motions(command,coords, q, game_end) # changes players coordinates
                     coords.x = newcoords[0][0]
                     coords.y = newcoords[0][1]
                     game_end = newcoords[1]
-                              
+            
             if movementcommand == False:
                 for item in itemlist:
                     if item in commandlist:
                         realcommand = True
-                        beasttime = take(i, command, coords, q)
-                if beasttime == True:
+                        beasttime = take(i, command, coords, q) # checks if the player triggered minigame
+                if beasttime == True: # starts ending minigame
                     escape = beast(i)
-                    if escape: ##MADE CHANGE
+                    if escape: # if the player succeeds, game end messages
                         if escape[0] == True:
                             coords.x = 0
                             coords.y = -1
-                            if "Elf2" in "".join(q.succeeded):
+                            if "Elf2" in "".join(q.succeeded): # checks which questline the player has completed
                                 ally = "Elf"
                             elif "Human2" in "".join(q.succeeded):
                                 ally = "Human"
                             print ("\nYou crash out of the forest, legs numb and breath nearly gone. You seem to have lost track of time in the forest, as it is twilight now. You feel slightly dizzy. As you pick a twig out of your hair, a thought crosses your mind. Silent feet, a whisper. Just loud enough for you to hear. What do you owe to the people who helped you get the branch? You would have gotten it by yourself anyway. Suddenly, the branch feels twice as heavy. No, you must share it. But with whom?")
                             print ("\n1. Humans")
                             print ("2. Elves")
-                            choice = input("\n>>> ")
+                            choice = input("\n>>> ") # final choice
                             while choice.strip() != "1" and choice != "2":
                                 print ("\nEnter a valid number")
                                 choice = input("\n>>> ")
-                            game_end = True
+                            game_end = True # ends game
                             betray = ""
                             if choice == "1":
-                                if ally == "Elf":
+                                if ally == "Elf": # adds to final text based on players previous choices (completed quests)
                                     betray = "\n\nYou never ask yourself why the Commander welcomed you as a friend, never realize that the elves probably see you as a criminal."
                                 print (f"\nYou arrive at the gates of the human settlement, where many humans wait. You present the branch to Commander Cedric, who calls a meeting for all humans. They rejoice in their victory over the elves, and the Commander gives a heartfelt speech about your heroic actions. You are officially made an honorary human.{betray}\n\nAs the level of excitement continues to rise, discussions turn to the future. Who can use the branch? Who will guard it? When should another branch be obtained? Plans for defeating the dragon once and for all are layed out, and some even begin talking of an invading the elves. The festivities continue on into the night, and you fall asleep smiling.")
                             elif choice == "2":
@@ -1441,27 +1454,29 @@ if __name__ == "__main__":
                                 print (f"\nYou stand before the Princess’ tower, tall and strong. She emerges, her robe the color of the sky. She asks you to follow her.{betray}\n\nYou enter a small room and the door shuts behind you. Waiting for the right moment, Prince Aywin congratulates you heartily. “This branch,” says the Princess, “will help us discover new kinds of magic, to do what we previously thought impossible. However, we must protect this extraordinary power. This means that there can be no loose ends, no cracks this information can fall through. No one can know about this. No one. Not even you. Do you understand?” She pauses a moment, not long enough for you to say anything.\n\n“Good,” she says. ")
                                 
                                     
-                        else:
+                        else: # if they don't succeed, minigame starts over
                             for item in escape[1]:
                                 if item not in i.items:
                                     i.items.append(item)
                             i.remove_item(o1)
                             coords.x = 0
                             coords.y = -1
-        if realcommand == False:
+
+        if realcommand == False: # if the players command wasn't recognized
             print("\nYou've entered a command I don't recognize. Please try again.")
             
-        if "Elf1++++++++s" in q.succeeded and not new_plants:
+        if "Elf1++++++++s" in q.succeeded and not new_plants: # handling specific item
             x = similar_words.pop("elven plant")
             new_plants = True
             if o3 in locations[(40, 41)].items:  
                 locations[(40, 41)].items.remove(o3)    
-
+        
+        #Giving new imput and restarting loop
         if not game_end:
             command = input("\n>>> ").lower().strip()
             realcommand = False
                               
-    print("\n------------------------------------------------")
+    print("\n------------------------------------------------") # game end message
     print("\nThank you for playing Awaken!")
     print("\nThis game was made as a part of NWAPW 2020.")
 
