@@ -5,18 +5,20 @@
 
 
 """New main function with the axe thing"""
-#Character Class
+# Character Class
 # a character object represents one version of an in-game character
 # multiple character objects are created for different conversations with an in-game character
 class Character:
+    
+
     def __init__(self, description, name, one_line_in_quest, one_line_general, conversation, quest):
         self.description = description
         self.name = name
         self.one_line_in_quest = one_line_in_quest
         self.one_line_general = one_line_general
         self.conversation = conversation
-        self.quest = quest # this is the quest/part of quest the player must be on to have a full conversation with this character
-        
+        self.quest = quest  # this is the quest/part of quest the player must be on to have a full conversation with this character
+
     def interact_outside_quest(self, quest):
         '''checks if you are on a quest with the character's species, and then prints the characters corresponding generic line'''
         verb = 'says'
@@ -31,59 +33,57 @@ class Character:
     def meet(self):
         '''prints a characters description'''
         print(f"\n{self.description}")
-        
-    def start_conversation(self, quests_object, inventory,coords):
+
+    def start_conversation(self, quests_object, inventory, coords):
         '''starts a conversation with the character'''
         for char_line, info in self.conversation.items():
-            #print(char_line)
-            if self.conversation[char_line]["from"] == [""]: #if this line is the first line the character will say
+            # print(char_line)
+            if self.conversation[char_line]["from"] == [""]:  # if this line is the first line the character will say
                 print(f"\n{char_line}\n")
-                self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory,coords) #returns player's initial choices
-            else: # sometimes you need an item to interact with a character
+                self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory, coords)  # returns player's initial choices
+            else:  # sometimes you need an item to interact with a character
                 if self.conversation[char_line]["from"] in [["Rose"], ["Elven Root"]]:
                     available = False
-                    for item in inventory.items: # checks if that item is in the player's inventory
-                        if item.name.lower() == self.conversation[char_line]["from"][0].lower(): #if the player has the required item
+                    for item in inventory.items:  # checks if that item is in the player's inventory
+                        if item.name.lower() == self.conversation[char_line]["from"][0].lower():  # if the player has the required item
                             available = True
                             print(f"\n{char_line}\n")
-                            self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory,coords) # display dialogue choices
+                            self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory, coords)  # display dialogue choices
                     if not available:
-                        print(f"\n{self.name[:-1]} needs you to get the {self.conversation[char_line]['from'][0]}.") # tells what item they need
-    
-    def choose_dialogue(self, choices, quests_object, inventory,coords):
+                        print(f"\n{self.name[:-1]} needs you to get the {self.conversation[char_line]['from'][0]}.")  # tells what item they need
+
+    def choose_dialogue(self, choices, quests_object, inventory, coords):
         '''displays and handles player dialogue choices'''
         nums = []
         for num in range(len(choices)):
             nums.append(num)
-            print(f"{num+1}. {choices[num]}")#dialogue choices are printed out
+            print(f"{num+1}. {choices[num]}")  # dialogue choices are printed out
         p_num = input("\n>>> ")
-        while not p_num.isdigit() or int(p_num)-1 not in nums: #makes sure input is valid
+        while not p_num.isdigit() or int(p_num)-1 not in nums:  # makes sure input is valid
             p_num = input("Please enter a valid number: ")
-        choice = choices[int(p_num)-1] #player chooses
+        choice = choices[int(p_num)-1]  # player chooses
         print(f"\nYou: {choice}\n")
-   
-        if "Give" in choice: #if the player gives an item in dialogue
+
+        if "Give" in choice:  # if the player gives an item in dialogue
             for item in inventory.items:
                 if item.name.lower() in choice.lower():
                     inventory.remove_item(item)
 
-        if choice != "Leave": #if you don't end the conversation
-            self.char_responds(choice, quests_object, inventory,coords)#character responds
-
-    
-    def char_responds(self, player_choice, quests_object, inventory,coords):
+        if choice != "Leave":  # if you don't end the conversation
+            self.char_responds(choice, quests_object, inventory, coords)  # character responds
+    def char_responds(self, player_choice, quests_object, inventory, coords):
         for char_line in self.conversation:
-            #print(char_line)
+            # print(char_line)
             if player_choice in self.conversation[char_line]["from"]: #if what the player chooses triggers this line
-                
-                if "Quest Succeeded" in self.conversation[char_line]["to"]: #if this completes a quest
+
+                if "Quest Succeeded" in self.conversation[char_line]["to"]:  # if this completes a quest
                     print(f"\n{char_line}\n\n-----Quest Completed!------")
-                    quests_object.current_quest += "+" # keep track of important quest interactions
-                    quests_object.succeeded.append(quests_object.current_quest + "s") # keep track of succeeded quests
+                    quests_object.current_quest += "+"  # keep track of important quest interactions
+                    quests_object.succeeded.append(quests_object.current_quest + "s")  # keep track of succeeded quests
                     quests_object.remove_quest()
 
                 elif "Quest Failed" in self.conversation[char_line]["to"]:
-                    if "Elf" in quests_object.current_quest: # keeps track of which quest line is failed
+                    if "Elf" in quests_object.current_quest:  # keeps track of which quest line is failed
                         done = "Elf"
                         quests_object.elf_failed = True
                     elif "Human" in quests_object.current_quest:
@@ -94,50 +94,52 @@ class Character:
 
                 elif "Quest Updated" in self.conversation[char_line]["to"]:
                     print(f"\n{char_line}")
-                    quests_object.current_quest += "+" # important quest interaction
-                    
+                    quests_object.current_quest += "+"  # important quest interaction
+
                 elif "Quest Obtained" in self.conversation[char_line]["to"]:
                     print(f"\n{char_line}")
                     print("\n-----New Quest Gained!-----")
-                    quests_object.add_quest(self.name) # calls add_quest
+                    quests_object.add_quest(self.name)  # calls add_quest
                     quests_object.current_quest += "+"
 
-                elif "Restart" in self.conversation[char_line]["to"]: #if dialogue causes the player to restart a quest
+                elif "Restart" in self.conversation[char_line]["to"]:  # if dialogue causes the player to restart a quest
                     print(f"\n{char_line}")
-                    coords.x = 0 # reset coordinates
+                    coords.x = 0  # reset coordinates
                     coords.y = -1
-                    print(f"\n{locations[(coords.x,coords.y)].message}\n\nYou're outside the forest again. It's almost as if you went back in time.") # prints location message
-                
-                elif "may no longer take" in char_line: # if the player chooses dialogue so they can't get a particular quest
-                    
+                    print(f"\n{locations[(coords.x,coords.y)].message}\n\nYou're outside the forest again. It's almost as if you went back in time.")  # prints location message
+
+                elif "may no longer take" in char_line:  # if the player chooses dialogue so they can't get a particular quest
+
                     if "Elf" in char_line:
                         quests_object.elf_failed = True
                     elif "Human" in char_line:
                         quests_object.human_failed = True
-                              
+
                     print(f"\n{char_line}\n")
-                    self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory,coords)
-                
-                else: # if no special case
+                    self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory, coords)
+
+                else:  # if no special case
                     print(f"\n{char_line}\n")
-                    self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory,coords) #player responds to character 
+                    self.choose_dialogue(self.conversation[char_line]["to"], quests_object, inventory, coords)  # player responds to character
 
 # sets the player's starting coordinates
 class Coord():
+    
     def __init__(self):
         self.x = 9
         self.y = 10
-                    
-#Quest class
-#handles adding, removing, clearing quests, as well as printing quest information
+
+# Quest class
+# handles adding, removing, clearing quests, as well as printing quest information
 class Quests:
+    
     def __init__ (self):
-        self.quest_info = "" #description of current quest
-        self.current_quest = "" #starts out like 'Human1' and "+" is added after succeeded important interactions
+        self.quest_info = ""  # description of current quest
+        self.current_quest = ""  # starts out like 'Human1' and "+" is added after succeeded important interactions
         self.succeeded = []
         self.elf_failed = False
         self.human_failed = False
-        
+
     def add_quest(self, giver_name):
         '''sets current_quest and quest_info when the player gets a quest'''
         if giver_name == "Commander Cedric1":
@@ -158,8 +160,6 @@ class Quests:
         elif giver_name == "Princess Lyra4":
             self.quest_info = "Get the tree of healing and share it with the Elves."
             self.current_quest = "Final"
-        
-            
     def show_quest(self):
         '''prints out quest_info'''
         if 'Human' in self.current_quest or 'Elf' in self.current_quest or "Secret" in self.current_quest or "Final" in self.current_quest:
@@ -167,40 +167,41 @@ class Quests:
             print(f"\n{self.quest_info}")
         else:
             print("\nYou are not currently on a quest.")
-        
+
     def clear_quest(self):
         '''handles when the player wants to clear a quest'''
-        if "Final" in self.current_quest: # special case for final quest
+        if "Final" in self.current_quest:  # special case for final quest
             print("\nYou cannot clear this quest.")
-        elif len(self.current_quest) >= 1: # if the player is on a quest
+        elif len(self.current_quest) >= 1:  # if the player is on a quest
             print("\nIf you clear this quest, you will automatomatically fail it.")
             print(f"\n{self.quest_info}")
             if "Elf" in self.current_quest:
                 people = "Elf"
             elif "Human" in self.current_quest:
                 people = "Human"
-            answer = input(f"\nAre you sure you want to clear your current quest? Doing so will mean that you cannot do any more quests for the {people}s. (y/n)").lower() # checks if player is sure
-            while answer != 'y' and answer != 'n': # input handling
+            answer = input(f"\nAre you sure you want to clear your current quest? Doing so will mean that you cannot do any more quests for the {people}s. (y/n)").lower()  # checks if player is sure
+            while answer != 'y' and answer != 'n':  # input handling
                 answer = input("Please type 'y' or 'n': ").lower()
-            if answer == 'y': # player fails that questline
+            if answer == 'y':  # player fails that questline
                 if "Elf" in self.current_quest:
                     self.elf_failed = True
                 elif "Human" in self.current_quest:
                     self.human_failed = True
                 self.remove_quest()
                 print("\nYou have removed your current quest.")
-        else: # if the player is not on a quest
+        else:  # if the player is not on a quest
             print("\nYou are not currently on a quest.")
-    
+
     def remove_quest(self):
         '''removes all quest information'''
         self.quest_info = ""
         self.current_quest = ""
 
-#Inventory class
+# Inventory class
 class Inventory:
+    
     def __init__(self):
-        self.items = [] #will be a list of item objects
+        self.items = []  # will be a list of item objects
 
     def show_items(self):
         '''prints the names of all items in the inventory'''
@@ -210,11 +211,11 @@ class Inventory:
 
     def add_item(self, thing):
         '''checks if possible and then adds item to inventory'''
-        if thing.weight == 'heavy': # checks item attribute
+        if thing.weight == 'heavy':  # checks item attribute
             print(f"\nYou can't take the {thing.print_name.lower()}.")
             return False
         else:
-            self.items.append(thing) # adds item object to list of items in inventory
+            self.items.append(thing)  # adds item object to list of items in inventory
             print(f"\nYou took the {thing.print_name.lower()}. Inventory updated.")
             return True
 
@@ -223,67 +224,67 @@ class Inventory:
         self.items.remove(thing)
 
 
-#Item class
-#created for each object that can be interacted with
+# Item class
+# created for each object that can be interacted with
 class Item:
     def __init__(self, name, title, q_description, s_description, quest, weight, hidden, table, plural):
-        self.plural = plural #boolean
-        self.name = name # all item names are singular
+        self.plural = plural  # boolean
+        self.name = name  # all item names are singular
         if self.plural:
-            self.print_name = self.name + "s" # if plural is True, print_name gets an s added
+            self.print_name = self.name + "s"  # if plural is True, print_name gets an s added
         else:
             self.print_name = self.name
         self.title = title
-        self.q_description = q_description #special description for a quest the item is connected to
-        self.s_description = s_description #normal description
-        self.quest = quest #quest the item is connected to
+        self.q_description = q_description  # special description for a quest the item is connected to
+        self.s_description = s_description  # normal description
+        self.quest = quest  # quest the item is connected to
         self.weight = weight
-        self.hidden = hidden #helps for printing out items when the player enters a location
-        self.table = table #boolean - has to do with special item
-        
+        self.hidden = hidden  # helps for printing out items when the player enters a location
+        self.table = table  # boolean - has to do with special item
+
     def inspect(self, current_quest):
-        if current_quest == self.quest: #if this object is relevant to the quest
+        if current_quest == self.quest:  # if this object is relevant to the quest
             print(f"\n{self.q_description}")
         else:
             print(f"\nYou see a {self.name}.")
 
-#ALL THE DIALOGUE
-#each conversation is a dictionary with the character's line as the key
-#the value contains the list of player dialogue choices that will trigger the key (from)
-#and those that the character's line will in turn trigger (to)
+# ALL THE DIALOGUE
+# each conversation is a dictionary with the character's line as the key
+# the value contains the list of player dialogue choices that will trigger the key (from)
+# and those that the character's line will in turn trigger (to)
 
-#after each conversation is the instantiation of the corresponding character object
-                              
-#Initial Conversation with Torma
-torma1_conversation = {"Torma: Welcome. How may I help you?":{"from":[""], "to":["Who are you?", "Who am I?"]},
-                      "Torma: I am Torma, I run this place and guide adventurers.":{"from":['Who are you?'], "to":["Where am I?"]},
-                      "Torma: That's for you to answer.":{'from':["Who am I?"], "to":["Where am I?"]},
-                      "Torma: You are in my tavern. It's a safe space for all who wish to get away from the dangers of the outside world.":{"from":["Where am I?"], "to":["What dangers?"]},
-                      "Torma: You don't know? There's a war between the elves and humans, they've been fighting for generations.":{"from":["What dangers?"], "to":["Why are they fighting?"]},
-                      "Torma: No one really knows anymore. At least I don't. They both want to get their hands on a magical tree. I think it's called the healing tree. If you help one of them out, you might be able to end this senseless fighting. The humans are north west of here and the elves are directly east. Keep in mind, the elves are more cunning folk, they will test your skills in a more intense manner than the humans in order to determine your worthiness. Good luck, and remember, you're always welcome back here!":{"from":["Why are they fighting?"], "to":["What does the healing tree do?", "Why haven't the humans or elves gotten to the tree?"]},
-                      "Torma: No one knows. Ancient stories say just a branch could instantly heal entire armies.":{"from":["What does the healing tree do?"], "to":["*Leave*"]},
-                      "Torma: Nasty rumors of dangerous creatures roaming the forest have kept everyone out for millenia.":{"from":["Why haven't the humans or elves gotten to the tree?"], "to":["*Leave*"]}}
+# after each conversation is the instantiation of the corresponding character object
+
+# Initial Conversation with Torma
+torma1_conversation = {"Torma: Welcome. How may I help you?": {"from": [""], "to": ["Who are you?", "Who am I?"]},
+                      "Torma: I am Torma, I run this place and guide adventurers.": {"from": ['Who are you?'], "to": ["Where am I?"]},
+                      "Torma: That's for you to answer.": {'from': ["Who am I?"], "to": ["Where am I?"]},
+                      "Torma: You are in my tavern. It's a safe space for all who wish to get away from the dangers of the outside world.": {"from": ["Where am I?"], "to": ["What dangers?"]},
+                      "Torma: You don't know? There's a war between the elves and humans, they've been fighting for generations.": {"from": ["What dangers?"], "to": ["Why are they fighting?"]},
+                      "Torma: No one really knows anymore. At least I don't. They both want to get their hands on a magical tree. I think it's called the healing tree. If you help one of them out, you might be able to end this senseless fighting. The humans are north west of here and the elves are directly east. Keep in mind, the elves are more cunning folk, they will test your skills in a more intense manner than the humans in order to determine your worthiness. Good luck, and remember, you're always welcome back here!": {"from": ["Why are they fighting?"], "to": ["What does the healing tree do?", "Why haven't the humans or elves gotten to the tree?"]},
+                      "Torma: No one knows. Ancient stories say just a branch could instantly heal entire armies.": {"from": ["What does the healing tree do?"], "to": ["*Leave*"]},
+                      "Torma: Nasty rumors of dangerous creatures roaming the forest have kept everyone out for millenia.": {"from": ["Why haven't the humans or elves gotten to the tree?"], "to": ["*Leave*"]}}
 
 torma1 = Character("You see a dwarf cleaning out a glass behind a long bar. When she notices you, she smiles and waves you over.", "Torma1", "Welcome back.", "Welcome back.", torma1_conversation, "All")
 
 # This is the first conversation in human quest 1
-commander_conversation = {"Commander Cedric: Hello. Who are you and what is your purpose?":{"from": [""], "to": ["I am Rowan and I am looking for the tree of healing."]},
-               "Commander Cedric: As are we. We have some information on it, but first, you must prove to us that you are worthy.":{"from":["I am Rowan and I am looking for the tree of healing."], "to":["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?", "If you have some information about the tree of healing, why don't you get it yourself?"]},
-               "Commander Cedric: Because it grows in the heart of the forest.":{"from":["If you have some information about the tree of healing, why don't you get it yourself?"],"to":["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"]},
-               "Commander Cedric: First you must help us. Someone has been stealing from our stockpile of food and supplies. Find them and talk to them.":{"from":["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"],"to":["Quest Obtained"]}}
+commander_conversation = {"Commander Cedric: Hello. Who are you and what is your purpose?": {"from": [""], "to": ["I am Rowan and I am looking for the tree of healing."]},
+               "Commander Cedric: As are we. We have some information on it, but first, you must prove to us that you are worthy.": {"from": ["I am Rowan and I am looking for the tree of healing."], "to": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?", "If you have some information about the tree of healing, why don't you get it yourself?"]},
+               "Commander Cedric: Because it grows in the heart of the forest.": {"from": ["If you have some information about the tree of healing, why don't you get it yourself?"],"to": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"]},
+               "Commander Cedric: First you must help us. Someone has been stealing from our stockpile of food and supplies. Find them and talk to them.": {"from": ["I'm happy to help. What must I do?","I don't need your approval. I need the information. But I will do it if I have to, so what must I do?"],"to": ["Quest Obtained"]}}
 
 commander = Character("Commander Cedric is a gruff man that commands respect. He has a uniform covered in medals commemorating his various achievements.", "Commander Cedric1", "If they aren't working, then they're most likely in the barracks.", "What do you want, elf sympathizer?", commander_conversation, "No Human")
 
 # This is the second conversation in human quest 1
 fighters_conversation = {"Marco: Traitor! I'll tell Commander Cedric!\nRay: It was you. YOU. I saw you do it. And if you tell the Commander, I'm going to leave.": {"from": [""], "to": ["Hello?"]},
                         "They stop fighting.\n\nMarco and Ray: We were just talking.": {"from": ["Hello?"], "to": ["About what?", "Do either of you know who stole from the stockpile?", "When was the food last seen?"]},
-                        "Marco and Ray: Nothing.": {"from":["About what?"], "to":["See, the thing is, I think it was one of you who stole from the stockpile.", "I'm going to tell Commander Cedric that it was one of you who stole from the stockpile."]},
-                        "The soldiers share a look and then run off in opposite directions." :{"from":["I'm going to tell Commander Cedric that it was one of you who stole from the stockpile."], "to":["Quest Failed"]},
-                        "Marco and Ray: He did!\nMarco: I did not!\nRay: Well neither did I!": {"from":["Do either of you know who stole from the stockpile?", "See, the thing is, I think it was one of you who stole from the stockpile."], "to":["Do you have any evidence against each other?"]},
-                        "Marco: No, but he was a guard on duty right before it was stolen\nRay: The food was there when I left, I can prove it. Another guard logged that it was all there. I heard a weird noise at the shift change, but I decided against checking what it was.\nMarco: That's a lie. He stole the food and forged the logs.": {"from":["Do you have any evidence against each other?"], "to": ["Do you know who would have more information?", "He did it. *point at Ray*"]},
-                        "Ray: Last night, right before the shift change. I thought I heard a strange noise, gut it was late and I wanted to go to bed.\nMarco: That's a lie. He stole the food and forged the logs.": {"from":["When was the food last seen?"], "to":["Do you know who would have more information?", "He did it. *point at Ray*"]},
-                        "Ray: Torma might have heard something while she was delivering food.":{"from":["Do you know who would have more information?"], "to":["Quest Succeeded"]},
-                        "Ray: I can't believe you.\n\nHe leaves quietly, but you know he's bristling on the inside.\n\nMarco: Save yourself the time and give up.\n\nMarco walks away.": {"from":["He did it. *point at Ray*"], "to": ["Quest Failed"]}}
+                        "Marco and Ray: Nothing.": {"from":["About what?"], "to": ["See, the thing is, I think it was one of you who stole from the stockpile.", "I'm going to tell Commander Cedric that it was one of you who stole from the stockpile."]},
+                        "The soldiers share a look and then run off in opposite directions." : {"from": ["I'm going to tell Commander Cedric that it was one of you who stole from the stockpile."], "to": ["Quest Failed"]},
+                        "Marco and Ray: He did!\nMarco: I did not!\nRay: Well neither did I!": {"from": ["Do either of you know who stole from the stockpile?", "See, the thing is, I think it was one of you who stole from the stockpile."], "to": ["Do you have any evidence against each other?"]},
+                        "Marco: No, but he was a guard on duty right before it was stolen\nRay: The food was there when I left, I can prove it. Another guard logged that it was all there. I heard a weird noise at the shift change, but I decided against checking what it was.\nMarco: That's a lie. He stole the food and forged the logs.": {"from": ["Do you have any evidence against each other?"], "to": ["Do you know who would have more information?", "He did it. *point at Ray*"]},
+                        "Ray: Last night, right before the shift change. I thought I heard a strange noise, gut it was late and I wanted to go to bed.\nMarco: That's a lie. He stole the food and forged the logs.": {"from": ["When was the food last seen?"], "to": ["Do you know who would have more information?", "He did it. *point at Ray*"]},
+                        "Ray: Torma might have heard something while she was delivering food.": {"from": ["Do you know who would have more information?"], "to": ["Quest Succeeded"]},
+                        "Ray: I can't believe you.\n\nHe leaves quietly, but you know he's bristling on the inside.\n\nMarco: Save yourself the time and give up.\n\nMarco walks away.": {"from": ["He did it. *point at Ray*"], "to": ["Quest Failed"]}}
 
 fighters = Character("Marco and Ray are two soldiers that are both wearing simple uniforms. They are too focused on their heated argument to notice you entered the barracks.", "Marco and Ray1", "What? You came back for directions? Find her yourself.", "Leave us alone.", fighters_conversation, "Human1+")
 
