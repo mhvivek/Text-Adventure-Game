@@ -1001,7 +1001,7 @@ def motions(command,coords, q, game_end):
                     print("\nThe river is too fast to pass through.") 
                 else:
                     coords.y += 1.0
-            else:
+            else: # stops player from moving if something is blocking them
                 if 25 > coords.y+1 > 21:
                     illegal = True
                     print("\nA wall around the human territory prevents you from going that way.")
@@ -1021,14 +1021,14 @@ def motions(command,coords, q, game_end):
             print("\nWithout seeing the sun, you have no sense of direction! You still know your lefts and rights though...")
 
     elif command == 'go east':
-        if intavern == False:
+        if intavern == False: #if you're in the tavern it skips this cuz you can't use NESW
             if inside == False:
                 if coords.x + 1 > max_coord_pos:
                     illegal = True
                     print("\nThe mountains are too steep to climb.")
                 else:
                     coords.x += 1.0
-            else:
+            else: # stops player from moving if something is blocking them
                 if 25 > coords.x+1 > 20:
                     illegal = True
                     print("\nA wall around the human territory prevents you from going that way.")
@@ -1048,14 +1048,14 @@ def motions(command,coords, q, game_end):
             print("\nWithout seeing the sun, you have no sense of direction! You still know your lefts and rights though...")
 
     elif command == 'go south':
-        if intavern == False:
+        if intavern == False: #if you're in the tavern it skips this cuz you can't use NESW
             if inside == False:
                 if coords.y - 1 < max_coord_neg:
                     illegal = True
                     print("\nThe forest is too overgrown to pass through.")
                 else:
                     coords.y -= 1.0
-            else:
+            else: # stops player from moving if something is blocking them
                 if 39 > coords.y-1 >35:
                     illegal = True
                     print("\nA wall around the elven territory prevents you from going that way.")
@@ -1075,14 +1075,14 @@ def motions(command,coords, q, game_end):
             print("\nWithout seeing the sun, you have no sense of direction! You still know your lefts and rights though...")
 
     elif command == 'go west':
-        if intavern == False:
+        if intavern == False: #if you're in the tavern it skips this cuz you can't use NESW
             if inside == False:
                 if coords.x - 1 < max_coord_neg:
                     illegal = True
                     print("\nThe canyon is impassable.")
                 else:
                     coords.x -= 1.0
-            else:
+            else: # stops player from moving if something is blocking them
                 if 40 > coords.x-1 >35:
                     illegal = True
                     print("\nA wall around the elven territory prevents you from going that way.")
@@ -1097,17 +1097,17 @@ def motions(command,coords, q, game_end):
                     print("\nA wall around the human territory prevents you from going that way.")
                 else:
                     coords.x-=1
-        else:
+        else: # if player is in tavern
             illegal = True
             print("\nWithout seeing the sun, you have no sense of direction! You still know your lefts and rights though...")
 
 #tavern commands
     elif command == 'enter tavern':
-        if q.elf_failed and q.human_failed:
+        if q.elf_failed and q.human_failed: # if special ending conditions are met
             answer = input(f"The tavern door is missing. Not open. Missing. And there is some sort of green mist in the doorway preventing you from looking inside. Are you sure you want to enter the tavern? (y/n)").lower()
-            while answer != 'y' and answer != 'n':
+            while answer != 'y' and answer != 'n': # handles answer
                 answer = input("Please type 'y' or 'n': ").lower()
-            if answer == 'y':
+            if answer == 'y': # executes ending
                 illegal = True
                 q.remove_quest()
                 print(fail_end)
@@ -1116,14 +1116,14 @@ def motions(command,coords, q, game_end):
             if intavern == True:
                 illegal = True
                 print("\nYou're already in the tavern!")
-            elif coords.x != 0 or coords.y != 0:
+            elif coords.x != 0 or coords.y != 0: # if your coordinates are not correct
                 illegal = True
                 print("\nYou don't see the tavern nearby.")
             else:
-                coords.y = 10
+                coords.y = 10 # change coordinates to inside tavern
                 coords.x = 10
     elif command == 'go left':
-        if intavern == True:
+        if intavern == True: # can only use this command if in tavern
             if coords.x - 1 < 9:
                 illegal = True
                 print("\nThere is no door that way.")
@@ -1133,7 +1133,7 @@ def motions(command,coords, q, game_end):
             illegal = True
             print("\nIt's easier to navigate using north, south, east, and west when you're outside.")
     elif command == 'go right':
-        if intavern == True:
+        if intavern == True: # same as go left
             if 18 > coords.x + 1 > 10:
                 illegal = True
                 print("\nThere is no door that way.")
@@ -1143,10 +1143,10 @@ def motions(command,coords, q, game_end):
             illegal = True
             print("\nIt's easier to navigate using north, south, east, and west when you're outside.")
     elif command == 'exit tavern':
-        if 15 < coords.x or 8 > coords.x or 15 < coords.y or 8 > coords.y:
+        if 15 < coords.x or 8 > coords.x or 15 < coords.y or 8 > coords.y: # if player is not in tavern
             illegal = True
             print("\nYou're not in the tavern.")
-        elif coords.y != 10 or coords.x != 10:
+        elif coords.y != 10 or coords.x != 10: # if youre in the wrong room of the tavern
             illegal = True
             print("\nThe door to leave the tavern is not in this room.")
         else:
@@ -1156,7 +1156,7 @@ def motions(command,coords, q, game_end):
 #             print(coords.x, coords.y)
 
 #human territory commands
-    elif command == 'enter human territory':
+    elif command == 'enter human territory': # checks if entering is a valid command
         if inside == True and not inside_forest:
             illegal = True
             print("\nYou're already there!")
@@ -1166,7 +1166,7 @@ def motions(command,coords, q, game_end):
         else:
             coords.y = 20
             coords.x = 20
-    elif command == 'exit human territory':
+    elif command == 'exit human territory': # checks if exiting is a valid commands
         if 22 < coords.x or 16 > coords.x or 22 < coords.y or 16 > coords.y:
             illegal = True
             print("\nYou're not in human territory.")
@@ -1175,7 +1175,7 @@ def motions(command,coords, q, game_end):
             coords.y=1
 
 #elf territory commands
-    elif command == 'enter elf territory':
+    elif command == 'enter elf territory': # checks if entering is a valid command
         if inside == True and not inside_forest:
             illegal = True
             print("\nYou're already there!")
@@ -1185,7 +1185,7 @@ def motions(command,coords, q, game_end):
         else:
             coords.y = 40
             coords.x = 40
-    elif command == 'exit elf territory':
+    elif command == 'exit elf territory': # checks if exiting is a valid commands
         if coords.x < 35 or coords.y < 35:
             illegal = True
             print("\nYou're not in elf territory.")
@@ -1194,7 +1194,7 @@ def motions(command,coords, q, game_end):
             coords.y=0
 
 #forest commands
-    elif command == 'enter forest':
+    elif command == 'enter forest': # checks if entering is a valid command
         if inside_forest == True:
             illegal = True
             print("\nYou're already there!")
@@ -1204,7 +1204,7 @@ def motions(command,coords, q, game_end):
         else:
             coords.y = 30
             coords.x = 30
-    elif command == 'exit forest':
+    elif command == 'exit forest': # checks if exiting is a valid commands
         if 35 < coords.x or 23 > coords.x or 35 < coords.y or 23 > coords.y:
             illegal = True
             print("\nYou're not in the forest.")
@@ -1221,7 +1221,7 @@ def motions(command,coords, q, game_end):
 
     if not illegal:
         objs = []
-        for obj in locations[(coords.x,coords.y)].items:
+        for obj in locations[(coords.x,coords.y)].items: # prints object in area
             if obj.quest == q.current_quest or obj.quest == 'All':
                 if obj.hidden == False:
                     if obj.table == False:
