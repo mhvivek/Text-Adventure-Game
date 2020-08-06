@@ -426,7 +426,7 @@ princess3 = Character("Her voice beckons you closer.", "Princess Lyra4", "Thank 
 #receiving the final quest from the commander
 commander2_conversation = {"Commander Cedric: Hello again doctor. Thank you for convincing Tristan to return the supplies. He finally asked me for help and we worked out a way to get him the food and medicine he so desperately needs. You have officially proven yourself worthy of retrieving the healing tree for us. Once the tree is in our possession, we will be unstoppable! Will you accept by offer?":{"from":[""], "to":["Yes I will.", "No I won't. Not yet at least."]},
                           "Commander Cedric: Wonderful. Do you want some advice on finding it?":{"from":["Yes I will."], "to":["That would be great, thank you.", "No thank you. I'll just start now."]},
-                          "Commander Cedric: You must enter the forest and talk with the beast guarding the tree. If you upset him, he will forcefully remove you from the forest and there's no way anyone could fight against him. My advice is to trick him into leaving the tree and then getting a piece of it. Keep in mind, he will notice the tree being disturbed so you will have to get out of there before he catches up to you. The last adventurers we sent out were determined that the tree was west of the forest entry and they never found anything of note, try going east. Feel free to take some food from the warehouse, it might help you defeat the beast.":{"from":["That would be great, thank you."], "to":["Quest Obtained"]},
+                          "Commander Cedric: You must enter the forest and talk with the beast guarding the tree. If you upset him, he will forcefully remove you from the forest and there's no way anyone could fight against him. My advice is to trick him into leaving the tree and then getting a piece of it. Keep in mind, he will notice the tree being disturbed so you will have to get out of there before he catches up to you. The last adventurers we sent out were determined that the tree was east of the forest entry and they never found anything of note, try going west. Feel free to take some food from the warehouse, it might help you defeat the beast.":{"from":["That would be great, thank you."], "to":["Quest Obtained"]},
                           "Commander Cedric: Good luck then mighty traveler.":{"from":["No thank you. I'll just start now."], "to":["Quest Obtained"]},
                           "Commander Cedric: I understand. I hope you succeed.":{"from":["No I won't."], "to":["*Leave*"]}}
 
@@ -446,13 +446,21 @@ beast = Character("The beast is a dragon, its skin a deep purple, its eyes brigh
 #creating the troll who has no conversation                       
 troll = Character("The troll walks with his head down, and you can't help but notice his ragged clothes.", "Troll1", "Go home. That is where you will find the answers. Everything is a circle, you know? Round...round...infinite...you always end up where you started.", "We are all creations...conflict is pointless...there is no tree. It's a thing of legend that they believe is real just so they can fight another day.", {}, "Troll")
                               
+bird_conversation = {"Chirp. Chirp chirp." : {"from":[""], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Chirp" : {"from":["Are you real?", "Are the humans good?", "Are the elves good?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Chiiirrp chirp" : {"from":["Is the beast friendly", "Can I take you with me?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "      chirp\n      chirp\n      chirp\nchirp chirp\n" : {"from":["Where is the healing tree?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Chirp chiiirrrp chiirrrrrp chirp" :{"from":["What's your name?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "chirpchirpchirpchirp" :{"from":["How are you?"], "to":["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]}}
+
+bird = Character("A small yellow song bird perched on a branch.", "Bird1", "Chirp. Chirp chirp.", "Chirp. Chirp chirp.", bird_conversation, "All")
                               
 fail_end = "\nThe elves and the humans are different, now. They have no meaning. It's as if they are talking to a wall. Or a see-through person. Sadness? Loneliness?  No. You feel the same as before. As if none of your adventures in this world changed you, as if none of its people changed you. As if you were a bystander, watching this world happen. You weren't supposed to know. You were supposed to fail.\n\nSuddenly, everything around you is gone. All you can feel is cool air on your face."
             
 #Item objects
 o1 = Item('Branch', 'a branch of the healing tree', 'A branch from the healing tree with a faint glow of magic.', 'A branch from the healing tree with a faint glow of magic.', 'Final++', 'light', False, False, False)
 o2 = Item('Human food', 'some human food that must have been abandoned', "Some dried goods from the human territory.", 'Some dried goods from the human territory.', 'Final+', 'light', False, False, False)
-o3 = Item('Elven plant', 'some elven plants with purple stems', "Orange webs tangle within the many crops. Some of the plants have already started wilting. They must have some sort of disease. It won't be long until the poison takes over and kills all of them plants.", 'Unidentifiable elven plants.', 'Elf1+', 'light', False, False, True)
+o3 = Item('Elven plant', 'some elven plants with purple stems', "Orange webs tangle within the many crops. Some of the plants have already started wilting. They must have some sort of disease. It won't be long until the poison takes over and kills all of the plants.", 'Unidentifiable elven plants.', 'Elf1+', 'light', False, False, True)
 o15 = Item('Healthy elven plant', 'some healthy elven plants', 'All the plants are already back in full health. Most of the crops are for food but some of them appear to be for medicine and magic purposes. How fast they grow! Before your very eyes their height increases inches and then feet.', 'Healthy elven plants. I wonder what they do?', 'Final+', 'light', False, False, True)
 o4 = Item('Rose', 'a rose', 'A small potted plant, likely a cutting of a much larger one. A single purple rose with blue accents blooms, pulsating magical energy.', 'You see a strange looking rose. You have no need for it.', 'Elf2++++++++', 'light', False, False, False)
 o5 = Item('Crate', 'a crate used to store goods', 'A wooden box just like the many others in the warehouse. Too heavy to pick up but moveable if you tried to push it.', 'Crate', 'Elf2+++++', 'heavy', False, False, False)
@@ -463,7 +471,7 @@ o9 = Item('Bug trap', 'a bug trap', "A small metallic trap with bug bait in a sm
 o10 = Item('Axe', 'an axe', "A simple axe made of metal with a wooden handle. Useful for chopping wood. You can use the command 'use axe'", "A simple axe made of metal with a wooden handle. Usefull for chopping wood. You can use the command 'use axe'", 'All', 'light', False, False, False)
 o11 = Item('Mirror', 'a tall mirror', "A glass mirror in a simplistic wooden frame. An unfamiliar face stares back at you. You have small ears with slightest point at the end, and you can't help noticing you're just barely too tall for the average human. Your shoulders are slender for a human but not so much that it's unheard of and your eyes are definitely not those of a human.", "An unfamiliar face stares back at you. You have small ears with slightest point at the end, and you can't help noticing you're just barely too tall for the average human. Your shoulders are slender for a human but not so much that it's unheard of and your eyes are definitely not those of a human.", 'All', 'heavy', False, False, False)
 o12 = Item('Table', 'a table', 'A simple table.', 'A simple table.', 'All', 'heavy', False, False, False)
-o13 = Item('Paper', 'a folded piece of paper', "\n\nWelcome to text adventure! Here you can explore a unique world and complete various quests using simple text commands. \n\nUse commands 'go north', 'go south', 'go east', and 'go west' to navigate the world. There are certain areas of the map which you can 'enter' and 'exit'. These locations include 'human territory', 'elf territory', 'forest', and 'tavern'. To enter one of these places, type 'enter ' and then the location. You can only enter these places from certain points on the map, however. \n\nWhile inside the tavern you must use commands 'go left' and 'go right' to navigate. \n\nAs you explore the world, you may encounter characters you wish to interact with. To do so, type 'talk to ' and then the character name. In certain locations, you can type 'talk to elf'. Otherwise, characters names will be clear and in the title case. When in dialogue, enter the number beside the dialogue option that you wish to choose. \n\nOnce you have received a quest, you can enter ‘q’ to get a quick refresher on your current task. You may also enter ‘clear quest’ if you wish to get rid of your current quest, but you won’t be able to do anymore quests for the group that you were working for. Make sure to pay close attention to what NPCs say for tips on how to finish each quest \n\nThere are also objects that you can interact with around the world. Some objects you can learn more about by entering 'inspect ' and the name of the object. Be warned, some object descriptions change the more you interact with and learn about the world and the people in it. \n\nThere are also objects you can add to your inventory by using the command 'take ' and the name of the object. This comes in handy when you need to use an object or bring an object somewhere else. You can see what's in your inventory at any time by typing 'open inventory'. \n\nThere are some objects that are too heavy for you to take. On rare occasions you can 'move' these objects by entering 'move ' and the name of the object. \n\nThere are also different ways to use objects. Use your best judgement. If nothing happens, make sure you spelled everything correctly. It's also possible you tried to use an object in a way it can't be used. This game is all about exploration, so don't be afraid to mess around.\n\nAt any time, you may type 'end game' to end the game. Your progress will not be saved.\n\nPress 'i' at any time to get a list of all available commands.\n\n", "Welcome to text adventure!", 'All', 'light', False, True, False)
+o13 = Item('Paper', 'a folded piece of paper', "\n\nWelcome to the world of Awaken! Here you can explore a unique world and complete various quests using simple text commands. \n\nUse commands 'go north', 'go south', 'go east', and 'go west' to navigate the world. There are certain areas of the map which you can 'enter' and 'exit'. These locations include 'human territory', 'elf territory', 'forest', and 'tavern'. To enter one of these places, type 'enter ' and then the location. You can only enter these places from certain points on the map, however. \n\nWhile inside the tavern you must use commands 'go left' and 'go right' to navigate. \n\nAs you explore the world, you may encounter characters you wish to interact with. To do so, type 'talk to ' and then the character name. In certain locations, you can type 'talk to elf'. Otherwise, characters names will be clear and in the title case. When in dialogue, enter the number beside the dialogue option that you wish to choose. \n\nOnce you have received a quest, you can enter ‘q’ to get a quick refresher on your current task. You may also enter ‘clear quest’ if you wish to get rid of your current quest, but you won’t be able to do anymore quests for the group that you were working for. Make sure to pay close attention to what NPCs say for tips on how to finish each quest \n\nThere are also objects that you can interact with around the world. Some objects you can learn more about by entering 'inspect ' and the name of the object. Be warned, some object descriptions change the more you interact with and learn about the world and the people in it. \n\nThere are also objects you can add to your inventory by using the command 'take ' and the name of the object. This comes in handy when you need to use an object or bring an object somewhere else. You can see what's in your inventory at any time by typing 'open inventory'. \n\nThere are some objects that are too heavy for you to take. On rare occasions you can 'move' these objects by entering 'move ' and the name of the object. \n\nThere are also different ways to use objects. Use your best judgement. If nothing happens, make sure you spelled everything correctly. It's also possible you tried to use an object in a way it can't be used. This game is all about exploration, so don't be afraid to mess around.\n\nAt any time, you may type 'end game' to end the game. Your progress will not be saved.\n\nPress 'i' at any time to get a list of all available commands.\n\n", "Welcome to text adventure!", 'All', 'light', False, True, False)
 o14 = Item('Lantern', 'a lantern', 'A regular gas lantern with an easy to understand lighting mechanism.', 'A regular gas lantern with an easy to understand lighting mechanism', 'All', 'light', False, True, False)
 
 o16 = Item('Door', 'a heavy wooden door', 'Ornately carved out of old oak, if it was a person, you imagine it would be a wise sage.', 'Ornately carved out of old oak, if it was a person, you imagine it would be a wise sage.', 'All', 'heavy', True, False, False)
@@ -538,7 +546,7 @@ l23 = Location('6', 'Trees. All around you. Tall and stern.', [], [])
 l24 = Location('7', 'Trees. All around you. Tall and stern.', [], [])
 l25 = Location('8', 'Trees. All around you. Tall and stern.', [], [])
 l26 = Location('9', 'Trees. All around you. Tall and stern.', [], [])
-l27 = Location('10', 'You see a bright yellow bird.', [o34], [])
+l27 = Location('10', 'You see a bright yellow bird.', [o34], [bird])
 l28 = Location('11', 'Trees. All around you. Tall and stern.', [], [])
 l29 = Location('12', 'Trees. All around you. Tall and stern.', [], [])
 l30 = Location('13', 'Trees. All around you. Tall and stern.', [], [])
@@ -961,7 +969,7 @@ def motions(command,coords, q, game_end):
     #edges of the main map
     max_coord_pos = 1.0
     max_coord_neg = -1.0
-
+    inside_forest = False
     illegal = False
     #checks to see if you're in the tavern
     if 15 > coords.x > 5:
@@ -971,6 +979,8 @@ def motions(command,coords, q, game_end):
     #checks to see if you're anywhere but the main map and the tavern
     if coords.x > 15:
         inside = True
+        if 24 <= coords.y <= 30:
+            inside_forest = True
     else:
         inside = False
 
@@ -1139,7 +1149,7 @@ def motions(command,coords, q, game_end):
 
 #human territory commands
     elif command == 'enter human territory':
-        if inside == True:
+        if inside == True and not inside_forest:
             illegal = True
             print("\nYou're already there!")
         elif coords.x != -1 or coords.y != 1:
@@ -1158,7 +1168,7 @@ def motions(command,coords, q, game_end):
 
 #elf territory commands
     elif command == 'enter elf territory':
-        if inside == True:
+        if inside == True and not inside_forest:
             illegal = True
             print("\nYou're already there!")
         elif coords.x != 1 or coords.y != 0:
@@ -1177,7 +1187,7 @@ def motions(command,coords, q, game_end):
 
 #forest commands
     elif command == 'enter forest':
-        if inside == True:
+        if inside_forest == True:
             illegal = True
             print("\nYou're already there!")
         elif coords.x != 0 or coords.y != -1:
@@ -1307,7 +1317,7 @@ if __name__ == "__main__":
         (31,25) : l57,
         (32,25) : l58,
         (33,25) : l59,
-        (27,24) : l60,
+        #(27,24) : l60,
         (28,24) : l61,
         (29,24) : l62,
         (30,24) : l63,
@@ -1439,4 +1449,14 @@ if __name__ == "__main__":
         if not game_end:
             command = input("\n>>> ").lower().strip()
             realcommand = False
+                              
+    print("\n------------------------------------------------")
+    print("\nThank you for playing Awaken!")
+    print("\nThis game was made as a part of NWAPW 2020.")
+
+
+# In[ ]:
+
+
+
 
