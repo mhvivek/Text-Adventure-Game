@@ -844,7 +844,7 @@ def beast(i):
             elif moveslist[-1] == 'go west':
                 print("\nThe beast is hot on your heels! Going back from where you came takes more time becuase you need to hide from the beast.")
                 moves -= 1
-                coordsx += 1
+                coords.x += 1
             else:
                 coords.x += 1
 
@@ -934,7 +934,7 @@ def beast(i):
 
         if not illegal:
             if (coords.x,coords.y) != (28,25): # if you moved out of the starting location
-                print(f"\nlocations[(coords.x,coords.y)].message) # print location description")
+                print(f"\n{locations[(coords.x,coords.y)].message}") # print location description")
             else:
                 print("\nYou're back at the clearing where you stole the healing tree from!") # get printed after every few moves
             if moves == 2:
