@@ -451,12 +451,12 @@ beast = Character("The beast is a dragon, its skin a deep purple, its eyes brigh
 #creating the troll who has no conversation                       
 troll = Character("The troll walks with his head down, and you can't help but notice his ragged clothes.", "Troll1", "Go home. That is where you will find the answers. Everything is a circle, you know? Round...round...infinite...you always end up where you started.", "We are all creations...conflict is pointless...there is no tree. It's a thing of legend that they believe is real just so they can fight another day.", {}, "Troll")
                               
-bird_conversation = {"Chirp. Chirp chirp.": {"from": [""], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "Chirp": {"from": ["Are you real?", "Are the humans good?", "Are the elves good?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "Chiiirrp chirp": {"from": ["Is the beast friendly", "Can I take you with me?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "      chirp\n      chirp\n      chirp\nchirp chirp\n": {"from": ["Where is the healing tree?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "Chirp chiiirrrp chiirrrrrp chirp": {"from": ["What's your name?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
-                    "chirpchirpchirpchirp": {"from": ["How are you?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]}}
+bird_conversation = {"Bird: Chirp. Chirp chirp.": {"from": [""], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Bird: Chirp": {"from": ["Are you real?", "Are the humans good?", "Are the elves good?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Bird: Chiiirrp chirp": {"from": ["Is the beast friendly", "Can I take you with me?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Bird:       chirp\n      chirp\n      chirp\nchirp chirp\n": {"from": ["Where is the healing tree?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Bird: Chirp chiiirrrp chiirrrrrp chirp": {"from": ["What's your name?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]},
+                    "Bird: chirpchirpchirpchirp": {"from": ["How are you?"], "to": ["What's your name?", "Where is the healing tree?", "Are the humans good?", "Are the elves good?", "How are you?", "Are you real?", "Is the beast friendly", "Can I take you with me?", "*Leave*"]}}
 
 bird = Character("A small yellow song bird perched on a branch.", "Bird1", "Chirp. Chirp chirp.", "Chirp. Chirp chirp.", bird_conversation, "All")
                               
@@ -934,7 +934,7 @@ def beast(i):
 
         if not illegal:
             if (coords.x,coords.y) != (28,25): # if you moved out of the starting location
-                print(locations[(coords.x,coords.y)].message) # print location description
+                print(f"\nlocations[(coords.x,coords.y)].message) # print location description")
             else:
                 print("\nYou're back at the clearing where you stole the healing tree from!") # get printed after every few moves
             if moves == 2:
@@ -996,7 +996,7 @@ def motions(command,coords, q, game_end):
     if command == 'go north':
         if intavern == False: #if you're in the tavern it skips this cuz you can't use NESW
             if inside == False:
-                if coords.y + 1 > max_coord_pos:
+                if coords.y + 1 > max_coord_pos: # if you're on the north edge of the map
                     illegal = True
                     print("\nThe river is too fast to pass through.") 
                 else:
@@ -1023,7 +1023,7 @@ def motions(command,coords, q, game_end):
     elif command == 'go east':
         if intavern == False: #if you're in the tavern it skips this cuz you can't use NESW
             if inside == False:
-                if coords.x + 1 > max_coord_pos:
+                if coords.x + 1 > max_coord_pos: # if you're on the east edge of the map
                     illegal = True
                     print("\nThe mountains are too steep to climb.")
                 else:
@@ -1050,7 +1050,7 @@ def motions(command,coords, q, game_end):
     elif command == 'go south':
         if intavern == False: #if you're in the tavern it skips this cuz you can't use NESW
             if inside == False:
-                if coords.y - 1 < max_coord_neg:
+                if coords.y - 1 < max_coord_neg: # if you're on the south edge of the map
                     illegal = True
                     print("\nThe forest is too overgrown to pass through.")
                 else:
@@ -1077,7 +1077,7 @@ def motions(command,coords, q, game_end):
     elif command == 'go west':
         if intavern == False: #if you're in the tavern it skips this cuz you can't use NESW
             if inside == False:
-                if coords.x - 1 < max_coord_neg:
+                if coords.x - 1 < max_coord_neg: # if you're on the west edge of the map
                     illegal = True
                     print("\nThe canyon is impassable.")
                 else:
@@ -1129,7 +1129,7 @@ def motions(command,coords, q, game_end):
                 print("\nThere is no door that way.")
             else:
                 coords.x-=1
-        else:
+        else: # if the player is not in the tavern
             illegal = True
             print("\nIt's easier to navigate using north, south, east, and west when you're outside.")
     elif command == 'go right':
@@ -1150,17 +1150,15 @@ def motions(command,coords, q, game_end):
             illegal = True
             print("\nThe door to leave the tavern is not in this room.")
         else:
-#             print(coords.x, coords.y)
             coords.x=0
             coords.y=0
-#             print(coords.x, coords.y)
 
 #human territory commands
     elif command == 'enter human territory': # checks if entering is a valid command
-        if inside == True and not inside_forest:
+        if inside == True and not inside_forest: # already in
             illegal = True
             print("\nYou're already there!")
-        elif coords.x != -1 or coords.y != 1:
+        elif coords.x != -1 or coords.y != 1: # not at correct location to enter
             illegal = True
             print("\nYou don't see an entrance nearby.")
         else:
@@ -1208,7 +1206,7 @@ def motions(command,coords, q, game_end):
         if 35 < coords.x or 23 > coords.x or 35 < coords.y or 23 > coords.y:
             illegal = True
             print("\nYou're not in the forest.")
-        elif coords.y != 30 or coords.x != 30:
+        elif coords.y != 30 or coords.x != 30: # you can only exit the forest from one location
             illegal = True
             print("\nThe forest is too dense to exit from here.")
         else:
@@ -1221,16 +1219,16 @@ def motions(command,coords, q, game_end):
 
     if not illegal:
         objs = []
-        for obj in locations[(coords.x,coords.y)].items: # prints object in area
+        for obj in locations[(coords.x,coords.y)].items: # loops through all objects in that location
             if obj.quest == q.current_quest or obj.quest == 'All':
                 if obj.hidden == False:
                     if obj.table == False:
-                        objs.append(obj.title.lower())
-        if len(objs) == 0:
-            print(f"\n{locations[(coords.x,coords.y)].message}")
+                        objs.append(obj.title.lower()) # adds all visible objects to a list
+        if len(objs) == 0: # if no objects
+            print(f"\n{locations[(coords.x,coords.y)].message}") # print message
         else:
-            print(f"\n{locations[(coords.x,coords.y)].message}", end = ' ')
-        if 0 < len(objs) < 2:
+            print(f"\n{locations[(coords.x,coords.y)].message}", end = ' ') # print message and objects list
+        if 0 < len(objs) < 2: # handling different numbers of objects
             print("You see ", end = '')
             print(f"{objs[0]}.")
         if len(objs) == 2:
